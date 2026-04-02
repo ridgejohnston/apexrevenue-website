@@ -1,0 +1,841 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>You've Been Invited — Apex Revenue</title>
+  <meta name="description" content="Install the Apex Revenue extension and start maximizing your stream earnings today.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg:            #0A0A0A;
+      --bg-card:       #111111;
+      --bg-input:      #181818;
+      --red:           #E8001A;
+      --red-mid:       #A80012;
+      --red-deep:      #6B0010;
+      --red-glow:      rgba(232,0,26,0.13);
+      --red-border-hi: rgba(232,0,26,0.5);
+      --text:          #F2F2F2;
+      --muted:         #5A5A5A;
+      --border:        rgba(255,255,255,0.07);
+      --border-hi:     rgba(255,255,255,0.15);
+      --green:         #2DD4A0;
+      --radius:        14px;
+    }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 16px; line-height: 1.6; min-height: 100vh; overflow-x: hidden; }
+
+    /* ── NAV ── */
+    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 200; display: flex; align-items: center; justify-content: space-between; padding: 14px 40px; background: rgba(10,10,10,0.92); backdrop-filter: blur(12px); border-bottom: 0.5px solid var(--border); }
+    .nav-logo img { height: 36px; width: auto; display: block; }
+    .nav-badge { font-size: 11px; font-weight: 500; letter-spacing: 1px; text-transform: uppercase; padding: 5px 12px; border: 0.5px solid var(--red-border-hi); border-radius: 20px; color: var(--red); background: var(--red-glow); }
+
+    /* ── HERO ── */
+    .hero { min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 120px 24px 80px; position: relative; overflow: hidden; }
+    .hero::before { content: ''; position: absolute; top: -180px; left: 50%; transform: translateX(-50%); width: 700px; height: 700px; background: radial-gradient(circle, rgba(232,0,26,0.07) 0%, transparent 65%); pointer-events: none; }
+    .hero-invite-pill { display: inline-flex; align-items: center; gap: 8px; padding: 6px 16px; border: 0.5px solid var(--red-border-hi); border-radius: 30px; font-size: 13px; font-weight: 500; color: var(--red); background: var(--red-glow); margin-bottom: 32px; animation: fadeUp 0.6s ease both; }
+    .hero-invite-pill .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green); box-shadow: 0 0 6px var(--green); animation: pulse 2s infinite; }
+    @keyframes pulse { 0%,100%{opacity:1;} 50%{opacity:0.35;} }
+    .hero-title { font-family: 'Bebas Neue', cursive; font-size: clamp(58px,10vw,118px); line-height: 0.95; letter-spacing: 3px; color: var(--text); animation: fadeUp 0.6s 0.1s ease both; }
+    .hero-title span { color: var(--red); }
+    .hero-referrer { margin: 24px 0 8px; font-size: 15px; color: var(--muted); animation: fadeUp 0.6s 0.2s ease both; }
+    .hero-referrer strong { color: var(--text); font-weight: 500; font-family: 'DM Mono', monospace; background: var(--bg-card); padding: 2px 10px; border-radius: 6px; border: 0.5px solid var(--red-border-hi); }
+    .hero-sub { max-width: 480px; font-size: 17px; font-weight: 300; color: var(--muted); margin: 12px auto 44px; animation: fadeUp 0.6s 0.3s ease both; }
+    .hero-sub em { color: var(--text); font-style: normal; font-weight: 400; }
+    .btn-primary { display: inline-flex; align-items: center; gap: 10px; padding: 15px 36px; background: var(--red); color: #fff; font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 600; border: none; border-radius: var(--radius); cursor: pointer; text-decoration: none; transition: transform 0.15s, box-shadow 0.15s; animation: fadeUp 0.6s 0.4s ease both; }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(232,0,26,0.4); }
+    .hero-scroll { position: absolute; bottom: 36px; display: flex; flex-direction: column; align-items: center; gap: 6px; color: var(--muted); font-size: 10px; letter-spacing: 2px; text-transform: uppercase; animation: fadeUp 0.6s 0.8s ease both; }
+    .scroll-line { width: 1px; height: 40px; background: linear-gradient(to bottom, var(--red-mid), transparent); animation: scrollBounce 2s infinite; }
+    @keyframes scrollBounce { 0%,100%{transform:scaleY(1);} 50%{transform:scaleY(1.3);} }
+
+    /* ── SECTION ── */
+    .section { padding: 40px 24px 80px; }
+    .section-inner { max-width: 760px; margin: 0 auto; }
+
+    /* ── PROGRESS TRACK ── */
+    .progress-track { display: flex; align-items: center; justify-content: center; margin-bottom: 72px; }
+    .pt-step { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+    .pt-circle { width: 36px; height: 36px; border-radius: 50%; border: 1.5px solid var(--border); display: flex; align-items: center; justify-content: center; font-family: 'DM Mono', monospace; font-size: 13px; color: var(--muted); background: var(--bg-card); transition: all 0.3s; }
+    .pt-step.active .pt-circle { border-color: var(--red); color: var(--red); box-shadow: 0 0 0 4px var(--red-glow); }
+    .pt-step.done .pt-circle { border-color: var(--green); background: rgba(45,212,160,0.1); color: var(--green); }
+    .pt-label { font-size: 11px; letter-spacing: 0.5px; color: var(--muted); white-space: nowrap; }
+    .pt-step.active .pt-label { color: var(--red); }
+    .pt-step.done .pt-label { color: var(--green); }
+    .pt-line { flex: 1; height: 1px; background: var(--border); margin: 0 12px; margin-bottom: 24px; max-width: 80px; transition: background 0.3s; }
+    .pt-line.done { background: rgba(45,212,160,0.4); }
+
+    /* ── STEP CARD ── */
+    .step-card { background: var(--bg-card); border: 0.5px solid var(--border); border-radius: 20px; padding: 48px; margin-bottom: 20px; position: relative; overflow: hidden; opacity: 0; transform: translateY(24px); transition: opacity 0.5s ease, transform 0.5s ease, border-color 0.3s; }
+    .step-card.visible { opacity: 1; transform: translateY(0); }
+    .step-card.active { border-color: var(--red-border-hi); }
+    .step-card.done { border-color: rgba(45,212,160,0.25); }
+    .step-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: transparent; transition: background 0.3s; }
+    .step-card.active::before { background: linear-gradient(90deg, transparent, var(--red), transparent); }
+    .step-card.done::before { background: linear-gradient(90deg, transparent, var(--green), transparent); }
+    .step-num { font-family: 'Bebas Neue', cursive; font-size: 80px; line-height: 1; color: rgba(232,0,26,0.07); position: absolute; top: 24px; right: 36px; letter-spacing: 2px; pointer-events: none; user-select: none; }
+    .step-card.done .step-num { color: rgba(45,212,160,0.07); }
+    .step-eyebrow { font-size: 11px; letter-spacing: 2px; font-weight: 600; color: var(--red); text-transform: uppercase; margin-bottom: 10px; }
+    .step-card.done .step-eyebrow { color: var(--green); }
+    .step-title { font-family: 'Bebas Neue', cursive; font-size: 42px; letter-spacing: 2px; line-height: 1.05; color: var(--text); margin-bottom: 12px; }
+    .step-desc { font-size: 15px; font-weight: 300; color: var(--muted); max-width: 500px; margin-bottom: 32px; line-height: 1.7; }
+    .step-desc strong { color: var(--text); font-weight: 500; }
+    .feature-list { list-style: none; display: flex; flex-direction: column; gap: 10px; margin-bottom: 36px; }
+    .feature-list li { display: flex; align-items: flex-start; gap: 10px; font-size: 14px; color: var(--muted); }
+    .feature-list li::before { content: ''; width: 16px; height: 16px; min-width: 16px; border-radius: 50%; background: var(--red-glow); border: 1px solid var(--red-mid); margin-top: 3px; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M2 6l3 3 5-5' stroke='%23E8001A' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); background-size: 10px; background-repeat: no-repeat; background-position: center; }
+    .feature-list li span { color: var(--text); }
+    .btn-red { display: inline-flex; align-items: center; gap: 10px; padding: 14px 28px; background: var(--red); color: #fff; font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 600; border: none; border-radius: var(--radius); cursor: pointer; text-decoration: none; transition: transform 0.15s, box-shadow 0.15s; }
+    .btn-red:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(232,0,26,0.38); }
+    .btn-red:active { transform: translateY(0); }
+    .btn-outline { display: inline-flex; align-items: center; gap: 10px; padding: 13px 24px; background: transparent; color: var(--muted); font-family: 'DM Sans', sans-serif; font-size: 14px; border: 0.5px solid var(--border); border-radius: var(--radius); cursor: pointer; text-decoration: none; transition: all 0.15s; }
+    .btn-outline:hover { border-color: var(--border-hi); color: var(--text); }
+    .btn-group { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+    .divider { height: 0.5px; background: var(--border); margin: 36px 0 28px; }
+    .form-group { margin-bottom: 18px; }
+    .form-label { display: block; font-size: 12px; font-weight: 500; letter-spacing: 0.5px; color: var(--muted); text-transform: uppercase; margin-bottom: 8px; }
+    .form-input { width: 100%; padding: 13px 16px; background: var(--bg-input); border: 0.5px solid var(--border); border-radius: 10px; color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 15px; outline: none; transition: border-color 0.2s, box-shadow 0.2s; }
+    .form-input:focus { border-color: var(--red); box-shadow: 0 0 0 3px var(--red-glow); }
+    .form-input::placeholder { color: var(--muted); }
+    .form-input.prefilled { color: var(--red); font-family: 'DM Mono', monospace; font-size: 14px; border-color: var(--red-mid); }
+    .code-field-wrap { position: relative; }
+    .code-lock-icon { position: absolute; right: 14px; top: 50%; transform: translateY(-50%); font-size: 14px; opacity: 0.4; }
+    .form-hint { margin-top: 6px; font-size: 12px; color: var(--muted); }
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    @media(max-width:560px){ .form-grid{grid-template-columns:1fr;} }
+    .ref-detected-banner { display: none; align-items: center; gap: 12px; padding: 12px 16px; background: var(--red-glow); border: 0.5px solid var(--red-mid); border-radius: 10px; margin-bottom: 24px; font-size: 13px; color: var(--muted); }
+    .ref-detected-banner.show { display: flex; }
+    .success-card { display: none; background: rgba(45,212,160,0.05); border: 0.5px solid rgba(45,212,160,0.3); border-radius: 16px; padding: 40px; text-align: center; }
+    .success-card.show { display: block; }
+    .success-icon { width: 64px; height: 64px; border-radius: 50%; background: rgba(45,212,160,0.12); border: 1px solid rgba(45,212,160,0.4); display: flex; align-items: center; justify-content: center; margin: 0 auto 24px; font-size: 28px; color: var(--green); }
+    .success-title { font-family: 'Bebas Neue', cursive; font-size: 36px; letter-spacing: 2px; color: var(--green); margin-bottom: 10px; }
+    .success-sub { font-size: 14px; color: var(--muted); max-width: 380px; margin: 0 auto; }
+    .form-error { display: none; padding: 10px 14px; background: rgba(232,0,26,0.08); border: 0.5px solid rgba(232,0,26,0.3); border-radius: 8px; font-size: 13px; color: #FF4455; margin-top: 12px; }
+    .form-error.show { display: block; }
+    .spinner { display: none; width: 16px; height: 16px; border: 2px solid rgba(255,255,255,0.25); border-top-color: #fff; border-radius: 50%; animation: spin 0.7s linear infinite; }
+    @keyframes spin { to{transform:rotate(360deg);} }
+    .btn-red.loading .spinner { display: block; }
+    .btn-red.loading .btn-label { opacity: 0.6; }
+    footer { border-top: 0.5px solid var(--border); padding: 32px 24px; }
+    .footer-inner { max-width: 760px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; }
+    .footer-logo img { height: 28px; width: auto; opacity: 0.6; }
+    .footer-links { display: flex; gap: 24px; list-style: none; }
+    .footer-links a { font-size: 12px; color: var(--muted); text-decoration: none; transition: color 0.15s; }
+    .footer-links a:hover { color: var(--text); }
+    .footer-copy { font-size: 11px; color: var(--muted); width: 100%; text-align: center; margin-top: 16px; }
+    @keyframes fadeUp { from{opacity:0;transform:translateY(20px);} to{opacity:1;transform:translateY(0);} }
+    @media(max-width:600px){ nav{padding:14px 20px;} .step-card{padding:32px 24px;} .step-title{font-size:32px;} .step-num{font-size:60px;} }
+
+    /* ════════════════════════════════════════
+       INSTALL OVERLAY
+    ════════════════════════════════════════ */
+    .overlay-backdrop {
+      display: none;
+      position: fixed; inset: 0; z-index: 1000;
+      background: rgba(0,0,0,0.82);
+      backdrop-filter: blur(6px);
+      align-items: center; justify-content: center;
+      padding: 24px;
+    }
+    .overlay-backdrop.open {
+      display: flex;
+      animation: backdropIn 0.25s ease both;
+    }
+    @keyframes backdropIn { from{opacity:0;} to{opacity:1;} }
+
+    .install-modal {
+      background: #111111;
+      border: 0.5px solid rgba(232,0,26,0.35);
+      border-radius: 24px;
+      width: 100%; max-width: 660px;
+      position: relative;
+      overflow: hidden;
+      animation: modalIn 0.3s cubic-bezier(0.34,1.56,0.64,1) both;
+    }
+    @keyframes modalIn { from{opacity:0;transform:scale(0.92) translateY(20px);} to{opacity:1;transform:scale(1) translateY(0);} }
+
+    /* top red bar */
+    .install-modal::before { content:''; position:absolute; top:0; left:0; right:0; height:2px; background:linear-gradient(90deg, transparent, var(--red) 40%, var(--red-mid) 100%); }
+
+    .modal-header {
+      padding: 32px 36px 0;
+      display: flex; align-items: flex-start; justify-content: space-between; gap: 16px;
+    }
+    .modal-header-left { flex: 1; }
+    .modal-eyebrow { font-size: 11px; letter-spacing: 2px; font-weight: 600; color: var(--red); text-transform: uppercase; margin-bottom: 6px; }
+    .modal-title { font-family: 'Bebas Neue', cursive; font-size: 34px; letter-spacing: 2px; color: var(--text); line-height: 1; }
+    .modal-close {
+      width: 36px; height: 36px; border-radius: 50%;
+      background: rgba(255,255,255,0.05); border: 0.5px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; flex-shrink: 0; margin-top: 2px;
+      transition: background 0.15s, border-color 0.15s;
+      color: var(--muted); font-size: 18px; line-height: 1;
+    }
+    .modal-close:hover { background: rgba(232,0,26,0.1); border-color: var(--red-border-hi); color: var(--red); }
+
+    /* step dots */
+    .step-dots {
+      display: flex; align-items: center; gap: 8px;
+      padding: 20px 36px 0;
+    }
+    .step-dot {
+      height: 3px; border-radius: 2px;
+      background: rgba(255,255,255,0.1);
+      transition: all 0.3s;
+      cursor: pointer;
+    }
+    .step-dot.active { background: var(--red); width: 28px !important; }
+    .step-dot.done   { background: var(--green); }
+
+    /* slides container */
+    .slides-wrap { overflow: hidden; position: relative; }
+    .slides-track {
+      display: flex;
+      transition: transform 0.4s cubic-bezier(0.4,0,0.2,1);
+    }
+    .slide {
+      min-width: 100%;
+      padding: 28px 36px 0;
+    }
+
+    /* illustration box */
+    .illus-box {
+      background: #0D0D0D;
+      border: 0.5px solid var(--border);
+      border-radius: 16px;
+      padding: 28px 24px;
+      margin-bottom: 24px;
+      display: flex; align-items: center; justify-content: center;
+      min-height: 180px;
+      position: relative;
+      overflow: hidden;
+    }
+    .illus-box::before {
+      content: '';
+      position: absolute; bottom: 0; left: 0; right: 0; height: 60px;
+      background: linear-gradient(to top, rgba(232,0,26,0.04), transparent);
+    }
+
+    .slide-step-num {
+      font-family: 'Bebas Neue', cursive;
+      font-size: 11px; letter-spacing: 3px;
+      color: var(--red); text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+    .slide-title {
+      font-family: 'Bebas Neue', cursive;
+      font-size: 26px; letter-spacing: 1.5px;
+      color: var(--text); margin-bottom: 8px; line-height: 1.1;
+    }
+    .slide-desc {
+      font-size: 14px; font-weight: 300; color: var(--muted);
+      line-height: 1.65; margin-bottom: 4px;
+    }
+    .slide-desc strong { color: var(--text); font-weight: 500; }
+
+    /* copy url row */
+    .copy-row {
+      display: flex; align-items: center; gap: 0;
+      margin-top: 14px; border-radius: 10px; overflow: hidden;
+      border: 0.5px solid var(--border);
+    }
+    .copy-url {
+      flex: 1; padding: 10px 14px;
+      font-family: 'DM Mono', monospace; font-size: 13px;
+      color: var(--red); background: var(--bg-input);
+      border: none; outline: none; cursor: text;
+      user-select: all;
+    }
+    .copy-btn {
+      padding: 10px 16px;
+      background: rgba(232,0,26,0.12); border: none; border-left: 0.5px solid var(--border);
+      color: var(--red); font-size: 12px; font-weight: 600; letter-spacing: 0.5px;
+      cursor: pointer; white-space: nowrap; transition: background 0.15s;
+      font-family: 'DM Sans', sans-serif;
+    }
+    .copy-btn:hover { background: rgba(232,0,26,0.22); }
+    .copy-btn.copied { color: var(--green); background: rgba(45,212,160,0.1); }
+
+    /* modal footer */
+    .modal-footer {
+      padding: 24px 36px 32px;
+      display: flex; align-items: center; justify-content: space-between; gap: 12px;
+    }
+    .modal-footer-left { font-size: 13px; color: var(--muted); }
+    .modal-footer-right { display: flex; gap: 10px; align-items: center; }
+
+    .btn-modal-back {
+      padding: 10px 20px; background: transparent; color: var(--muted);
+      border: 0.5px solid var(--border); border-radius: 10px;
+      font-family: 'DM Sans', sans-serif; font-size: 13px;
+      cursor: pointer; transition: all 0.15s;
+    }
+    .btn-modal-back:hover { border-color: var(--border-hi); color: var(--text); }
+    .btn-modal-next {
+      padding: 10px 24px; background: var(--red); color: #fff;
+      border: none; border-radius: 10px;
+      font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 600;
+      cursor: pointer; transition: transform 0.15s, box-shadow 0.15s;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .btn-modal-next:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(232,0,26,0.35); }
+
+    /* download pulse animation on step 1 illus */
+    @keyframes downloadPulse {
+      0%   { transform: translateY(0); opacity:1; }
+      50%  { transform: translateY(6px); opacity:0.7; }
+      100% { transform: translateY(0); opacity:1; }
+    }
+    .dl-arrow { animation: downloadPulse 1.4s ease-in-out infinite; }
+
+    /* toggle animation */
+    @keyframes toggleOn {
+      0%   { transform: translateX(0); }
+      100% { transform: translateX(22px); }
+    }
+    .toggle-thumb { animation: toggleOn 0.5s 0.6s cubic-bezier(0.34,1.56,0.64,1) both; }
+
+    @media(max-width:600px){
+      .install-modal { border-radius: 18px; }
+      .modal-header, .slide, .modal-footer { padding-left: 20px; padding-right: 20px; }
+      .step-dots { padding-left: 20px; padding-right: 20px; }
+      .modal-title { font-size: 26px; }
+      .slide-title { font-size: 22px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════
+     INSTALL OVERLAY
+═══════════════════════════════════════ -->
+<div class="overlay-backdrop" id="installOverlay">
+  <div class="install-modal" role="dialog" aria-modal="true" aria-label="Installation Guide">
+
+    <div class="modal-header">
+      <div class="modal-header-left">
+        <div class="modal-eyebrow">Installation Guide</div>
+        <div class="modal-title">GET APEX REVENUE RUNNING</div>
+      </div>
+      <button class="modal-close" onclick="closeOverlay()" aria-label="Close">✕</button>
+    </div>
+
+    <!-- dots -->
+    <div class="step-dots" id="stepDots"></div>
+
+    <!-- slides -->
+    <div class="slides-wrap">
+      <div class="slides-track" id="slidesTrack">
+
+        <!-- SLIDE 1 — DOWNLOADING -->
+        <div class="slide">
+          <div class="illus-box">
+            <svg width="260" height="140" viewBox="0 0 260 140" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <!-- background grid lines -->
+              <line x1="0" y1="35" x2="260" y2="35" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
+              <line x1="0" y1="70" x2="260" y2="70" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
+              <line x1="0" y1="105" x2="260" y2="105" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
+              <!-- zip file icon -->
+              <rect x="80" y="20" width="52" height="64" rx="6" fill="#1A1A1A" stroke="rgba(255,255,255,0.12)" stroke-width="1"/>
+              <rect x="80" y="20" width="52" height="18" rx="6" fill="#222"/>
+              <rect x="80" y="30" width="52" height="8" fill="#222"/>
+              <!-- zip stripes -->
+              <rect x="98" y="26" width="16" height="4" rx="2" fill="#333"/>
+              <rect x="98" y="34" width="16" height="4" rx="2" fill="#E8001A" opacity="0.7"/>
+              <rect x="98" y="42" width="16" height="4" rx="2" fill="#333"/>
+              <rect x="98" y="50" width="16" height="4" rx="2" fill="#E8001A" opacity="0.5"/>
+              <rect x="98" y="58" width="16" height="4" rx="2" fill="#333"/>
+              <text x="106" y="76" font-family="'DM Mono',monospace" font-size="7" fill="#5A5A5A" text-anchor="middle">.zip</text>
+              <!-- download arrow -->
+              <g class="dl-arrow">
+                <line x1="106" y1="90" x2="106" y2="112" stroke="#E8001A" stroke-width="2" stroke-linecap="round"/>
+                <polyline points="97,104 106,114 115,104" stroke="#E8001A" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+              </g>
+              <!-- progress bar -->
+              <rect x="68" y="122" width="76" height="6" rx="3" fill="#1A1A1A"/>
+              <rect x="68" y="122" width="55" height="6" rx="3" fill="#E8001A" opacity="0.85"/>
+              <!-- file label -->
+              <text x="106" y="137" font-family="'DM Mono',monospace" font-size="7.5" fill="#5A5A5A" text-anchor="middle">ApexRevenue.zip</text>
+              <!-- right side: folder -->
+              <rect x="164" y="44" width="52" height="44" rx="5" fill="#1A1A1A" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+              <rect x="164" y="38" width="28" height="12" rx="3" fill="#1E1E1E" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+              <text x="190" y="70" font-family="'DM Mono',monospace" font-size="7" fill="#3A3A3A" text-anchor="middle">dist/</text>
+              <!-- arrow between -->
+              <line x1="142" y1="66" x2="160" y2="66" stroke="rgba(232,0,26,0.3)" stroke-width="1.5" stroke-dasharray="4 3"/>
+              <polyline points="156,61 162,66 156,71" stroke="rgba(232,0,26,0.4)" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <div class="slide-step-num">Step 1 of 4</div>
+          <div class="slide-title">Your Download Has Started</div>
+          <p class="slide-desc">The <strong>ApexRevenue.zip</strong> file is downloading now. Once complete, locate it in your <strong>Downloads folder</strong> and extract (unzip) it — you'll see a <strong>dist</strong> folder inside.</p>
+        </div>
+
+        <!-- SLIDE 2 — CHROME EXTENSIONS -->
+        <div class="slide">
+          <div class="illus-box">
+            <svg width="280" height="148" viewBox="0 0 280 148" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <!-- browser chrome frame -->
+              <rect x="20" y="10" width="240" height="128" rx="8" fill="#181818" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+              <!-- browser toolbar -->
+              <rect x="20" y="10" width="240" height="28" rx="8" fill="#1E1E1E"/>
+              <rect x="20" y="30" width="240" height="8" fill="#1E1E1E"/>
+              <!-- traffic lights -->
+              <circle cx="36" cy="24" r="5" fill="#333"/>
+              <circle cx="51" cy="24" r="5" fill="#333"/>
+              <circle cx="66" cy="24" r="5" fill="#333"/>
+              <!-- address bar -->
+              <rect x="80" y="16" width="148" height="16" rx="8" fill="#111" stroke="rgba(232,0,26,0.5)" stroke-width="1"/>
+              <!-- typed url -->
+              <text x="92" y="27.5" font-family="'DM Mono',monospace" font-size="8" fill="#E8001A">chrome://extensions</text>
+              <!-- cursor blink -->
+              <rect x="222" y="18" width="1.5" height="12" rx="1" fill="#E8001A" opacity="0.9"/>
+              <!-- page content area -->
+              <rect x="28" y="46" width="224" height="84" rx="4" fill="#0D0D0D"/>
+              <!-- Extensions heading -->
+              <text x="40" y="62" font-family="'DM Sans',sans-serif" font-size="9" font-weight="600" fill="#F2F2F2">Extensions</text>
+              <!-- developer mode row -->
+              <text x="40" y="80" font-family="'DM Sans',sans-serif" font-size="7.5" fill="#5A5A5A">Developer mode</text>
+              <!-- toggle (off state, since step 3 turns it on) -->
+              <rect x="196" y="73" width="28" height="14" rx="7" fill="#2A2A2A" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
+              <circle cx="203" cy="80" r="5" fill="#444"/>
+              <!-- divider -->
+              <line x1="36" y1="90" x2="244" y2="90" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>
+              <text x="40" y="106" font-family="'DM Sans',sans-serif" font-size="7" fill="#3A3A3A">No extensions installed</text>
+              <!-- highlight ring on address bar -->
+              <rect x="79" y="15" width="150" height="18" rx="9" fill="none" stroke="#E8001A" stroke-width="1.5" opacity="0.4"/>
+            </svg>
+          </div>
+          <div class="slide-step-num">Step 2 of 4</div>
+          <div class="slide-title">Open Chrome Extensions</div>
+          <p class="slide-desc">Copy the URL below and paste it into your Chrome address bar, then press <strong>Enter</strong>.</p>
+          <div class="copy-row">
+            <input class="copy-url" type="text" value="chrome://extensions" readonly onclick="this.select()">
+            <button class="copy-btn" id="copyBtn" onclick="copyUrl()">Copy</button>
+          </div>
+        </div>
+
+        <!-- SLIDE 3 — DEVELOPER MODE -->
+        <div class="slide">
+          <div class="illus-box">
+            <svg width="280" height="148" viewBox="0 0 280 148" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <!-- browser frame -->
+              <rect x="20" y="10" width="240" height="128" rx="8" fill="#181818" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+              <rect x="20" y="10" width="240" height="28" rx="8" fill="#1E1E1E"/>
+              <rect x="20" y="30" width="240" height="8" fill="#1E1E1E"/>
+              <circle cx="36" cy="24" r="5" fill="#333"/>
+              <circle cx="51" cy="24" r="5" fill="#333"/>
+              <circle cx="66" cy="24" r="5" fill="#333"/>
+              <rect x="80" y="16" width="148" height="16" rx="8" fill="#111"/>
+              <text x="92" y="27.5" font-family="'DM Mono',monospace" font-size="8" fill="#3A3A3A">chrome://extensions</text>
+              <!-- page -->
+              <rect x="28" y="46" width="224" height="84" rx="4" fill="#0D0D0D"/>
+              <text x="40" y="62" font-family="'DM Sans',sans-serif" font-size="9" font-weight="600" fill="#F2F2F2">Extensions</text>
+              <!-- developer mode row with ON toggle -->
+              <text x="40" y="80" font-family="'DM Sans',sans-serif" font-size="7.5" fill="#F2F2F2">Developer mode</text>
+              <!-- toggle track ON -->
+              <rect x="196" y="73" width="28" height="14" rx="7" fill="#E8001A"/>
+              <!-- thumb animated -->
+              <g class="toggle-thumb">
+                <circle cx="203" cy="80" r="5" fill="#fff"/>
+              </g>
+              <!-- glow behind toggle -->
+              <rect x="196" y="73" width="28" height="14" rx="7" fill="none" stroke="rgba(232,0,26,0.6)" stroke-width="1.5"/>
+              <!-- annotation arrow -->
+              <line x1="230" y1="70" x2="218" y2="76" stroke="rgba(232,0,26,0.5)" stroke-width="1.2" stroke-dasharray="3 2"/>
+              <text x="232" y="68" font-family="'DM Sans',sans-serif" font-size="7" fill="#E8001A">toggle ON</text>
+              <line x1="36" y1="90" x2="244" y2="90" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>
+              <!-- load unpacked appears (preview) -->
+              <rect x="36" y="100" width="68" height="18" rx="5" fill="#1A1A1A" stroke="rgba(255,255,255,0.1)" stroke-width="1" opacity="0.4"/>
+              <text x="70" y="112.5" font-family="'DM Sans',sans-serif" font-size="7" fill="#5A5A5A" text-anchor="middle">Load unpacked</text>
+            </svg>
+          </div>
+          <div class="slide-step-num">Step 3 of 4</div>
+          <div class="slide-title">Enable Developer Mode</div>
+          <p class="slide-desc">In the top-right corner of the Extensions page, find the <strong>Developer mode</strong> toggle and switch it <strong>ON</strong>. This unlocks the Load unpacked button.</p>
+        </div>
+
+        <!-- SLIDE 4 — LOAD UNPACKED -->
+        <div class="slide">
+          <div class="illus-box">
+            <svg width="280" height="148" viewBox="0 0 280 148" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <!-- browser frame -->
+              <rect x="20" y="10" width="240" height="128" rx="8" fill="#181818" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+              <rect x="20" y="10" width="240" height="28" rx="8" fill="#1E1E1E"/>
+              <rect x="20" y="30" width="240" height="8" fill="#1E1E1E"/>
+              <circle cx="36" cy="24" r="5" fill="#333"/>
+              <circle cx="51" cy="24" r="5" fill="#333"/>
+              <circle cx="66" cy="24" r="5" fill="#333"/>
+              <rect x="80" y="16" width="148" height="16" rx="8" fill="#111"/>
+              <text x="92" y="27.5" font-family="'DM Mono',monospace" font-size="8" fill="#3A3A3A">chrome://extensions</text>
+              <!-- page -->
+              <rect x="28" y="46" width="224" height="84" rx="4" fill="#0D0D0D"/>
+              <text x="40" y="62" font-family="'DM Sans',sans-serif" font-size="9" font-weight="600" fill="#F2F2F2">Extensions</text>
+              <!-- developer mode ON -->
+              <text x="40" y="76" font-family="'DM Sans',sans-serif" font-size="7" fill="#5A5A5A">Developer mode</text>
+              <rect x="196" y="69" width="24" height="12" rx="6" fill="#E8001A"/>
+              <circle cx="214" cy="75" r="4" fill="#fff"/>
+              <!-- Load unpacked button highlighted -->
+              <rect x="36" y="83" width="74" height="20" rx="5" fill="#E8001A"/>
+              <text x="73" y="96.5" font-family="'DM Sans',sans-serif" font-size="7.5" font-weight="600" fill="#fff" text-anchor="middle">Load unpacked</text>
+              <!-- annotation -->
+              <line x1="116" y1="88" x2="130" y2="82" stroke="rgba(232,0,26,0.5)" stroke-width="1.2" stroke-dasharray="3 2"/>
+              <text x="132" y="80" font-family="'DM Sans',sans-serif" font-size="7" fill="#E8001A">click here</text>
+              <!-- folder picker mockup -->
+              <rect x="36" y="112" width="110" height="12" rx="3" fill="#1A1A1A" stroke="rgba(255,255,255,0.07)" stroke-width="0.5"/>
+              <text x="42" y="121" font-family="'DM Mono',monospace" font-size="6.5" fill="#5A5A5A">Downloads/ApexRevenue/dist</text>
+              <!-- select folder button -->
+              <rect x="154" y="112" width="48" height="12" rx="3" fill="#222" stroke="rgba(255,255,255,0.1)" stroke-width="0.5"/>
+              <text x="178" y="121" font-family="'DM Sans',sans-serif" font-size="6.5" fill="#F2F2F2" text-anchor="middle">Select Folder</text>
+            </svg>
+          </div>
+          <div class="slide-step-num">Step 4 of 4</div>
+          <div class="slide-title">Load the dist Folder</div>
+          <p class="slide-desc">Click <strong>Load unpacked</strong>, then navigate to your extracted folder and select the <strong>dist</strong> subfolder. Apex Revenue will appear in your extensions list instantly.</p>
+        </div>
+
+      </div><!-- /slides-track -->
+    </div><!-- /slides-wrap -->
+
+    <div class="modal-footer">
+      <span class="modal-footer-left" id="modalStepLabel">Step 1 of 4</span>
+      <div class="modal-footer-right">
+        <button class="btn-modal-back" id="modalBackBtn" onclick="prevSlide()" style="display:none">← Back</button>
+        <button class="btn-modal-next" id="modalNextBtn" onclick="nextSlide()">
+          <span id="modalNextLabel">Next</span>
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M5 2l5 5-5 5" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </button>
+      </div>
+    </div>
+
+  </div><!-- /install-modal -->
+</div><!-- /overlay-backdrop -->
+
+<!-- ═══════════════════════════════════════
+     PAGE
+═══════════════════════════════════════ -->
+<nav>
+  <div class="nav-logo"><img src="https://apex-revenue-downloads.s3.amazonaws.com/assets/logo.png" alt="Apex Revenue"></div>
+  <div class="nav-badge">Referral Program</div>
+</nav>
+
+<section class="hero">
+  <div class="hero-invite-pill">
+    <span class="dot"></span>
+    <span id="hero-pill-text">You've received an exclusive invite</span>
+  </div>
+  <h1 class="hero-title">START EARNING<br><span>SMARTER</span></h1>
+  <p class="hero-referrer" id="hero-referrer" style="display:none">Invited by <strong id="referrer-display"></strong></p>
+  <p class="hero-sub">Apex Revenue gives streamers <em>real-time whale alerts, AI tip prompts,</em> and <em>smart earnings analytics</em> — all inside a lightweight browser extension.</p>
+  <a href="#steps" class="btn-primary">
+    Get Started — It's Free
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 3l5 5-5 5M3 8h10" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/></svg>
+  </a>
+  <div class="hero-scroll"><span>Follow the Steps</span><div class="scroll-line"></div></div>
+</section>
+
+<section class="section" id="steps">
+  <div class="section-inner">
+
+    <div class="progress-track">
+      <div class="pt-step active" id="pt1"><div class="pt-circle">1</div><div class="pt-label">Install</div></div>
+      <div class="pt-line" id="ptl1"></div>
+      <div class="pt-step" id="pt2"><div class="pt-circle">2</div><div class="pt-label">Create Account</div></div>
+      <div class="pt-line" id="ptl2"></div>
+      <div class="pt-step" id="pt3"><div class="pt-circle">3</div><div class="pt-label">Claim Referral</div></div>
+    </div>
+
+    <!-- STEP 1 -->
+    <div class="step-card active" id="step1">
+      <div class="step-num">01</div>
+      <div class="step-eyebrow">Step 01</div>
+      <h2 class="step-title">Install the Extension</h2>
+      <p class="step-desc">Add Apex Revenue to Chrome in seconds. Works on <strong>Chaturbate, Stripchat, MyFreeCams,</strong> and <strong>xTease</strong> automatically.</p>
+      <ul class="feature-list">
+        <li><span>Real-time tip analytics overlaid directly on your stream page</span></li>
+        <li><span>Whale tracker — never miss a high-value viewer</span></li>
+        <li><span>AI-powered tip prompt suggestions at the right moment</span></li>
+        <li><span>Fan leaderboards with 30-day rolling history</span></li>
+      </ul>
+      <div class="btn-group">
+        <button class="btn-red" onclick="startInstall()">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="3" fill="#fff"/><circle cx="8" cy="8" r="7" stroke="#fff" stroke-width="1.5"/><path d="M8 1v6M2.5 4.5l5.5 3M13.5 4.5L8 7.5" stroke="#fff" stroke-width="1.2" stroke-linecap="round"/></svg>
+          Add to Chrome — Free
+        </button>
+        <span style="font-size:12px;color:var(--muted);">Chrome Web Store · Verified</span>
+      </div>
+      <div class="divider"></div>
+      <button class="btn-outline" onclick="markStep1Done(); scrollToStep(2)">Already Installed? Continue →</button>
+    </div>
+
+    <!-- STEP 2 -->
+    <div class="step-card" id="step2">
+      <div class="step-num">02</div>
+      <div class="step-eyebrow">Step 02</div>
+      <h2 class="step-title">Create Your Account</h2>
+      <p class="step-desc">Sign up for a free Apex Revenue account to unlock cloud sync, your fan leaderboard, and affiliate earnings tracking.</p>
+      <ul class="feature-list">
+        <li><span>Free tier available — no credit card required</span></li>
+        <li><span>Session analytics saved across devices</span></li>
+        <li><span>Revenue intelligence dashboard unlocked</span></li>
+      </ul>
+      <div class="btn-group">
+        <a href="https://apexrevenue.works/signup" target="_blank" class="btn-red" onclick="markStep2Done()">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 1a3 3 0 100 6 3 3 0 000-6zM2 13c0-3 2.7-5 6-5s6 2 6 5" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/></svg>
+          Create Free Account
+        </a>
+      </div>
+      <div class="divider"></div>
+      <button class="btn-outline" onclick="markStep2Done(); scrollToStep(3)">Already have an account? Continue →</button>
+    </div>
+
+    <!-- STEP 3 -->
+    <div class="step-card" id="step3">
+      <div class="step-num">03</div>
+      <div class="step-eyebrow">Step 03</div>
+      <h2 class="step-title">Claim Your Referral</h2>
+      <p class="step-desc">Enter your referral code to link your account to your invitor's affiliate profile. This ensures <strong>both of you earn rewards</strong> — automatically tracked.</p>
+      <div class="ref-detected-banner" id="ref-banner">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1l2 4 4.5.5-3 3 .5 4.5L7 11l-4 2 .5-4.5-3-3L5 5z" stroke="#E8001A" stroke-width="1.2" fill="none"/></svg>
+        Referral code detected from your invite link — pre-filled below
+      </div>
+      <form id="referral-form" onsubmit="submitReferral(event)">
+        <div class="form-group">
+          <label class="form-label">Your Username or Email</label>
+          <input class="form-input" type="text" id="user-identifier" placeholder="e.g. your username or email" required autocomplete="off">
+        </div>
+        <div class="form-grid">
+          <div class="form-group">
+            <label class="form-label">Referral Code</label>
+            <div class="code-field-wrap">
+              <input class="form-input" type="text" id="referral-code" placeholder="Enter referral code" required autocomplete="off">
+              <span class="code-lock-icon" id="lock-icon" style="display:none">🔒</span>
+            </div>
+            <p class="form-hint" id="code-hint">Enter the code from your invite link or ask your referrer.</p>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Referred By (username)</label>
+            <input class="form-input" type="text" id="referrer-name" placeholder="Invitor's username" autocomplete="off">
+            <p class="form-hint">Optional — confirms who sent you here.</p>
+          </div>
+        </div>
+        <div class="form-error" id="form-error"></div>
+        <div class="btn-group" style="margin-top:8px;">
+          <button type="submit" class="btn-red" id="submit-btn">
+            <span class="spinner"></span>
+            <span class="btn-label">Confirm &amp; Activate Referral</span>
+          </button>
+        </div>
+      </form>
+      <div class="success-card" id="success-card">
+        <div class="success-icon">✓</div>
+        <div class="success-title">YOU'RE ALL SET</div>
+        <p class="success-sub">Your referral is confirmed and tracked. Your invitor's affiliate revenue share is now active. Welcome to Apex Revenue.</p>
+        <div style="margin-top:28px;"><a href="https://apexrevenue.works/dashboard" class="btn-red">Open Your Dashboard →</a></div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-logo"><img src="https://apex-revenue-downloads.s3.amazonaws.com/assets/logo.png" alt="Apex Revenue"></div>
+    <ul class="footer-links">
+      <li><a href="https://apexrevenue.works/privacy">Privacy</a></li>
+      <li><a href="https://apexrevenue.works/terms">Terms</a></li>
+      <li><a href="https://apexrevenue.works/support">Support</a></li>
+      <li><a href="https://apexrevenue.works/affiliate">Affiliate Program</a></li>
+    </ul>
+  </div>
+  <p class="footer-copy">© 2025 Apex Revenue. All rights reserved.</p>
+</footer>
+
+<script>
+  const ZIP_URL     = 'https://apex-revenue-downloads.s3.amazonaws.com/releases/v1.2.0/ApexRevenue-CB-App-v1.2.0.zip';
+  const API_ENDPOINT = 'YOUR_API_GATEWAY_URL/referrals';
+  const TOTAL_SLIDES = 4;
+  let currentSlide   = 0;
+
+  /* ── URL PARAMS ── */
+  const params  = new URLSearchParams(window.location.search);
+  const refCode = params.get('ref') || params.get('code') || params.get('r') || '';
+  const refUser = params.get('by')  || params.get('user') || refCode;
+
+  window.addEventListener('DOMContentLoaded', () => {
+    buildDots();
+    if (refCode) {
+      document.getElementById('hero-pill-text').textContent = 'You have an active referral invite';
+      document.getElementById('referrer-display').textContent = refUser;
+      document.getElementById('hero-referrer').style.display = 'block';
+      const ci = document.getElementById('referral-code');
+      ci.value = refCode; ci.classList.add('prefilled'); ci.setAttribute('readonly', true);
+      document.getElementById('lock-icon').style.display = 'block';
+      document.getElementById('code-hint').textContent = 'Auto-filled from your invite link.';
+      document.getElementById('ref-banner').classList.add('show');
+      const ri = document.getElementById('referrer-name');
+      if (refUser) { ri.value = refUser; ri.classList.add('prefilled'); }
+    }
+  });
+
+  /* ── INSTALL FLOW ── */
+  function startInstall() {
+    // 1. trigger download
+    const a = document.createElement('a');
+    a.href = ZIP_URL; a.download = 'ApexRevenue.zip';
+    document.body.appendChild(a); a.click();
+    document.body.removeChild(a);
+    // 2. open overlay
+    currentSlide = 0;
+    updateSlides();
+    document.getElementById('installOverlay').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeOverlay() {
+    document.getElementById('installOverlay').classList.remove('open');
+    document.body.style.overflow = '';
+    markStep1Done();
+    scrollToStep(2);
+  }
+
+  /* ── SLIDE NAVIGATION ── */
+  function buildDots() {
+    const container = document.getElementById('stepDots');
+    container.innerHTML = '';
+    for (let i = 0; i < TOTAL_SLIDES; i++) {
+      const d = document.createElement('div');
+      d.className = 'step-dot';
+      d.style.width = i === 0 ? '28px' : '10px';
+      d.onclick = () => { currentSlide = i; updateSlides(); };
+      container.appendChild(d);
+    }
+  }
+
+  function updateSlides() {
+    // track
+    document.getElementById('slidesTrack').style.transform = `translateX(-${currentSlide * 100}%)`;
+    // dots
+    const dots = document.querySelectorAll('.step-dot');
+    dots.forEach((d, i) => {
+      d.classList.remove('active','done');
+      d.style.width = '10px';
+      if (i < currentSlide)  { d.classList.add('done'); }
+      if (i === currentSlide){ d.classList.add('active'); d.style.width = '28px'; }
+    });
+    // label
+    document.getElementById('modalStepLabel').textContent = `Step ${currentSlide + 1} of ${TOTAL_SLIDES}`;
+    // back btn
+    document.getElementById('modalBackBtn').style.display = currentSlide > 0 ? 'inline-flex' : 'none';
+    // next btn label
+    const nextLabel = document.getElementById('modalNextLabel');
+    if (currentSlide === TOTAL_SLIDES - 1) {
+      nextLabel.textContent = "Done — Continue to Step 2";
+      document.getElementById('modalNextBtn').querySelector('svg').style.display = 'none';
+    } else {
+      nextLabel.textContent = "Next";
+      document.getElementById('modalNextBtn').querySelector('svg').style.display = '';
+    }
+  }
+
+  function nextSlide() {
+    if (currentSlide < TOTAL_SLIDES - 1) { currentSlide++; updateSlides(); }
+    else { closeOverlay(); }
+  }
+
+  function prevSlide() {
+    if (currentSlide > 0) { currentSlide--; updateSlides(); }
+  }
+
+  // close on backdrop click
+  document.getElementById('installOverlay').addEventListener('click', function(e) {
+    if (e.target === this) closeOverlay();
+  });
+  // close on Escape
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeOverlay(); });
+
+  /* ── COPY URL ── */
+  function copyUrl() {
+    navigator.clipboard.writeText('chrome://extensions').then(() => {
+      const btn = document.getElementById('copyBtn');
+      btn.textContent = 'Copied!'; btn.classList.add('copied');
+      setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 2000);
+    });
+  }
+
+  /* ── PAGE STEP STATE ── */
+  let steps = { 1: false, 2: false };
+
+  function markStep1Done() {
+    if (steps[1]) return; steps[1] = true;
+    const c = document.getElementById('step1');
+    c.classList.remove('active'); c.classList.add('done');
+    c.querySelector('.step-eyebrow').textContent = '✓ Step 01 — Complete';
+    document.getElementById('pt1').classList.remove('active');
+    document.getElementById('pt1').classList.add('done');
+    document.getElementById('ptl1').classList.add('done');
+    document.getElementById('step2').classList.add('active');
+    document.getElementById('pt2').classList.add('active');
+  }
+
+  function markStep2Done() {
+    if (!steps[1]) markStep1Done();
+    if (steps[2]) return; steps[2] = true;
+    const c = document.getElementById('step2');
+    c.classList.remove('active'); c.classList.add('done');
+    c.querySelector('.step-eyebrow').textContent = '✓ Step 02 — Complete';
+    document.getElementById('pt2').classList.remove('active');
+    document.getElementById('pt2').classList.add('done');
+    document.getElementById('ptl2').classList.add('done');
+    document.getElementById('step3').classList.add('active');
+    document.getElementById('pt3').classList.add('active');
+  }
+
+  function scrollToStep(n) {
+    const el = document.getElementById('step' + n);
+    if (el) setTimeout(() => el.scrollIntoView({ behavior: 'smooth', block: 'start' }), 100);
+  }
+
+  /* ── REFERRAL SUBMIT ── */
+  async function submitReferral(e) {
+    e.preventDefault();
+    const btn        = document.getElementById('submit-btn');
+    const errBox     = document.getElementById('form-error');
+    const identifier = document.getElementById('user-identifier').value.trim();
+    const code       = document.getElementById('referral-code').value.trim();
+    const referrer   = document.getElementById('referrer-name').value.trim();
+    if (!identifier || !code) { showError('Please fill in your username/email and the referral code.'); return; }
+    btn.classList.add('loading'); errBox.classList.remove('show');
+    try {
+      const res = await fetch(API_ENDPOINT, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ referral_code: code, referrer_username: referrer || null, new_user: identifier, status: 'registered', source: 'web_onboarding', created_at: new Date().toISOString() })
+      });
+      if (!res.ok) throw new Error(await res.text());
+      document.getElementById('referral-form').style.display = 'none';
+      document.getElementById('success-card').classList.add('show');
+      const s3 = document.getElementById('step3');
+      s3.classList.remove('active'); s3.classList.add('done');
+      s3.querySelector('.step-eyebrow').textContent = '✓ Step 03 — Complete';
+      document.getElementById('pt3').classList.remove('active');
+      document.getElementById('pt3').classList.add('done');
+    } catch (err) {
+      showError('Something went wrong. Please try again or contact support.');
+    } finally {
+      btn.classList.remove('loading');
+    }
+  }
+
+  function showError(msg) { const el = document.getElementById('form-error'); el.textContent = msg; el.classList.add('show'); }
+
+  /* ── SCROLL REVEAL ── */
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.step-card').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>

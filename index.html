@@ -126,6 +126,109 @@
     .footer-links a:hover { color: var(--text); }
     .footer-copy { font-size: 11px; color: var(--muted); width: 100%; text-align: center; margin-top: 16px; }
     @keyframes fadeUp { from{opacity:0;transform:translateY(20px);} to{opacity:1;transform:translateY(0);} }
+
+    /* ════════════════════════════════════════
+       GIT LFS OVERLAY
+    ════════════════════════════════════════ */
+    .lfs-modal {
+      background: #111111;
+      border: 0.5px solid rgba(232,0,26,0.35);
+      border-radius: 24px;
+      width: 100%; max-width: 680px;
+      position: relative; overflow: hidden;
+      animation: modalIn 0.3s cubic-bezier(0.34,1.56,0.64,1) both;
+    }
+    .lfs-modal::before { content:''; position:absolute; top:0; left:0; right:0; height:2px; background:linear-gradient(90deg,transparent,var(--red) 40%,var(--red-mid) 100%); }
+
+    /* OS tab selector */
+    .os-tabs { display:flex; gap:8px; padding: 20px 36px 0; }
+    .os-tab {
+      flex:1; padding:10px 8px; border-radius:10px;
+      border:0.5px solid var(--border);
+      background: transparent;
+      cursor:pointer; display:flex; flex-direction:column; align-items:center; gap:6px;
+      transition: all 0.15s; color: var(--muted);
+      font-family:'DM Sans',sans-serif; font-size:12px; font-weight:500;
+    }
+    .os-tab:hover { border-color: var(--border-hi); color: var(--text); }
+    .os-tab.active {
+      border-color: var(--red-border-hi);
+      background: var(--red-glow);
+      color: var(--red);
+    }
+    .os-tab svg { width:24px; height:24px; }
+
+    /* OS panels */
+    .os-panels { overflow:hidden; }
+    .os-panel { display:none; padding: 24px 36px 0; }
+    .os-panel.active { display:block; }
+
+    /* Download card inside overlay */
+    .dl-card {
+      background: #0D0D0D;
+      border: 0.5px solid var(--border);
+      border-radius: 14px;
+      padding: 18px 20px;
+      margin-bottom: 20px;
+      display: flex; align-items: center; gap: 16px;
+    }
+    .dl-card-icon {
+      width: 44px; height: 44px; border-radius: 12px;
+      background: var(--red-glow);
+      border: 0.5px solid var(--red-border-hi);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .dl-card-info { flex:1; }
+    .dl-card-name { font-size:14px; font-weight:500; color:var(--text); margin-bottom:2px; }
+    .dl-card-meta { font-size:12px; color:var(--muted); }
+    .btn-dl {
+      display:inline-flex; align-items:center; gap:8px;
+      padding:9px 18px; background:var(--red); color:#fff;
+      border:none; border-radius:10px; font-size:13px; font-weight:600;
+      cursor:pointer; text-decoration:none; flex-shrink:0;
+      font-family:'DM Sans',sans-serif;
+      transition:transform 0.15s, box-shadow 0.15s;
+    }
+    .btn-dl:hover { transform:translateY(-1px); box-shadow:0 6px 20px rgba(232,0,26,0.35); }
+
+    /* Numbered install steps */
+    .install-steps { display:flex; flex-direction:column; gap:0; }
+    .install-step {
+      display:flex; gap:14px; align-items:flex-start;
+      padding: 12px 0;
+      border-bottom: 0.5px solid var(--border);
+    }
+    .install-step:last-child { border-bottom: none; }
+    .is-num {
+      width:24px; height:24px; border-radius:50%; flex-shrink:0; margin-top:1px;
+      background: var(--red-glow); border:0.5px solid var(--red-border-hi);
+      display:flex; align-items:center; justify-content:center;
+      font-size:11px; font-weight:600; color:var(--red); font-family:'DM Mono',monospace;
+    }
+    .is-content { flex:1; }
+    .is-title { font-size:13px; font-weight:500; color:var(--text); margin-bottom:3px; }
+    .is-desc { font-size:12px; color:var(--muted); line-height:1.5; }
+    .code-block {
+      background: #0A0A0A; border: 0.5px solid var(--border);
+      border-radius:8px; padding:8px 12px; margin-top:6px;
+      font-family:'DM Mono',monospace; font-size:12px; color:var(--red);
+      display:flex; align-items:center; justify-content:space-between; gap:8px;
+    }
+    .copy-code-btn {
+      background:transparent; border:0.5px solid var(--border);
+      border-radius:6px; padding:3px 8px; font-size:10px; font-weight:500;
+      color:var(--muted); cursor:pointer; font-family:'DM Sans',sans-serif;
+      transition:all 0.15s; white-space:nowrap; flex-shrink:0;
+    }
+    .copy-code-btn:hover { border-color:var(--border-hi); color:var(--text); }
+    .copy-code-btn.copied { color:var(--green); border-color:rgba(45,212,160,0.4); }
+
+    @media(max-width:600px){
+      .os-tabs { padding:16px 20px 0; }
+      .os-panel { padding:20px 20px 0; }
+      .lfs-modal { border-radius:18px; }
+    }
     @media(max-width:600px){ nav{padding:14px 20px;} .step-card{padding:32px 24px;} .step-title{font-size:32px;} .step-num{font-size:60px;} }
 
     /* ════════════════════════════════════════
@@ -308,6 +411,221 @@
   </style>
 </head>
 <body>
+
+<!-- ═══════════════════════════════════════
+     GIT LFS OVERLAY
+═══════════════════════════════════════ -->
+<div class="overlay-backdrop" id="lfsOverlay">
+  <div class="lfs-modal" role="dialog" aria-modal="true" aria-label="Git LFS Installation Guide">
+
+    <div class="modal-header">
+      <div class="modal-header-left">
+        <div class="modal-eyebrow">Git Large File Storage</div>
+        <div class="modal-title">DOWNLOAD &amp; INSTALL GIT LFS</div>
+      </div>
+      <button class="modal-close" onclick="closeLfsOverlay()" aria-label="Close">✕</button>
+    </div>
+
+    <!-- OS Tab selector -->
+    <div class="os-tabs">
+      <button class="os-tab active" onclick="switchOs('windows')" id="tab-windows">
+        <svg viewBox="0 0 24 24" fill="none">
+          <rect x="2" y="2" width="9" height="9" rx="1" fill="currentColor" opacity="0.9"/>
+          <rect x="13" y="2" width="9" height="9" rx="1" fill="currentColor" opacity="0.7"/>
+          <rect x="2" y="13" width="9" height="9" rx="1" fill="currentColor" opacity="0.7"/>
+          <rect x="13" y="13" width="9" height="9" rx="1" fill="currentColor" opacity="0.5"/>
+        </svg>
+        Windows
+      </button>
+      <button class="os-tab" onclick="switchOs('mac')" id="tab-mac">
+        <svg viewBox="0 0 24 24" fill="none">
+          <path d="M16.5 2C16.5 2 17 6 14 7c-2 .7-3.5-.5-3.5-.5S9 9 9 11.5c0 3.5 2.5 6.5 4 7.5 1-.5 2-1 3-1s2 .5 3 1c1.5-1 4-4.5 4-7.5 0-2.5-1.5-3.5-1.5-3.5S19 5 16.5 2z" fill="currentColor" opacity="0.8"/>
+          <path d="M9 11.5C9 9 10.5 7 10.5 7S9 5.5 9 4c0-1.5 1-3 1-3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" opacity="0.6"/>
+        </svg>
+        macOS
+      </button>
+      <button class="os-tab" onclick="switchOs('linux')" id="tab-linux">
+        <svg viewBox="0 0 24 24" fill="none">
+          <path d="M12 2C8 2 6 6 6 9c0 2 .5 3.5 1 4.5L6 17c-.5 1 0 2 1 2.5l1 .5c.5.3 1 .2 1.5-.2L12 18l2.5 1.8c.5.4 1 .5 1.5.2l1-.5c1-.5 1.5-1.5 1-2.5l-1-3.5c.5-1 1-2.5 1-4.5 0-3-2-7-6-7z" fill="currentColor" opacity="0.8"/>
+          <circle cx="9.5" cy="9" r="1" fill="#0A0A0A"/>
+          <circle cx="14.5" cy="9" r="1" fill="#0A0A0A"/>
+          <path d="M10 12.5c.5.5 1 .8 2 .8s1.5-.3 2-.8" stroke="#0A0A0A" stroke-width="1" stroke-linecap="round"/>
+          <path d="M8 17.5c-1 .5-2 1-2 2" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" opacity="0.5"/>
+          <path d="M16 17.5c1 .5 2 1 2 2" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" opacity="0.5"/>
+        </svg>
+        Linux
+      </button>
+    </div>
+
+    <div class="os-panels">
+
+      <!-- ── WINDOWS ── -->
+      <div class="os-panel active" id="panel-windows">
+        <div class="dl-card">
+          <div class="dl-card-icon">
+            <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M3 5l8-1.5V11H3V5zM11 3.2L19 2v9h-8V3.2zM3 12h8v6.5L3 17V12zM11 12h8v7l-8-1.3V12z" fill="#E8001A"/></svg>
+          </div>
+          <div class="dl-card-info">
+            <div class="dl-card-name">Git LFS for Windows</div>
+            <div class="dl-card-meta">git-lfs-windows-amd64.exe · Official installer</div>
+          </div>
+          <a href="https://github.com/git-lfs/git-lfs/releases/latest" target="_blank" class="btn-dl">
+            <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M6.5 1v7M4 5.5l2.5 3 2.5-3" stroke="#fff" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M1 10h11" stroke="#fff" stroke-width="1.4" stroke-linecap="round"/></svg>
+            Download
+          </a>
+        </div>
+        <div class="install-steps">
+          <div class="install-step">
+            <div class="is-num">1</div>
+            <div class="is-content">
+              <div class="is-title">Run the installer</div>
+              <div class="is-desc">Double-click the downloaded <code style="font-size:11px;font-family:'DM Mono',monospace;color:var(--red)">git-lfs-windows-amd64.exe</code> and follow the setup wizard. Git LFS integrates directly into your Git installation.</div>
+            </div>
+          </div>
+          <div class="install-step">
+            <div class="is-num">2</div>
+            <div class="is-content">
+              <div class="is-title">Initialise Git LFS</div>
+              <div class="is-desc">Open <strong>Git Bash</strong> or <strong>Command Prompt</strong> and run:</div>
+              <div class="code-block"><span>git lfs install</span><button class="copy-code-btn" onclick="copyCode(this,'git lfs install')">Copy</button></div>
+            </div>
+          </div>
+          <div class="install-step">
+            <div class="is-num">3</div>
+            <div class="is-content">
+              <div class="is-title">Clone the repo with LFS files</div>
+              <div class="is-desc">All LFS-tracked files (overlay.js, background.js, auth.js, popout.js, recovery.js) will be downloaded automatically.</div>
+              <div class="code-block"><span>git clone https://github.com/ridgejohnston/Apex-Revenue-Edge.git</span><button class="copy-code-btn" onclick="copyCode(this,'git clone https://github.com/ridgejohnston/Apex-Revenue-Edge.git')">Copy</button></div>
+            </div>
+          </div>
+          <div class="install-step">
+            <div class="is-num">4</div>
+            <div class="is-content">
+              <div class="is-title">Or pull LFS files into existing clone</div>
+              <div class="is-desc">If you already cloned the repo without LFS, fetch the real files:</div>
+              <div class="code-block"><span>git lfs pull</span><button class="copy-code-btn" onclick="copyCode(this,'git lfs pull')">Copy</button></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── MACOS ── -->
+      <div class="os-panel" id="panel-mac">
+        <div class="dl-card">
+          <div class="dl-card-icon">
+            <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M15 3c0 0 .5 3.5-2.5 4.5-2 .7-3.5-.5-3.5-.5S7.5 9.5 7.5 12c0 3.5 2.5 6 4 7 1-.5 1.5-.8 2.5-.8s1.5.3 2.5.8c1.5-1 4-3.5 4-7 0-2.5-1.5-3.5-1.5-3.5S20 5 15 3z" fill="currentColor" opacity="0.7"/></svg>
+          </div>
+          <div class="dl-card-info">
+            <div class="dl-card-name">Git LFS for macOS</div>
+            <div class="dl-card-meta">Via Homebrew (recommended) or .pkg installer</div>
+          </div>
+          <a href="https://github.com/git-lfs/git-lfs/releases/latest" target="_blank" class="btn-dl">
+            <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M6.5 1v7M4 5.5l2.5 3 2.5-3" stroke="#fff" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M1 10h11" stroke="#fff" stroke-width="1.4" stroke-linecap="round"/></svg>
+            Download .pkg
+          </a>
+        </div>
+        <div class="install-steps">
+          <div class="install-step">
+            <div class="is-num">1</div>
+            <div class="is-content">
+              <div class="is-title">Install via Homebrew (easiest)</div>
+              <div class="is-desc">If you have Homebrew installed, this is all you need:</div>
+              <div class="code-block"><span>brew install git-lfs</span><button class="copy-code-btn" onclick="copyCode(this,'brew install git-lfs')">Copy</button></div>
+              <div class="is-desc" style="margin-top:6px">Don't have Homebrew? Download and run the <code style="font-size:11px;font-family:'DM Mono',monospace;color:var(--red)">.pkg</code> installer above instead.</div>
+            </div>
+          </div>
+          <div class="install-step">
+            <div class="is-num">2</div>
+            <div class="is-content">
+              <div class="is-title">Initialise Git LFS</div>
+              <div class="is-desc">Open <strong>Terminal</strong> and run:</div>
+              <div class="code-block"><span>git lfs install</span><button class="copy-code-btn" onclick="copyCode(this,'git lfs install')">Copy</button></div>
+            </div>
+          </div>
+          <div class="install-step">
+            <div class="is-num">3</div>
+            <div class="is-content">
+              <div class="is-title">Clone the repo with LFS files</div>
+              <div class="is-desc">LFS-tracked files resolve automatically on clone:</div>
+              <div class="code-block"><span>git clone https://github.com/ridgejohnston/Apex-Revenue-Edge.git</span><button class="copy-code-btn" onclick="copyCode(this,'git clone https://github.com/ridgejohnston/Apex-Revenue-Edge.git')">Copy</button></div>
+            </div>
+          </div>
+          <div class="install-step">
+            <div class="is-num">4</div>
+            <div class="is-content">
+              <div class="is-title">Or pull LFS files into existing clone</div>
+              <div class="code-block"><span>git lfs pull</span><button class="copy-code-btn" onclick="copyCode(this,'git lfs pull')">Copy</button></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── LINUX ── -->
+      <div class="os-panel" id="panel-linux">
+        <div class="dl-card">
+          <div class="dl-card-icon">
+            <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M11 2C7.5 2 6 5.5 6 8c0 2 .5 3 1 4l-1 3c-.5 1 0 2 1 2.5l1 .5c.5.2 1 .1 1.5-.3L11 16.5l1.5 1.2c.5.4 1 .5 1.5.3l1-.5c1-.5 1.5-1.5 1-2.5l-1-3c.5-1 1-2 1-4 0-2.5-1.5-6-5-6z" fill="currentColor" opacity="0.8"/><circle cx="9" cy="8.5" r="1" fill="#111"/><circle cx="13" cy="8.5" r="1" fill="#111"/><path d="M9.5 11.5c.3.4.8.7 1.5.7s1.2-.3 1.5-.7" stroke="#111" stroke-width="0.8" stroke-linecap="round"/></svg>
+          </div>
+          <div class="dl-card-info">
+            <div class="dl-card-name">Git LFS for Linux</div>
+            <div class="dl-card-meta">Debian/Ubuntu · RHEL/Fedora · Arch · Manual</div>
+          </div>
+          <a href="https://github.com/git-lfs/git-lfs/releases/latest" target="_blank" class="btn-dl">
+            <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M6.5 1v7M4 5.5l2.5 3 2.5-3" stroke="#fff" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M1 10h11" stroke="#fff" stroke-width="1.4" stroke-linecap="round"/></svg>
+            Download .tar.gz
+          </a>
+        </div>
+        <div class="install-steps">
+          <div class="install-step">
+            <div class="is-num">1</div>
+            <div class="is-content">
+              <div class="is-title">Install via package manager</div>
+              <div class="is-desc" style="margin-bottom:6px">Debian / Ubuntu:</div>
+              <div class="code-block"><span>sudo apt-get install git-lfs</span><button class="copy-code-btn" onclick="copyCode(this,'sudo apt-get install git-lfs')">Copy</button></div>
+              <div class="is-desc" style="margin:8px 0 4px">RHEL / Fedora / CentOS:</div>
+              <div class="code-block"><span>sudo yum install git-lfs</span><button class="copy-code-btn" onclick="copyCode(this,'sudo yum install git-lfs')">Copy</button></div>
+              <div class="is-desc" style="margin:8px 0 4px">Arch Linux:</div>
+              <div class="code-block"><span>sudo pacman -S git-lfs</span><button class="copy-code-btn" onclick="copyCode(this,'sudo pacman -S git-lfs')">Copy</button></div>
+            </div>
+          </div>
+          <div class="install-step">
+            <div class="is-num">2</div>
+            <div class="is-content">
+              <div class="is-title">Initialise Git LFS</div>
+              <div class="code-block"><span>git lfs install</span><button class="copy-code-btn" onclick="copyCode(this,'git lfs install')">Copy</button></div>
+            </div>
+          </div>
+          <div class="install-step">
+            <div class="is-num">3</div>
+            <div class="is-content">
+              <div class="is-title">Clone the repo with LFS files</div>
+              <div class="code-block"><span>git clone https://github.com/ridgejohnston/Apex-Revenue-Edge.git</span><button class="copy-code-btn" onclick="copyCode(this,'git clone https://github.com/ridgejohnston/Apex-Revenue-Edge.git')">Copy</button></div>
+            </div>
+          </div>
+          <div class="install-step">
+            <div class="is-num">4</div>
+            <div class="is-content">
+              <div class="is-title">Or pull LFS files into existing clone</div>
+              <div class="code-block"><span>git lfs pull</span><button class="copy-code-btn" onclick="copyCode(this,'git lfs pull')">Copy</button></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /os-panels -->
+
+    <div class="modal-footer">
+      <span class="modal-footer-left" id="lfsOsLabel">Windows</span>
+      <div class="modal-footer-right">
+        <button class="btn-modal-next" onclick="closeLfsOverlay(); markStep2Done(); scrollToStep(3);">
+          <span>Done — Continue to Step 3</span>
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M5 2l5 5-5 5" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </button>
+      </div>
+    </div>
+
+  </div><!-- /lfs-modal -->
+</div><!-- /lfsOverlay -->
 
 <!-- ═══════════════════════════════════════
      INSTALL OVERLAY
@@ -542,9 +860,11 @@
     <div class="progress-track">
       <div class="pt-step active" id="pt1"><div class="pt-circle">1</div><div class="pt-label">Install</div></div>
       <div class="pt-line" id="ptl1"></div>
-      <div class="pt-step" id="pt2"><div class="pt-circle">2</div><div class="pt-label">Create Account</div></div>
+      <div class="pt-step" id="pt2"><div class="pt-circle">2</div><div class="pt-label">Git LFS</div></div>
       <div class="pt-line" id="ptl2"></div>
-      <div class="pt-step" id="pt3"><div class="pt-circle">3</div><div class="pt-label">Claim Referral</div></div>
+      <div class="pt-step" id="pt3"><div class="pt-circle">3</div><div class="pt-label">Create Account</div></div>
+      <div class="pt-line" id="ptl3"></div>
+      <div class="pt-step" id="pt4"><div class="pt-circle">4</div><div class="pt-label">Claim Referral</div></div>
     </div>
 
     <!-- STEP 1 -->
@@ -570,10 +890,36 @@
       <button class="btn-outline" onclick="markStep1Done(); scrollToStep(2)">Already Installed? Continue →</button>
     </div>
 
-    <!-- STEP 2 -->
+    <!-- STEP 2 — GIT LFS -->
     <div class="step-card" id="step2">
       <div class="step-num">02</div>
       <div class="step-eyebrow">Step 02</div>
+      <h2 class="step-title">Setup Git LFS</h2>
+      <p class="step-desc">
+        Several extension files are stored in <strong>Git Large File Storage (LFS)</strong>. 
+        Download the pre-built package or install Git LFS locally to clone the full repo on your machine.
+      </p>
+      <ul class="feature-list">
+        <li><span>Resolves overlay.js, background.js, auth.js, popout.js &amp; recovery.js from LFS</span></li>
+        <li><span>One-click installer for Windows, Mac, and Linux</span></li>
+        <li><span>Pre-built zip option — no Git required</span></li>
+      </ul>
+      <div class="btn-group">
+        <button class="btn-red" onclick="startLfsGuide()">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 2v8M5 7l3 4 3-4" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M2 12h12" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/></svg>
+          Download &amp; Install Guide
+        </button>
+      </div>
+      <div class="divider"></div>
+      <button class="btn-outline" onclick="markStep2Done(); scrollToStep(3)">Already have Git LFS? Continue →</button>
+    </div>
+
+
+
+    <!-- STEP 2 -->
+    <div class="step-card" id="step3">
+      <div class="step-num">03</div>
+      <div class="step-eyebrow">Step 03</div>
       <h2 class="step-title">Create Your Account</h2>
       <p class="step-desc">Start free — upgrade to <strong>Platinum</strong> any time and only pay for what you use via Stripe metered billing.</p>
 
@@ -614,20 +960,20 @@
       </div>
 
       <div class="btn-group">
-        <a href="https://apexrevenue.works/signup" target="_blank" class="btn-red" onclick="markStep2Done()">
+        <a href="https://apexrevenue.works/signup" target="_blank" class="btn-red" onclick="markStep3Done()">
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 1a3 3 0 100 6 3 3 0 000-6zM2 13c0-3 2.7-5 6-5s6 2 6 5" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/></svg>
           Create Free Account
         </a>
         <a href="https://apexrevenue.works/pricing" target="_blank" class="btn-outline">View Pricing Details</a>
       </div>
       <div class="divider"></div>
-      <button class="btn-outline" onclick="markStep2Done(); scrollToStep(3)">Already have an account? Continue →</button>
+      <button class="btn-outline" onclick="markStep3Done(); scrollToStep(4)">Already have an account? Continue →</button>
     </div>
 
     <!-- STEP 3 -->
-    <div class="step-card" id="step3">
-      <div class="step-num">03</div>
-      <div class="step-eyebrow">Step 03</div>
+    <div class="step-card" id="step4">
+      <div class="step-num">04</div>
+      <div class="step-eyebrow">Step 04</div>
       <h2 class="step-title">Claim Your Referral</h2>
       <p class="step-desc">Enter your referral code to link your account. Your invitor earns <strong>1% of your gross token earnings</strong> automatically — Apex Revenue collects a 5% platform fee and passes 20% of that back to whoever referred you.</p>
       <div class="ref-detected-banner" id="ref-banner">
@@ -712,6 +1058,44 @@
       const ri = document.getElementById('referrer-name');
       if (refUser) { ri.value = refUser; ri.classList.add('prefilled'); }
     }
+  });
+
+
+  /* ── GIT LFS OVERLAY ── */
+  let currentOs = 'windows';
+
+  function startLfsGuide() {
+    document.getElementById('lfsOverlay').classList.add('open');
+    document.body.style.overflow = 'hidden';
+    switchOs('windows');
+  }
+
+  function closeLfsOverlay() {
+    document.getElementById('lfsOverlay').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  function switchOs(os) {
+    currentOs = os;
+    ['windows','mac','linux'].forEach(o => {
+      document.getElementById('panel-' + o).classList.toggle('active', o === os);
+      document.getElementById('tab-' + o).classList.toggle('active', o === os);
+    });
+    const labels = { windows:'Windows', mac:'macOS', linux:'Linux' };
+    document.getElementById('lfsOsLabel').textContent = labels[os];
+  }
+
+  function copyCode(btn, text) {
+    navigator.clipboard.writeText(text).then(() => {
+      btn.textContent = 'Copied!';
+      btn.classList.add('copied');
+      setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 2000);
+    });
+  }
+
+  // close LFS overlay on backdrop click or Escape
+  document.getElementById('lfsOverlay').addEventListener('click', function(e) {
+    if (e.target === this) closeLfsOverlay();
   });
 
   /* ── INSTALL FLOW ── */
@@ -800,7 +1184,7 @@
   }
 
   /* ── PAGE STEP STATE ── */
-  let steps = { 1: false, 2: false };
+  let steps = { 1: false, 2: false, 3: false };
 
   function markStep1Done() {
     if (steps[1]) return; steps[1] = true;
@@ -814,17 +1198,30 @@
     document.getElementById('pt2').classList.add('active');
   }
 
-  function markStep2Done() {
-    if (!steps[1]) markStep1Done();
-    if (steps[2]) return; steps[2] = true;
-    const c = document.getElementById('step2');
+  function markStep3Done() {
+    if (!steps[2]) markStep2Done();
+    if (steps[3]) return; steps[3] = true;
+    const c = document.getElementById('step3');
     c.classList.remove('active'); c.classList.add('done');
-    c.querySelector('.step-eyebrow').textContent = '✓ Step 02 — Complete';
-    document.getElementById('pt2').classList.remove('active');
-    document.getElementById('pt2').classList.add('done');
-    document.getElementById('ptl2').classList.add('done');
-    document.getElementById('step3').classList.add('active');
-    document.getElementById('pt3').classList.add('active');
+    c.querySelector('.step-eyebrow').textContent = '✓ Step 03 — Complete';
+    document.getElementById('pt3').classList.remove('active');
+    document.getElementById('pt3').classList.add('done');
+    document.getElementById('ptl3').classList.add('done');
+    document.getElementById('step4').classList.add('active');
+    document.getElementById('pt4').classList.add('active');
+  }
+
+  function markStep3Done() {
+    if (!steps[2]) markStep2Done();
+    if (steps[3]) return; steps[3] = true;
+    const c = document.getElementById('step3');
+    c.classList.remove('active'); c.classList.add('done');
+    c.querySelector('.step-eyebrow').textContent = '✓ Step 03 — Complete';
+    document.getElementById('pt3').classList.remove('active');
+    document.getElementById('pt3').classList.add('done');
+    document.getElementById('ptl3').classList.add('done');
+    document.getElementById('step4').classList.add('active');
+    document.getElementById('pt4').classList.add('active');
   }
 
   function scrollToStep(n) {
@@ -851,11 +1248,11 @@
       if (!res.ok) throw new Error(await res.text());
       document.getElementById('referral-form').style.display = 'none';
       document.getElementById('success-card').classList.add('show');
-      const s3 = document.getElementById('step3');
+      const s3 = document.getElementById('step4');
       s3.classList.remove('active'); s3.classList.add('done');
-      s3.querySelector('.step-eyebrow').textContent = '✓ Step 03 — Complete';
-      document.getElementById('pt3').classList.remove('active');
-      document.getElementById('pt3').classList.add('done');
+      s3.querySelector('.step-eyebrow').textContent = '✓ Step 04 — Complete';
+      document.getElementById('pt4').classList.remove('active');
+      document.getElementById('pt4').classList.add('done');
     } catch (err) {
       showError('Something went wrong. Please try again or contact support.');
     } finally {

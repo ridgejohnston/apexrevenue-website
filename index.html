@@ -629,7 +629,7 @@
       <div class="step-num">03</div>
       <div class="step-eyebrow">Step 03</div>
       <h2 class="step-title">Claim Your Referral</h2>
-      <p class="step-desc">Enter your referral code to link your account to your invitor's affiliate profile. This ensures <strong>both of you earn rewards</strong> — automatically tracked.</p>
+      <p class="step-desc">Enter your referral code to link your account. Your invitor earns <strong>1% of your gross token earnings</strong> automatically — Apex Revenue collects a 5% platform fee and passes 20% of that back to whoever referred you.</p>
       <div class="ref-detected-banner" id="ref-banner">
         <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1l2 4 4.5.5-3 3 .5 4.5L7 11l-4 2 .5-4.5-3-3L5 5z" stroke="#E8001A" stroke-width="1.2" fill="none"/></svg>
         Referral code detected from your invite link — pre-filled below
@@ -665,7 +665,7 @@
       <div class="success-card" id="success-card">
         <div class="success-icon">✓</div>
         <div class="success-title">YOU'RE ALL SET</div>
-        <p class="success-sub">Your referral is confirmed and tracked. Your invitor's affiliate revenue share is now active. Welcome to Apex Revenue.</p>
+        <p class="success-sub">Your referral is confirmed. Your invitor automatically earns 1% of your gross token earnings — no action needed. Welcome to Apex Revenue.</p>
         <div style="margin-top:28px;"><a href="https://apexrevenue.works/dashboard" class="btn-red">Open Your Dashboard →</a></div>
       </div>
     </div>
@@ -688,7 +688,8 @@
 
 <script>
   const ZIP_URL     = 'https://apex-revenue-downloads.s3.amazonaws.com/releases/v1.2.0/ApexRevenue-CB-App-v1.2.0.zip';
-  const API_ENDPOINT = 'YOUR_API_GATEWAY_URL/referrals';
+  const API_BASE     = 'YOUR_API_GATEWAY_URL';
+  const API_ENDPOINT = API_BASE + '/register-referral';
   const TOTAL_SLIDES = 4;
   let currentSlide   = 0;
 
@@ -845,7 +846,7 @@
       const res = await fetch(API_ENDPOINT, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ referral_code: code, referrer_username: referrer || null, new_user: identifier, status: 'registered', source: 'web_onboarding', created_at: new Date().toISOString() })
+        body: JSON.stringify({ referral_code: code.toUpperCase(), new_user: identifier, referrer_username: referrer || null, source: 'web_onboarding' })
       });
       if (!res.ok) throw new Error(await res.text());
       document.getElementById('referral-form').style.display = 'none';

@@ -575,17 +575,50 @@
       <div class="step-num">02</div>
       <div class="step-eyebrow">Step 02</div>
       <h2 class="step-title">Create Your Account</h2>
-      <p class="step-desc">Sign up for a free Apex Revenue account to unlock cloud sync, your fan leaderboard, and affiliate earnings tracking.</p>
-      <ul class="feature-list">
-        <li><span>Free tier available — no credit card required</span></li>
-        <li><span>Session analytics saved across devices</span></li>
-        <li><span>Revenue intelligence dashboard unlocked</span></li>
-      </ul>
+      <p class="step-desc">Start free — upgrade to <strong>Platinum</strong> any time and only pay for what you use via Stripe metered billing.</p>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:32px;">
+
+        <!-- Free -->
+        <div style="background:#0D0D0D;border:0.5px solid var(--border);border-radius:14px;padding:20px;">
+          <div style="font-size:11px;letter-spacing:1.5px;font-weight:600;color:var(--muted);text-transform:uppercase;margin-bottom:8px;">Free</div>
+          <div style="font-family:'Bebas Neue',cursive;font-size:28px;letter-spacing:1px;color:var(--text);margin-bottom:4px;">$0</div>
+          <div style="font-size:11px;color:var(--muted);margin-bottom:16px;">No credit card required</div>
+          <ul style="list-style:none;display:flex;flex-direction:column;gap:8px;">
+            <li style="font-size:12px;color:var(--muted);display:flex;gap:8px;align-items:flex-start;"><span style="margin-top:1px;">–</span><span>Up to 30 sessions / month</span></li>
+            <li style="font-size:12px;color:var(--muted);display:flex;gap:8px;align-items:flex-start;"><span style="margin-top:1px;">–</span><span>7-day fan history</span></li>
+            <li style="font-size:12px;color:var(--muted);display:flex;gap:8px;align-items:flex-start;"><span style="margin-top:1px;">–</span><span>Basic AI tip prompts</span></li>
+            <li style="font-size:12px;color:var(--muted);display:flex;gap:8px;align-items:flex-start;"><span style="margin-top:1px;">–</span><span>Basic earnings dashboard</span></li>
+            <li style="font-size:12px;color:#2A2A2A;display:flex;gap:8px;align-items:flex-start;text-decoration:line-through;"><span style="margin-top:1px;">–</span><span>Cloud backup &amp; CSV export</span></li>
+          </ul>
+        </div>
+
+        <!-- Platinum -->
+        <div style="background:#0D0D0D;border:1.5px solid var(--red-border-hi);border-radius:14px;padding:20px;position:relative;overflow:hidden;">
+          <div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--red),transparent);"></div>
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
+            <div style="font-size:11px;letter-spacing:1.5px;font-weight:600;color:var(--red);text-transform:uppercase;">Platinum</div>
+            <div style="font-size:10px;font-weight:600;padding:2px 8px;background:var(--red-glow);border:0.5px solid var(--red-border-hi);border-radius:20px;color:var(--red);">Metered</div>
+          </div>
+          <div style="font-family:'Bebas Neue',cursive;font-size:22px;letter-spacing:1px;color:var(--text);margin-bottom:4px;">Pay as you use</div>
+          <div style="font-size:11px;color:var(--muted);margin-bottom:16px;">Stripe metered — charged per session, prompt &amp; sync</div>
+          <ul style="list-style:none;display:flex;flex-direction:column;gap:8px;">
+            <li style="font-size:12px;color:var(--text);display:flex;gap:8px;align-items:flex-start;"><span style="color:var(--red);margin-top:1px;">✓</span><span>Unlimited sessions</span></li>
+            <li style="font-size:12px;color:var(--text);display:flex;gap:8px;align-items:flex-start;"><span style="color:var(--red);margin-top:1px;">✓</span><span>30-day fan history</span></li>
+            <li style="font-size:12px;color:var(--text);display:flex;gap:8px;align-items:flex-start;"><span style="color:var(--red);margin-top:1px;">✓</span><span>Advanced AI tip prompts</span></li>
+            <li style="font-size:12px;color:var(--text);display:flex;gap:8px;align-items:flex-start;"><span style="color:var(--red);margin-top:1px;">✓</span><span>Full earnings dashboard</span></li>
+            <li style="font-size:12px;color:var(--text);display:flex;gap:8px;align-items:flex-start;"><span style="color:var(--red);margin-top:1px;">✓</span><span>Cloud backup &amp; CSV export</span></li>
+          </ul>
+        </div>
+
+      </div>
+
       <div class="btn-group">
         <a href="https://apexrevenue.works/signup" target="_blank" class="btn-red" onclick="markStep2Done()">
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 1a3 3 0 100 6 3 3 0 000-6zM2 13c0-3 2.7-5 6-5s6 2 6 5" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/></svg>
           Create Free Account
         </a>
+        <a href="https://apexrevenue.works/pricing" target="_blank" class="btn-outline">View Pricing Details</a>
       </div>
       <div class="divider"></div>
       <button class="btn-outline" onclick="markStep2Done(); scrollToStep(3)">Already have an account? Continue →</button>

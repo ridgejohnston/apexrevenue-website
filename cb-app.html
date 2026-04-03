@@ -1,604 +1,393 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CB App Guide — Apex Revenue</title>
-  <meta name="description" content="How to install, configure and use the Apex Revenue Chaturbate App.">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
-  <style>
-    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-    :root{
-      --bg:#0A0A0A;--bg-card:#111111;--bg-input:#181818;
-      --red:#E8001A;--red-mid:#A80012;
-      --red-glow:rgba(232,0,26,0.13);--red-border-hi:rgba(232,0,26,0.5);
-      --text:#F2F2F2;--muted:#5A5A5A;
-      --border:rgba(255,255,255,0.07);--border-hi:rgba(255,255,255,0.15);
-      --green:#2DD4A0;--amber:#F5A31C;--radius:14px;
-    }
-    html{scroll-behavior:smooth}
-    body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;font-size:16px;line-height:1.6;min-height:100vh;overflow-x:hidden}
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Apex Revenue — Chaturbate Install Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --gold:#E63030;
+  --gold-dim:rgba(230,48,48,0.13);
+  --gold-border:rgba(230,48,48,0.3);
+  --bg:#0A0A0A;
+  --bg2:#100F0F;
+  --bg3:#161414;
+  --border:rgba(255,255,255,0.07);
+  --text:#EDEAE4;
+  --muted:#75747E;
+  --dim:#42424D;
+  --cb-orange:#F47321;
+  --cb-teal:#078897;
+  --cb-border:#DDDDDD;
+  --cb-text:#333333;
+  --cb-muted:#777777;
+  --cb-bg:#F5F5F5;
+}
+html{background:var(--bg);}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);line-height:1.6;font-size:15px;}
 
-    nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:14px 40px;background:rgba(10,10,10,0.92);backdrop-filter:blur(12px);border-bottom:0.5px solid var(--border)}
-    .nav-logo img{height:36px;width:auto;display:block}
-    .nav-links{display:flex;align-items:center;gap:24px}
-    .nav-link{font-size:13px;color:var(--muted);text-decoration:none;transition:color 0.15s}
-    .nav-link:hover{color:var(--text)}
-    .nav-badge{font-size:11px;font-weight:500;letter-spacing:1px;text-transform:uppercase;padding:5px 12px;border:0.5px solid var(--red-border-hi);border-radius:20px;color:var(--red);background:var(--red-glow)}
+.hero{padding:72px 40px 56px;text-align:center;border-bottom:1px solid var(--border);position:relative;overflow:hidden;}
+.hero::before{content:'';position:absolute;top:-80px;left:50%;transform:translateX(-50%);width:700px;height:500px;background:radial-gradient(ellipse,rgba(230,48,48,0.07) 0%,transparent 68%);pointer-events:none;}
+.badge{display:inline-flex;align-items:center;gap:7px;background:rgba(240,165,0,0.08);border:1px solid var(--gold-border);color:var(--gold);font-family:'Syne',sans-serif;font-size:11px;font-weight:600;letter-spacing:0.11em;text-transform:uppercase;padding:5px 14px;border-radius:100px;margin-bottom:26px;}
+.badge-dot{width:6px;height:6px;border-radius:50%;background:#E63030;animation:blink 2s ease-in-out infinite;}
+@keyframes blink{0%,100%{opacity:1;}50%{opacity:0.35;}}
+h1{font-family:'Syne',sans-serif;font-size:clamp(32px,5vw,54px);font-weight:800;line-height:1.08;letter-spacing:-0.025em;margin-bottom:14px;}
+h1 em{font-style:normal;color:var(--gold);}
+.sub{font-size:16px;color:var(--muted);max-width:460px;margin:0 auto 32px;font-weight:300;}
+.pills{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;}
+.pill{display:inline-flex;align-items:center;gap:7px;background:var(--bg3);border:1px solid var(--border);border-radius:100px;padding:7px 16px;font-size:13px;color:var(--muted);}
+.pill strong{color:var(--text);font-weight:500;}
 
-    .hero{padding:140px 24px 80px;text-align:center;position:relative;overflow:hidden}
-    .hero::before{content:'';position:absolute;top:-100px;left:50%;transform:translateX(-50%);width:600px;height:600px;background:radial-gradient(circle,rgba(232,0,26,0.07) 0%,transparent 65%);pointer-events:none}
-    .hero-eyebrow{display:inline-flex;align-items:center;gap:8px;padding:5px 14px;border:0.5px solid var(--red-border-hi);border-radius:30px;font-size:12px;font-weight:500;color:var(--red);background:var(--red-glow);letter-spacing:1px;text-transform:uppercase;margin-bottom:28px;animation:fadeUp 0.5s ease both}
-    .hero-eyebrow .dot{width:6px;height:6px;border-radius:50%;background:var(--green);box-shadow:0 0 6px var(--green);animation:pulse 2s infinite}
-    @keyframes pulse{0%,100%{opacity:1}50%{opacity:0.35}}
-    .hero-title{font-family:'Bebas Neue',cursive;font-size:clamp(54px,9vw,108px);line-height:0.95;letter-spacing:3px;color:var(--text);animation:fadeUp 0.5s 0.1s ease both}
-    .hero-title span{color:var(--red)}
-    .hero-sub{max-width:520px;font-size:17px;font-weight:300;color:var(--muted);margin:16px auto 44px;animation:fadeUp 0.5s 0.2s ease both}
-    .hero-sub em{color:var(--text);font-style:normal;font-weight:400}
-    .hero-cta{display:inline-flex;align-items:center;gap:10px;padding:14px 32px;background:var(--red);color:#fff;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:600;border:none;border-radius:var(--radius);cursor:pointer;text-decoration:none;transition:transform 0.15s,box-shadow 0.15s;animation:fadeUp 0.5s 0.3s ease both}
-    .hero-cta:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(232,0,26,0.4)}
+.wrap{max-width:780px;margin:0 auto;padding:0 24px 100px;}
+.section-label{font-family:'Syne',sans-serif;font-size:11px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:var(--gold);margin:60px 0 24px;display:flex;align-items:center;gap:12px;}
+.section-label::after{content:'';flex:1;height:1px;background:var(--border);}
 
-    .layout{display:grid;grid-template-columns:200px 1fr;gap:0;max-width:1100px;margin:0 auto;padding:0 24px}
-    .toc{position:sticky;top:88px;align-self:flex-start;padding:32px 0;height:calc(100vh - 100px);overflow-y:auto}
-    .toc-label{font-size:10px;letter-spacing:2px;font-weight:600;color:var(--muted);text-transform:uppercase;margin-bottom:14px}
-    .toc-list{list-style:none;display:flex;flex-direction:column;gap:2px}
-    .toc-item a{display:block;font-size:13px;color:var(--muted);text-decoration:none;padding:5px 10px;border-left:1.5px solid transparent;border-radius:0 6px 6px 0;transition:all 0.15s}
-    .toc-item a:hover{color:var(--text);border-left-color:var(--border-hi)}
-    .toc-item.active a{color:var(--red);border-left-color:var(--red)}
-    .toc-sub a{font-size:12px;padding-left:20px}
+.steps{display:flex;flex-direction:column;gap:3px;}
+.step{background:var(--bg2);border:1px solid var(--border);border-radius:16px;overflow:hidden;transition:border-color 0.2s;}
+.step:hover{border-color:rgba(240,165,0,0.18);}
+.step-head{display:flex;align-items:flex-start;gap:18px;padding:26px 30px 20px;}
+.step-num{width:34px;height:34px;flex-shrink:0;border-radius:50%;border:1.5px solid var(--gold-border);background:var(--gold-dim);display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-size:13px;font-weight:700;color:var(--gold);}
+.step-body{flex:1;}
+.step-title{font-family:'Syne',sans-serif;font-size:17px;font-weight:700;color:var(--text);margin-bottom:6px;letter-spacing:-0.01em;}
+.step-desc{font-size:13.5px;color:var(--muted);line-height:1.65;}
+.step-desc strong{color:var(--text);font-weight:500;}
 
-    .content{padding:32px 0 80px 48px;border-left:0.5px solid var(--border)}
-    .guide-section{margin-bottom:72px}
-    .section-eyebrow{font-size:11px;letter-spacing:2px;font-weight:600;color:var(--red);text-transform:uppercase;margin-bottom:8px}
-    .section-title{font-family:'Bebas Neue',cursive;font-size:44px;letter-spacing:2px;line-height:1;color:var(--text);margin-bottom:14px}
-    .section-desc{font-size:15px;font-weight:300;color:var(--muted);max-width:600px;line-height:1.75;margin-bottom:32px}
-    .section-desc strong{color:var(--text);font-weight:500}
+.screen-wrap{margin:0 30px 26px;}
+.screen{background:#fff;border:1px solid #D8D8D8;border-radius:10px;overflow:hidden;box-shadow:0 4px 18px rgba(0,0,0,0.3);}
+.screen-chrome{background:#EFEFEF;border-bottom:1px solid #DCDCDC;padding:8px 12px;display:flex;align-items:center;gap:6px;}
+.chrome-dot{width:8px;height:8px;border-radius:50%;}
+.chrome-dot.r{background:#FF5F57;}.chrome-dot.y{background:#FEBC2E;}.chrome-dot.g{background:#28C840;}
+.chrome-url{flex:1;margin-left:6px;background:#fff;border:1px solid #D8D8D8;border-radius:5px;padding:3px 10px;font-size:11px;color:#555;font-family:'DM Sans',sans-serif;}
 
-    .step{background:var(--bg-card);border:0.5px solid var(--border);border-radius:18px;padding:28px 32px;margin-bottom:16px;position:relative;overflow:hidden}
-    .step:hover{border-color:var(--border-hi)}
-    .step::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--red),transparent)}
-    .step-header{display:flex;align-items:flex-start;gap:14px;margin-bottom:14px}
-    .step-num{width:32px;height:32px;border-radius:50%;border:1.5px solid var(--red-border-hi);display:flex;align-items:center;justify-content:center;font-family:'DM Mono',monospace;font-size:12px;font-weight:500;color:var(--red);background:var(--red-glow);flex-shrink:0;margin-top:2px}
-    .step-title{font-family:'Bebas Neue',cursive;font-size:26px;letter-spacing:1.5px;color:var(--text);line-height:1}
-    .step-body{font-size:14px;color:var(--muted);line-height:1.7;padding-left:46px}
-    .step-body strong{color:var(--text);font-weight:500}
-    .step-body p{margin-bottom:10px}
-    .step-body p:last-child{margin-bottom:0}
+.cb-tabs-row{background:#F0F0F0;border-bottom:1px solid #DDD;}
+.cb-tabs{display:flex;gap:0;overflow-x:auto;padding:0 10px;}
+.cb-tab{padding:9px 13px;font-size:12px;color:#777;border-bottom:2px solid transparent;white-space:nowrap;cursor:default;flex-shrink:0;}
+.cb-tab.active{color:var(--cb-teal);border-bottom-color:var(--cb-teal);font-weight:500;}
+.cb-tab.hl{color:var(--cb-orange);font-weight:600;}
 
-    .code-wrap{background:#0A0A0A;border:0.5px solid var(--border);border-radius:10px;padding:12px 16px;margin:10px 0 10px 46px;display:flex;align-items:center;justify-content:space-between;gap:8px}
-    .code-text{font-family:'DM Mono',monospace;font-size:12px;color:var(--red);flex:1;word-break:break-all}
-    .copy-btn{background:transparent;border:0.5px solid var(--border);border-radius:6px;padding:3px 10px;font-size:10px;font-weight:500;color:var(--muted);cursor:pointer;font-family:'DM Sans',sans-serif;transition:all 0.15s;flex-shrink:0}
-    .copy-btn:hover{border-color:var(--border-hi);color:var(--text)}
-    .copy-btn.copied{color:var(--green);border-color:rgba(45,212,160,0.4)}
+.apex-tri-sm{width:0;height:0;border-left:9px solid transparent;border-right:9px solid transparent;border-bottom:15px solid #E63030;}
+.apex-tri-lg{width:0;height:0;border-left:13px solid transparent;border-right:13px solid transparent;border-bottom:22px solid #E63030;}
 
-    .feature-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-bottom:20px}
-    .feature-card{background:var(--bg-card);border:0.5px solid var(--border);border-radius:14px;padding:20px;transition:border-color 0.2s}
-    .feature-card:hover{border-color:rgba(232,0,26,0.3)}
-    .feature-icon{width:36px;height:36px;border-radius:10px;background:var(--red-glow);border:0.5px solid rgba(232,0,26,0.25);display:flex;align-items:center;justify-content:center;margin-bottom:12px}
-    .feature-icon svg{width:18px;height:18px}
-    .feature-name{font-size:13px;font-weight:500;color:var(--text);margin-bottom:4px}
-    .feature-desc{font-size:12px;color:var(--muted);line-height:1.5}
+.callout{display:flex;gap:12px;align-items:flex-start;background:rgba(240,165,0,0.06);border:1px solid var(--gold-border);border-radius:10px;padding:16px 20px;margin:0 30px 26px;font-size:13px;color:var(--muted);}
+.callout strong{color:var(--gold);font-weight:500;}
 
-    .cmd-table{width:100%;border-collapse:collapse;margin:16px 0}
-    .cmd-table th{text-align:left;font-size:11px;letter-spacing:1px;font-weight:600;color:var(--muted);text-transform:uppercase;padding:8px 12px;border-bottom:0.5px solid var(--border)}
-    .cmd-table td{padding:10px 12px;border-bottom:0.5px solid var(--border);font-size:13px;vertical-align:top}
-    .cmd-table tr:last-child td{border-bottom:none}
-    .cmd-table tr:hover td{background:rgba(255,255,255,0.02)}
-    .cmd{font-family:'DM Mono',monospace;font-size:12px;color:var(--red);background:rgba(232,0,26,0.07);padding:2px 7px;border-radius:5px;white-space:nowrap}
-    .cmd-desc{color:var(--muted)}
+.done{margin-top:52px;background:var(--bg2);border:1px solid var(--gold-border);border-radius:16px;padding:44px 36px;text-align:center;}
+.done h2{font-family:'Syne',sans-serif;font-size:26px;font-weight:800;letter-spacing:-0.02em;margin-bottom:10px;}
+.done p{font-size:14px;color:var(--muted);max-width:380px;margin:0 auto 28px;}
+.features{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;text-align:left;}
+.feat{background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:14px;}
+.feat-icon{font-size:18px;margin-bottom:8px;}
+.feat-name{font-family:'Syne',sans-serif;font-size:13px;font-weight:700;color:var(--text);margin-bottom:3px;}
+.feat-desc{font-size:11.5px;color:var(--dim);line-height:1.5;}
 
-    .tier-table{width:100%;border-collapse:collapse;margin:16px 0}
-    .tier-table th{text-align:left;font-size:11px;letter-spacing:1px;font-weight:600;color:var(--muted);text-transform:uppercase;padding:8px 14px;border-bottom:0.5px solid var(--border)}
-    .tier-table td{padding:11px 14px;border-bottom:0.5px solid var(--border);font-size:13px}
-    .tier-table tr:last-child td{border-bottom:none}
-    .tier-badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:600}
-    .t-diamond{background:rgba(147,197,253,0.12);color:#93c5fd;border:0.5px solid rgba(147,197,253,0.3)}
-    .t-platinum{background:rgba(192,132,252,0.12);color:#c084fc;border:0.5px solid rgba(192,132,252,0.3)}
-    .t-gold{background:rgba(245,163,28,0.12);color:var(--amber);border:0.5px solid rgba(245,163,28,0.3)}
-    .t-silver{background:rgba(148,163,184,0.12);color:#94a3b8;border:0.5px solid rgba(148,163,184,0.3)}
-    .t-bronze{background:rgba(180,83,9,0.12);color:#cd7c3a;border:0.5px solid rgba(180,83,9,0.3)}
-    .t-new{background:rgba(45,212,160,0.08);color:var(--green);border:0.5px solid rgba(45,212,160,0.25)}
+footer{border-top:1px solid var(--border);padding:24px 40px;display:flex;align-items:center;justify-content:space-between;max-width:780px;margin:0 auto;}
+.footer-logo{font-family:'Syne',sans-serif;font-size:13px;font-weight:800;color:var(--gold);}
+.footer-meta{font-size:11px;color:var(--dim);}
 
-    .settings-group{border:0.5px solid var(--border);border-radius:14px;overflow:hidden;margin-bottom:10px}
-    .settings-header{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;cursor:pointer;transition:background 0.15s;user-select:none}
-    .settings-header:hover{background:rgba(255,255,255,0.03)}
-    .settings-header-left{display:flex;align-items:center;gap:12px}
-    .settings-icon{width:28px;height:28px;border-radius:8px;background:var(--red-glow);border:0.5px solid rgba(232,0,26,0.2);display:flex;align-items:center;justify-content:center;flex-shrink:0}
-    .settings-icon svg{width:14px;height:14px}
-    .settings-name{font-size:14px;font-weight:500;color:var(--text)}
-    .settings-desc{font-size:12px;color:var(--muted)}
-    .chevron{width:16px;height:16px;color:var(--muted);transition:transform 0.2s;flex-shrink:0}
-    .settings-body{display:none;padding:0 20px 20px;border-top:0.5px solid var(--border)}
-    .settings-body.open{display:block}
-    .settings-field{padding:10px 0;border-bottom:0.5px solid rgba(255,255,255,0.04);display:flex;gap:12px;align-items:flex-start}
-    .settings-field:last-child{border-bottom:none}
-    .settings-field-name{font-size:13px;color:var(--text);min-width:200px;flex-shrink:0;margin-top:1px}
-    .settings-field-info{font-size:12px;color:var(--muted);line-height:1.5}
-    .tag{display:inline-block;font-size:10px;padding:2px 7px;border-radius:20px;font-weight:600;margin-left:6px;vertical-align:middle}
-    .tag-bool{background:rgba(45,212,160,0.1);color:var(--green);border:0.5px solid rgba(45,212,160,0.25)}
-    .tag-num{background:rgba(245,163,28,0.1);color:var(--amber);border:0.5px solid rgba(245,163,28,0.25)}
-    .tag-str{background:rgba(232,0,26,0.1);color:var(--red);border:0.5px solid rgba(232,0,26,0.25)}
-
-    .handler-list{display:flex;flex-direction:column;gap:8px}
-    .handler-row{background:var(--bg-card);border:0.5px solid var(--border);border-radius:12px;padding:14px 18px;display:flex;align-items:flex-start;gap:14px}
-    .handler-file{font-family:'DM Mono',monospace;font-size:12px;color:var(--red);min-width:220px;flex-shrink:0;margin-top:1px}
-    .handler-slot{font-size:13px;font-weight:500;color:var(--text);margin-bottom:2px}
-    .handler-purpose{font-size:12px;color:var(--muted)}
-
-    .alert{border-radius:12px;padding:14px 18px;margin:16px 0;display:flex;gap:12px;align-items:flex-start}
-    .alert-tip{background:rgba(45,212,160,0.06);border:0.5px solid rgba(45,212,160,0.25)}
-    .alert-warn{background:rgba(245,163,28,0.06);border:0.5px solid rgba(245,163,28,0.25)}
-    .alert-icon{font-size:16px;flex-shrink:0;margin-top:1px}
-    .alert-text{font-size:13px;color:var(--muted);line-height:1.6}
-    .alert-text strong{color:var(--text);font-weight:500}
-
-    .divider{height:0.5px;background:var(--border);margin:48px 0}
-
-    footer{border-top:0.5px solid var(--border);padding:32px 24px}
-    .footer-inner{max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px}
-    .footer-logo img{height:28px;width:auto;opacity:0.6}
-    .footer-links{display:flex;gap:24px;list-style:none}
-    .footer-links a{font-size:12px;color:var(--muted);text-decoration:none;transition:color 0.15s}
-    .footer-links a:hover{color:var(--text)}
-    .footer-copy{font-size:11px;color:var(--muted);width:100%;text-align:center;margin-top:16px}
-
-    @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
-
-    @media(max-width:760px){
-      nav{padding:14px 20px}
-      .nav-links{display:none}
-      .layout{grid-template-columns:1fr;padding:0 16px}
-      .toc{display:none}
-      .content{padding:24px 0 60px;border-left:none}
-      .hero{padding:120px 20px 60px}
-      .section-title{font-size:36px}
-      .step{padding:20px}
-      .step-body,.code-wrap{padding-left:0}
-      .code-wrap{margin-left:0}
-      .handler-file{min-width:160px}
-    }
-  </style>
+@media(max-width:580px){
+  .hero{padding:52px 20px 36px;}
+  .step-head{padding:20px 18px 16px;}
+  .screen-wrap{margin:0 16px 20px;}
+  .callout{margin:0 16px 20px;}
+  .features{grid-template-columns:1fr;}
+  footer{flex-direction:column;gap:6px;text-align:center;}
+}
+</style>
 </head>
 <body>
 
-<nav>
-  <a href="/" class="nav-logo"><img src="https://apex-revenue-downloads.s3.amazonaws.com/assets/logo.png" alt="Apex Revenue"></a>
-  <div class="nav-links">
-    <a href="/" class="nav-link">Home</a>
-    <a href="#install" class="nav-link">Install</a>
-    <a href="#features" class="nav-link">Features</a>
-    <a href="#settings" class="nav-link">Settings</a>
-    <a href="#commands" class="nav-link">Commands</a>
+<div class="hero">
+  <div class="badge"><span class="badge-dot"></span>Chaturbate App Store · Setup Guide</div>
+  <div style="margin-bottom:20px;"><img src="/mnt/user-data/uploads/Apex_Revenue_Logo_with_background.png" alt="Apex Revenue" style="height:56px;border-radius:10px;"></div>
+  <h1>Get <em>Apex Revenue</em><br>running on Chaturbate</h1>
+  <p class="sub">Install directly inside your broadcast session — no external tools required.</p>
+  <div class="pills">
+    <div class="pill">⚡ <strong>Setup time:</strong> under 2 minutes</div>
+    <div class="pill">✓ <strong>Platform:</strong> Chaturbate App Store</div>
   </div>
-  <div class="nav-badge">CB App Guide</div>
-</nav>
+</div>
 
-<section class="hero">
-  <div class="hero-eyebrow"><span class="dot"></span>Chaturbate App · v1.2.0</div>
-  <h1 class="hero-title">CB APP<br><span>ONBOARDING</span></h1>
-  <p class="hero-sub">Everything you need to install, configure, and get the most out of the <em>Apex Revenue Chaturbate App</em> — from first deploy to advanced commands.</p>
-  <a href="#install" class="hero-cta">
-    Get Started
-    <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 2l5 5-5 5M2 7h10" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/></svg>
-  </a>
-</section>
+<div class="wrap">
+  <div class="section-label">Installation steps</div>
+  <div class="steps">
 
-<div class="layout">
-  <aside class="toc">
-    <div class="toc-label">On this page</div>
-    <ul class="toc-list">
-      <li class="toc-item" data-target="overview"><a href="#overview">Overview</a></li>
-      <li class="toc-item" data-target="install"><a href="#install">Installation</a></li>
-      <li class="toc-item toc-sub" data-target="install-portal"><a href="#install-portal">1. Dev Portal</a></li>
-      <li class="toc-item toc-sub" data-target="install-shared"><a href="#install-shared">2. Shared Code</a></li>
-      <li class="toc-item toc-sub" data-target="install-settings"><a href="#install-settings">3. Settings</a></li>
-      <li class="toc-item toc-sub" data-target="install-handlers"><a href="#install-handlers">4. Handlers</a></li>
-      <li class="toc-item toc-sub" data-target="install-deploy"><a href="#install-deploy">5. Deploy</a></li>
-      <li class="toc-item" data-target="features"><a href="#features">Features</a></li>
-      <li class="toc-item" data-target="tiers"><a href="#tiers">Tipper Tiers</a></li>
-      <li class="toc-item" data-target="settings"><a href="#settings">Settings Guide</a></li>
-      <li class="toc-item" data-target="commands"><a href="#commands">Chat Commands</a></li>
-      <li class="toc-item" data-target="panel"><a href="#panel">Broadcast Panel</a></li>
-      <li class="toc-item" data-target="pro-tips"><a href="#pro-tips">Pro Tips</a></li>
-    </ul>
-  </aside>
-
-  <main class="content">
-
-    <!-- OVERVIEW -->
-    <section class="guide-section" id="overview">
-      <div class="section-eyebrow">Overview</div>
-      <h2 class="section-title">What It Does</h2>
-      <p class="section-desc">The Apex Revenue CB App runs directly inside Chaturbate's developer platform. It powers <strong>tip announcements, tipper tier tracking, chat moderation, goal progress, and banner automation</strong> — all synced with your browser extension overlay in real time.</p>
-      <div class="feature-grid">
-        <div class="feature-card">
-          <div class="feature-icon"><svg viewBox="0 0 18 18" fill="none"><path d="M9 2l2 4.5 4.5.5-3.5 3.5 1 5L9 13l-4 2.5 1-5L2.5 7l4.5-.5L9 2z" stroke="#E8001A" stroke-width="1.2" fill="none"/></svg></div>
-          <div class="feature-name">Tipper tier system</div>
-          <div class="feature-desc">Bronze → Diamond tiers based on lifetime tips. Auto-badges, enter banners, and special treatment per tier.</div>
-        </div>
-        <div class="feature-card">
-          <div class="feature-icon"><svg viewBox="0 0 18 18" fill="none"><path d="M2 9h14M9 2l5 7-5 7-5-7 5-7z" stroke="#E8001A" stroke-width="1.2" stroke-linecap="round"/></svg></div>
-          <div class="feature-name">Tip goal tracking</div>
-          <div class="feature-desc">Set a token goal. The panel and chat auto-update with progress bars and completion banners.</div>
-        </div>
-        <div class="feature-card">
-          <div class="feature-icon"><svg viewBox="0 0 18 18" fill="none"><path d="M3 4h12M3 9h9M3 14h6" stroke="#E8001A" stroke-width="1.4" stroke-linecap="round"/></svg></div>
-          <div class="feature-name">Chat moderation</div>
-          <div class="feature-desc">Keyword filters, spam detection, link blocking, data masking — all configurable without code.</div>
-        </div>
-        <div class="feature-card">
-          <div class="feature-icon"><svg viewBox="0 0 18 18" fill="none"><circle cx="9" cy="6" r="3" stroke="#E8001A" stroke-width="1.2"/><path d="M3 15c0-3.3 2.7-6 6-6s6 2.7 6 6" stroke="#E8001A" stroke-width="1.2" stroke-linecap="round"/></svg></div>
-          <div class="feature-name">7 color themes</div>
-          <div class="feature-desc">Apex Purple, Gold VIP, Neon Green, Hot Pink, Ice Blue, Sunset Orange, Stealth Dark.</div>
-        </div>
-        <div class="feature-card">
-          <div class="feature-icon"><svg viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="6" stroke="#E8001A" stroke-width="1.2"/><path d="M9 6v3l2 2" stroke="#E8001A" stroke-width="1.2" stroke-linecap="round"/></svg></div>
-          <div class="feature-name">Recurring banners</div>
-          <div class="feature-desc">Schedule custom chat banners at set intervals with dynamic variables like {total} and {toptipper}.</div>
-        </div>
-        <div class="feature-card">
-          <div class="feature-icon"><svg viewBox="0 0 18 18" fill="none"><path d="M9 2v4M9 12v4M2 9h4M12 9h4" stroke="#E8001A" stroke-width="1.4" stroke-linecap="round"/><circle cx="9" cy="9" r="2.5" stroke="#E8001A" stroke-width="1.2"/></svg></div>
-          <div class="feature-name">Extension sync</div>
-          <div class="feature-desc">Tip events, goal data, and session stats stream live into your Apex Revenue browser overlay.</div>
-        </div>
-      </div>
-    </section>
-
-    <div class="divider"></div>
-
-    <!-- INSTALLATION -->
-    <section class="guide-section" id="install">
-      <div class="section-eyebrow">Installation</div>
-      <h2 class="section-title">Install in 5 Steps</h2>
-      <p class="section-desc">The CB App lives entirely inside Chaturbate's developer portal — no downloads required. The whole process takes about 5 minutes.</p>
-
-      <div class="alert alert-warn">
-        <div class="alert-icon">⚠</div>
-        <div class="alert-text">You must be a <strong>verified broadcaster</strong> on Chaturbate to access the Developer Portal. Complete account verification first if you haven't already.</div>
-      </div>
-
-      <div class="step" id="install-portal">
-        <div class="step-header"><div class="step-num">1</div><div class="step-title">Open the CB Developer Portal</div></div>
+    <!-- STEP 1 -->
+    <div class="step">
+      <div class="step-head">
+        <div class="step-num">1</div>
         <div class="step-body">
-          <p>Navigate to <strong>devportal.cb.dev</strong> and sign in with your Chaturbate broadcaster account. Click <strong>"New App"</strong>, name it <strong>Apex Revenue</strong>, then open the IDE view.</p>
-        </div>
-        <div class="code-wrap"><span class="code-text">https://devportal.cb.dev</span><button class="copy-btn" onclick="copyText(this,'https://devportal.cb.dev')">Copy</button></div>
-      </div>
-
-      <div class="step" id="install-shared">
-        <div class="step-header"><div class="step-num">2</div><div class="step-title">Paste the Shared Code</div></div>
-        <div class="step-body">
-          <p>In the sidebar click <strong>"Shared Code"</strong>. Clear any existing content and paste both files in this exact order:</p>
-          <p><strong>First:</strong> paste <code style="font-size:12px;font-family:'DM Mono',monospace;color:var(--red)">shared-code-additions.js</code></p>
-          <p><strong>Second:</strong> paste <code style="font-size:12px;font-family:'DM Mono',monospace;color:var(--red)">transform-shared-code.js</code> immediately after (no gap)</p>
-          <p>These files contain the theme engine, tier classification, announcement helpers, and v1.2.0 moderation utilities that every handler depends on.</p>
-        </div>
-        <div class="alert alert-tip" style="margin-top:12px">
-          <div class="alert-icon" style="color:var(--green)">✓</div>
-          <div class="alert-text">Both files are in <strong>cb-app/shared-code/</strong> inside the Apex-Revenue-Edge GitHub repo.</div>
+          <div class="step-title">Log in to your Chaturbate account</div>
+          <div class="step-desc">Go to <strong>chaturbate.com</strong> and sign in.</div>
         </div>
       </div>
-
-      <div class="step" id="install-settings">
-        <div class="step-header"><div class="step-num">3</div><div class="step-title">Load the App Settings</div></div>
-        <div class="step-body">
-          <p>Click <strong>"Settings"</strong> in the Dev Portal, then toggle on <strong>"Advanced Settings Editor (JSON)"</strong>.</p>
-          <p>Clear the JSON editor and paste the entire contents of <code style="font-size:12px;font-family:'DM Mono',monospace;color:var(--red)">settings-merged-minified.json</code>. This loads all 8 setting fieldsets in one paste.</p>
-        </div>
-      </div>
-
-      <div class="step" id="install-handlers">
-        <div class="step-header"><div class="step-num">4</div><div class="step-title">Paste Each Handler</div></div>
-        <div class="step-body"><p>Each event type has its own editor in the sidebar. Paste the matching file into each slot:</p></div>
-        <div class="handler-list" style="margin-top:16px">
-          <div class="handler-row"><div class="handler-file">handler-appstart.js</div><div><div class="handler-slot">App Start</div><div class="handler-purpose">Initialises session state, starts timers, whispers broadcaster on load</div></div></div>
-          <div class="handler-row"><div class="handler-file">handler-appstop.js</div><div><div class="handler-slot">App Stop</div><div class="handler-purpose">Cleanup and saves persistent data</div></div></div>
-          <div class="handler-row"><div class="handler-file">handler-broadcaststart.js</div><div><div class="handler-slot">Broadcast Start</div><div class="handler-purpose">Resets session counters, starts recurring timers, reloads panel</div></div></div>
-          <div class="handler-row"><div class="handler-file">handler-broadcaststop.js</div><div><div class="handler-slot">Broadcast Stop</div><div class="handler-purpose">Session summary whisper to broadcaster</div></div></div>
-          <div class="handler-row"><div class="handler-file">handler-callback.js</div><div><div class="handler-slot">Callback</div><div class="handler-purpose">Fires recurring banners and auto-announcements on schedule</div></div></div>
-          <div class="handler-row"><div class="handler-file">handler-enter.js</div><div><div class="handler-slot">User Enter</div><div class="handler-purpose">New viewer onboarding, known tipper return banners, viewer milestones</div></div></div>
-          <div class="handler-row"><div class="handler-file">handler-tip.js</div><div><div class="handler-slot">Tip Received</div><div class="handler-purpose">Records tip, fires announcement or big-tip banner, syncs to extension overlay</div></div></div>
-          <div class="handler-row"><div class="handler-file">handler-follow.js</div><div><div class="handler-slot">User Follow</div><div class="handler-purpose">Follow banner in chat, sends install guide whisper to new follower</div></div></div>
-          <div class="handler-row"><div class="handler-file">handler-fanclubjoin.js</div><div><div class="handler-slot">Fanclub Join</div><div class="handler-purpose">Fanclub join banner and thank-you whisper to new member</div></div></div>
-          <div class="handler-row"><div class="handler-file">handler-message.js</div><div><div class="handler-slot">Chat Message</div><div class="handler-purpose">Handles <span class="cmd">/apex</span> commands for broadcaster and mods</div></div></div>
-          <div class="handler-row"><div class="handler-file">handler-messagetransform.js</div><div><div class="handler-slot">Chat Message Transform</div><div class="handler-purpose">Silent moderation: keyword filter, spam detect, link block, data masking, styling</div></div></div>
-          <div class="handler-row"><div class="handler-file">handler-paneltemplate.js</div><div><div class="handler-slot">Broadcast Panel Update</div><div class="handler-purpose">Real-time stats panel: session tips, top tipper, goal progress bar</div></div></div>
-        </div>
-      </div>
-
-      <div class="step" id="install-deploy">
-        <div class="step-header"><div class="step-num">5</div><div class="step-title">Deploy to Testbed &amp; Go Live</div></div>
-        <div class="step-body">
-          <p>Click <strong>"Update on testbed"</strong> in the Dev Portal header to deploy to a private test room. Verify everything works before broadcasting.</p>
-          <p>On a successful start, Apex Revenue will whisper this to you: <code style="font-size:12px;font-family:'DM Mono',monospace;color:var(--red)">Apex Revenue v1.1.0 loaded. Type /apex help for commands.</code></p>
-          <p>The startup whisper also shows your current theme, announcement status, and tip goal — a fast sanity check that settings loaded correctly.</p>
-        </div>
-      </div>
-    </section>
-
-    <div class="divider"></div>
-
-    <!-- FEATURES -->
-    <section class="guide-section" id="features">
-      <div class="section-eyebrow">Features</div>
-      <h2 class="section-title">What Happens Automatically</h2>
-      <p class="section-desc">Once deployed, the app runs without manual input. Here's what fires automatically during a live broadcast.</p>
-
-      <div class="step">
-        <div class="step-header"><div class="step-num" style="background:rgba(245,163,28,0.1);border-color:rgba(245,163,28,0.4);color:var(--amber)">💬</div><div class="step-title">Tip Announcements</div></div>
-        <div class="step-body">
-          <p>Every tip fires a <strong>themed room notice</strong> using your chosen color scheme. Tips at or above the <strong>Big Tip Threshold</strong> (default 100 tokens) get a full banner — separator lines, bold text, accent color — instead of a standard notice.</p>
-          <p>Announcement templates use <code style="font-size:12px;font-family:'DM Mono',monospace;color:var(--red)">{user}</code> <code style="font-size:12px;font-family:'DM Mono',monospace;color:var(--red)">{amount}</code> <code style="font-size:12px;font-family:'DM Mono',monospace;color:var(--red)">{total}</code> — fully customisable in settings.</p>
-        </div>
-      </div>
-
-      <div class="step">
-        <div class="step-header"><div class="step-num" style="background:rgba(45,212,160,0.1);border-color:rgba(45,212,160,0.35);color:var(--green)">🎯</div><div class="step-title">Tip Goal Progress</div></div>
-        <div class="step-body">
-          <p>Enable a tip goal and set a target amount. The broadcast panel shows a live ASCII progress bar. At 25%, 50%, and 75% milestones a subtle chat notice fires automatically. When the goal is hit, a full banner fires and the extension overlay is notified.</p>
-        </div>
-      </div>
-
-      <div class="step">
-        <div class="step-header"><div class="step-num" style="background:rgba(147,197,253,0.1);border-color:rgba(147,197,253,0.35);color:#93c5fd">👋</div><div class="step-title">Return Tipper Banners</div></div>
-        <div class="step-body">
-          <p>When a viewer who has tipped above the <strong>Enter Banner Threshold</strong> (default 50 lifetime tokens) enters your room, a banner fires with their tier badge and total. First-time visitors receive a separate welcome onboarding whisper.</p>
-        </div>
-      </div>
-
-      <div class="step">
-        <div class="step-header"><div class="step-num" style="background:rgba(232,0,26,0.1);border-color:rgba(232,0,26,0.35);color:var(--red)">🛡</div><div class="step-title">Chat Moderation (v1.2.0)</div></div>
-        <div class="step-body">
-          <p>The Message Transform handler silently processes every message. Configure blocked keywords with actions: replace with <code style="font-size:12px;font-family:'DM Mono',monospace;color:var(--red)">***</code>, hide, or flag. The spam filter catches all-caps abuse and repeated characters. The link filter blocks URLs from non-tippers. Data masking auto-redacts emails, phone numbers, and SSN patterns from chat.</p>
-          <p>All moderation actions are optionally whispered to you in real time by enabling <strong>Mod Log to Owner</strong>.</p>
-        </div>
-      </div>
-    </section>
-
-    <div class="divider"></div>
-
-    <!-- TIPPER TIERS -->
-    <section class="guide-section" id="tiers">
-      <div class="section-eyebrow">Tipper Tiers</div>
-      <h2 class="section-title">The Tier System</h2>
-      <p class="section-desc">Every tipper is automatically classified based on their <strong>lifetime token total</strong> tracked across sessions. Tiers appear in enter banners, announcements, and message badges.</p>
-      <table class="tier-table">
-        <thead><tr><th>Tier</th><th>Lifetime tokens</th><th>Badge emoji</th></tr></thead>
-        <tbody>
-          <tr><td><span class="tier-badge t-diamond">Diamond</span></td><td>5,000 +</td><td>:gem2</td></tr>
-          <tr><td><span class="tier-badge t-platinum">Platinum</span></td><td>1,000 – 4,999</td><td>:crown2</td></tr>
-          <tr><td><span class="tier-badge t-gold">Gold</span></td><td>500 – 999</td><td>:goldstar2</td></tr>
-          <tr><td><span class="tier-badge t-silver">Silver</span></td><td>100 – 499</td><td>:silverstar</td></tr>
-          <tr><td><span class="tier-badge t-bronze">Bronze</span></td><td>10 – 99</td><td>:star2</td></tr>
-          <tr><td><span class="tier-badge t-new">New</span></td><td>0 – 9</td><td>:heart22</td></tr>
-        </tbody>
-      </table>
-      <div class="alert alert-tip">
-        <div class="alert-icon" style="color:var(--green)">✓</div>
-        <div class="alert-text">Tier totals persist across sessions using Chaturbate's key-value storage. A Diamond tipper is still recognised as Diamond the next time they enter your room.</div>
-      </div>
-    </section>
-
-    <div class="divider"></div>
-
-    <!-- SETTINGS -->
-    <section class="guide-section" id="settings">
-      <div class="section-eyebrow">Settings</div>
-      <h2 class="section-title">Configuration Guide</h2>
-      <p class="section-desc">All settings are in the Dev Portal under your app's Settings tab. Click any section to expand it.</p>
-
-      <div class="settings-group">
-        <div class="settings-header" onclick="toggleSettings(this)">
-          <div class="settings-header-left">
-            <div class="settings-icon"><svg viewBox="0 0 14 14" fill="none"><path d="M7 1a3 3 0 100 5 3 3 0 000-5zM2 13c0-2.8 2.2-5 5-5s5 2.2 5 5" stroke="#E8001A" stroke-width="1.2" stroke-linecap="round"/></svg></div>
-            <div><div class="settings-name">Onboarding &amp; Extension Promotion</div><div class="settings-desc">Welcome message, auto-announce interval</div></div>
+      <div class="screen-wrap">
+        <div class="screen">
+          <div class="screen-chrome">
+            <div class="chrome-dot r"></div><div class="chrome-dot y"></div><div class="chrome-dot g"></div>
+            <div class="chrome-url">chaturbate.com</div>
           </div>
-          <svg class="chevron" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-        </div>
-        <div class="settings-body">
-          <div class="settings-field"><div class="settings-field-name">Enable new user onboarding<span class="tag tag-bool">toggle</span></div><div class="settings-field-info">Sends a welcome whisper to first-time viewers when they enter. Default: ON</div></div>
-          <div class="settings-field"><div class="settings-field-name">Auto-announce extension<span class="tag tag-bool">toggle</span></div><div class="settings-field-info">Periodically posts a notice promoting the Apex Revenue extension. Default: ON</div></div>
-          <div class="settings-field"><div class="settings-field-name">Announcement interval<span class="tag tag-num">number</span></div><div class="settings-field-info">How often (minutes) the auto-announce fires. Range: 5–120. Default: 30</div></div>
-        </div>
-      </div>
-
-      <div class="settings-group">
-        <div class="settings-header" onclick="toggleSettings(this)">
-          <div class="settings-header-left">
-            <div class="settings-icon"><svg viewBox="0 0 14 14" fill="none"><path d="M7 1l1.5 3.5L12 5 9.5 7.5l.5 4-3-1.5-3 1.5.5-4L2 5l3.5-.5L7 1z" stroke="#E8001A" stroke-width="1.1" fill="none"/></svg></div>
-            <div><div class="settings-name">Tip Tracking &amp; Notifications</div><div class="settings-desc">Acknowledgments, big tip threshold</div></div>
+          <div style="background:#fff;border-bottom:2px solid var(--cb-orange);padding:9px 16px;display:flex;align-items:center;justify-content:space-between;">
+            <span style="font-family:'Syne',sans-serif;font-size:16px;font-weight:800;color:var(--cb-orange);">Chaturbate</span>
+            <div style="display:flex;align-items:center;gap:12px;">
+              <span style="font-size:12px;color:#555;">Signed in as <strong style="color:#333;">yourname</strong></span>
+              <span style="background:var(--cb-orange);color:#fff;font-size:11px;font-weight:600;padding:6px 14px;border-radius:4px;">Broadcast Yourself »</span>
+            </div>
           </div>
-          <svg class="chevron" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-        </div>
-        <div class="settings-body">
-          <div class="settings-field"><div class="settings-field-name">Send tip acknowledgments<span class="tag tag-bool">toggle</span></div><div class="settings-field-info">Fires a themed notice for standard tips. Turn off for silence on small tips. Default: ON</div></div>
-          <div class="settings-field"><div class="settings-field-name">Big tip threshold<span class="tag tag-num">number</span></div><div class="settings-field-info">Tips at or above this amount trigger the full banner treatment. Default: 100 tokens</div></div>
-        </div>
-      </div>
-
-      <div class="settings-group">
-        <div class="settings-header" onclick="toggleSettings(this)">
-          <div class="settings-header-left">
-            <div class="settings-icon"><svg viewBox="0 0 14 14" fill="none"><path d="M2 5h10M2 9h7" stroke="#E8001A" stroke-width="1.4" stroke-linecap="round"/></svg></div>
-            <div><div class="settings-name">Custom Announcements</div><div class="settings-desc">Color theme, tip templates, tip goal</div></div>
+          <div style="background:#F5F5F5;padding:20px;text-align:center;min-height:50px;display:flex;align-items:center;justify-content:center;">
+            <span style="font-size:12px;color:#999;">Logged in and ready — click Broadcast Yourself to continue</span>
           </div>
-          <svg class="chevron" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-        </div>
-        <div class="settings-body">
-          <div class="settings-field"><div class="settings-field-name">Color theme<span class="tag tag-str">select</span></div><div class="settings-field-info">Applies to all notices and banners. Options: Apex Purple, Gold VIP, Neon Green, Hot Pink, Ice Blue, Sunset Orange, Stealth Dark</div></div>
-          <div class="settings-field"><div class="settings-field-name">Tip announcement message<span class="tag tag-str">text</span></div><div class="settings-field-info">Template for standard tips. Variables: <code style="font-size:11px;font-family:'DM Mono',monospace;color:var(--red)">{user} {amount} {total}</code></div></div>
-          <div class="settings-field"><div class="settings-field-name">Big tip announcement<span class="tag tag-str">text</span></div><div class="settings-field-info">Template for big tips. Same variables available.</div></div>
-          <div class="settings-field"><div class="settings-field-name">Enable tip goal<span class="tag tag-bool">toggle</span></div><div class="settings-field-info">Activates goal tracking, progress milestones, and completion banner. Default: OFF</div></div>
-          <div class="settings-field"><div class="settings-field-name">Tip goal target<span class="tag tag-num">number</span></div><div class="settings-field-info">Token amount to reach. Shown as an ASCII bar in the broadcast panel.</div></div>
-          <div class="settings-field"><div class="settings-field-name">Goal progress interval<span class="tag tag-num">number</span></div><div class="settings-field-info">Fire a milestone notice every N%. Set 0 to disable. Default: 25 (fires at 25, 50, 75%)</div></div>
         </div>
       </div>
+    </div>
 
-      <div class="settings-group">
-        <div class="settings-header" onclick="toggleSettings(this)">
-          <div class="settings-header-left">
-            <div class="settings-icon"><svg viewBox="0 0 14 14" fill="none"><path d="M2 2h10v8H2z" stroke="#E8001A" stroke-width="1.2"/><path d="M2 12l3-2h4l3 2" stroke="#E8001A" stroke-width="1.2" stroke-linecap="round"/></svg></div>
-            <div><div class="settings-name">Chat Banners &amp; Triggers</div><div class="settings-desc">Enter banners, follows, milestones, recurring</div></div>
-          </div>
-          <svg class="chevron" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-        </div>
-        <div class="settings-body">
-          <div class="settings-field"><div class="settings-field-name">Known tipper enter banner<span class="tag tag-bool">toggle</span></div><div class="settings-field-info">Fires when a tipper above the lifetime threshold enters. Shows tier and total. Default: ON</div></div>
-          <div class="settings-field"><div class="settings-field-name">Min lifetime tips for banner<span class="tag tag-num">number</span></div><div class="settings-field-info">Minimum lifetime tokens before enter banner triggers. Default: 50</div></div>
-          <div class="settings-field"><div class="settings-field-name">Follow banner<span class="tag tag-bool">toggle</span></div><div class="settings-field-info">Celebrates new followers. Template: <code style="font-size:11px;font-family:'DM Mono',monospace;color:var(--red)">{user} {followers}</code></div></div>
-          <div class="settings-field"><div class="settings-field-name">Fanclub join banner<span class="tag tag-bool">toggle</span></div><div class="settings-field-info">Big banner on fanclub join. Template: <code style="font-size:11px;font-family:'DM Mono',monospace;color:var(--red)">{user}</code></div></div>
-          <div class="settings-field"><div class="settings-field-name">Viewer milestone banner<span class="tag tag-bool">toggle</span></div><div class="settings-field-info">Fires every N viewers (default 50). Template: <code style="font-size:11px;font-family:'DM Mono',monospace;color:var(--red)">{count}</code></div></div>
-          <div class="settings-field"><div class="settings-field-name">Recurring custom banner<span class="tag tag-bool">toggle</span></div><div class="settings-field-info">Posts a custom message on an interval. Variables: <code style="font-size:11px;font-family:'DM Mono',monospace;color:var(--red)">{total} {toptipper} {toptips} {viewers} {percent}</code></div></div>
-          <div class="settings-field"><div class="settings-field-name">Recurring interval<span class="tag tag-num">number</span></div><div class="settings-field-info">How often (minutes) the recurring banner fires. Range: 3–120. Default: 15</div></div>
-        </div>
-      </div>
-
-      <div class="settings-group">
-        <div class="settings-header" onclick="toggleSettings(this)">
-          <div class="settings-header-left">
-            <div class="settings-icon"><svg viewBox="0 0 14 14" fill="none"><path d="M7 1l5 2v4c0 3-5 6-5 6S2 10 2 7V3l5-2z" stroke="#E8001A" stroke-width="1.2" fill="none"/></svg></div>
-            <div><div class="settings-name">Chat Moderation &amp; Filtering</div><div class="settings-desc">Keywords, spam, links, data masking — v1.2.0</div></div>
-          </div>
-          <svg class="chevron" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-        </div>
-        <div class="settings-body">
-          <div class="settings-field"><div class="settings-field-name">Enable moderation<span class="tag tag-bool">toggle</span></div><div class="settings-field-info">Master switch for all Message Transform features. Default: ON</div></div>
-          <div class="settings-field"><div class="settings-field-name">Blocked keywords<span class="tag tag-str">text</span></div><div class="settings-field-info">Comma-separated words to filter. Action: replace (***), hide, or flag.</div></div>
-          <div class="settings-field"><div class="settings-field-name">Spam filter<span class="tag tag-bool">toggle</span></div><div class="settings-field-info">Detects all-caps abuse and repeated characters. Action: fix or hide. Default caps threshold: 70%</div></div>
-          <div class="settings-field"><div class="settings-field-name">Link filter<span class="tag tag-bool">toggle</span></div><div class="settings-field-info">Blocks URLs from non-privileged users. Tippers and fanclub members can be exempted.</div></div>
-          <div class="settings-field"><div class="settings-field-name">Data masking<span class="tag tag-bool">toggle</span></div><div class="settings-field-info">Auto-redacts emails, phone numbers, and SSN patterns from all messages. Default: ON</div></div>
-          <div class="settings-field"><div class="settings-field-name">Mod log to owner<span class="tag tag-bool">toggle</span></div><div class="settings-field-info">Whispers you whenever a message is moderated, including the original text if enabled.</div></div>
-        </div>
-      </div>
-
-      <div class="settings-group">
-        <div class="settings-header" onclick="toggleSettings(this)">
-          <div class="settings-header-left">
-            <div class="settings-icon"><svg viewBox="0 0 14 14" fill="none"><path d="M2 3h10M2 7h7M2 11h4" stroke="#E8001A" stroke-width="1.4" stroke-linecap="round"/></svg></div>
-            <div><div class="settings-name">Message Styling &amp; Badges</div><div class="settings-desc">Role-based highlights and badges — v1.2.0</div></div>
-          </div>
-          <svg class="chevron" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-        </div>
-        <div class="settings-body">
-          <div class="settings-field"><div class="settings-field-name">Highlight tipper messages<span class="tag tag-bool">toggle</span></div><div class="settings-field-info">Adds a coloured background to messages from viewers who have tipped. Default: ON</div></div>
-          <div class="settings-field"><div class="settings-field-name">Big tipper style threshold<span class="tag tag-num">number</span></div><div class="settings-field-info">Lifetime tokens above which the "big tipper" highlight style applies. Default: 500</div></div>
-          <div class="settings-field"><div class="settings-field-name">Show tier badge<span class="tag tag-bool">toggle</span></div><div class="settings-field-info">Prepends a Bronze/Gold/Diamond badge to tipper messages so the room can see their rank.</div></div>
-          <div class="settings-field"><div class="settings-field-name">Fanclub badge<span class="tag tag-bool">toggle</span></div><div class="settings-field-info">Shows a custom emoji on messages from fanclub members. Default emoji: :heart22</div></div>
-          <div class="settings-field"><div class="settings-field-name">Highlight broadcaster messages<span class="tag tag-bool">toggle</span></div><div class="settings-field-info">Gives your own messages a distinct background colour. Default: ON</div></div>
-        </div>
-      </div>
-    </section>
-
-    <div class="divider"></div>
-
-    <!-- COMMANDS -->
-    <section class="guide-section" id="commands">
-      <div class="section-eyebrow">Chat Commands</div>
-      <h2 class="section-title">/apex Commands</h2>
-      <p class="section-desc">Type these in your chat during a live broadcast. Only <strong>you (broadcaster)</strong> and your <strong>mods</strong> can use them — invisible to viewers.</p>
-      <table class="cmd-table">
-        <thead><tr><th>Command</th><th>What it does</th></tr></thead>
-        <tbody>
-          <tr><td><span class="cmd">/apex help</span></td><td class="cmd-desc">Full command menu as a private whisper to you</td></tr>
-          <tr><td><span class="cmd">/apex stats</span></td><td class="cmd-desc">Session stats whisper: total tips, tip count, unique tippers, highest tip</td></tr>
-          <tr><td><span class="cmd">/apex top</span></td><td class="cmd-desc">Top 5 tippers this session as a private whisper</td></tr>
-          <tr><td><span class="cmd">/apex top 10</span></td><td class="cmd-desc">Top N tippers — replace 10 with any number</td></tr>
-          <tr><td><span class="cmd">/apex goal</span></td><td class="cmd-desc">Whispers current goal progress: X/Y tokens (Z%)</td></tr>
-          <tr><td><span class="cmd">/apex goal-announce</span></td><td class="cmd-desc">Manually broadcasts goal progress to the whole room</td></tr>
-          <tr><td><span class="cmd">/apex banner &lt;text&gt;</span></td><td class="cmd-desc">Sends a one-off themed banner to chat with your message</td></tr>
-          <tr><td><span class="cmd">/apex ac &lt;text&gt;</span></td><td class="cmd-desc">Sends a one-off themed announcement (lighter than a banner)</td></tr>
-          <tr><td><span class="cmd">/apex announce</span></td><td class="cmd-desc">Manually fires the extension promotion announcement</td></tr>
-          <tr><td><span class="cmd">/apex theme</span></td><td class="cmd-desc">Whispers current color theme and announcement toggle status</td></tr>
-          <tr><td><span class="cmd">/apex reset</span></td><td class="cmd-desc">Resets all session tip stats and goal tracking to zero</td></tr>
-          <tr><td><span class="cmd">/apex onboard</span></td><td class="cmd-desc">Clears onboarding history — all viewers get the welcome message again</td></tr>
-          <tr><td><span class="cmd">/apex status</span></td><td class="cmd-desc">Shows the Apex Revenue extension connection status</td></tr>
-          <tr><td><span class="cmd">/apex start</span></td><td class="cmd-desc">Sends an extension start signal (if auto-control is off)</td></tr>
-          <tr><td><span class="cmd">/apex stop</span></td><td class="cmd-desc">Sends an extension stop signal</td></tr>
-          <tr><td><span class="cmd">/apex dl</span></td><td class="cmd-desc">Whispers the extension download link to yourself</td></tr>
-        </tbody>
-      </table>
-    </section>
-
-    <div class="divider"></div>
-
-    <!-- PANEL -->
-    <section class="guide-section" id="panel">
-      <div class="section-eyebrow">Broadcast Panel</div>
-      <h2 class="section-title">The Stats Panel</h2>
-      <p class="section-desc">The broadcast panel appears next to your stream and updates automatically on every tip. Choose the display style in Settings → Display.</p>
-      <div class="step"><div class="step-header"><div class="step-num">A</div><div class="step-title">Tips &amp; Top Tipper (default)</div></div>
+    <!-- STEP 2 -->
+    <div class="step">
+      <div class="step-head">
+        <div class="step-num">2</div>
         <div class="step-body">
-          <p><strong>Row 1 — Session Tips:</strong> Total tokens this broadcast + tip count (e.g. "840 tk (12 tips)")</p>
-          <p><strong>Row 2 — Top Tipper:</strong> The viewer with the highest single tip this session</p>
-          <p><strong>Row 3 — Goal or Unique Tippers:</strong> When a goal is enabled, shows an ASCII progress bar like <code style="font-size:11px;font-family:'DM Mono',monospace;color:var(--red)">██████░░░░ 320/500 tk</code>. Otherwise shows the unique tipper count.</p>
+          <div class="step-title">Begin a "Broadcast Yourself" session</div>
+          <div class="step-desc">Click <strong>Broadcast Yourself</strong> from the top nav. This opens your broadcaster room with camera setup, chat, and the app tabs at the bottom. You don't need to actually start streaming yet.</div>
         </div>
       </div>
-      <div class="step"><div class="step-header"><div class="step-num">B</div><div class="step-title">Tips Only</div></div>
-        <div class="step-body"><p>Shows only Row 1 — the running total and tip count. Cleaner for broadcasters who prefer minimal info.</p></div>
+      <div class="screen-wrap">
+        <div class="screen">
+          <div class="screen-chrome">
+            <div class="chrome-dot r"></div><div class="chrome-dot y"></div><div class="chrome-dot g"></div>
+            <div class="chrome-url">chaturbate.com/broadcast/</div>
+          </div>
+          <div style="background:#FFF9E6;border-bottom:1px solid #F0DE8A;padding:7px 14px;font-size:11px;color:#666;text-align:center;">
+            Add an extra layer of protection to your account — set up 2-Step Verification at the <span style="color:var(--cb-teal);">Security Center</span>
+          </div>
+          <div style="background:#fff;border-bottom:1px solid #DDD;padding:0 14px;display:flex;gap:0;">
+            <div style="background:var(--cb-teal);color:#fff;font-size:12px;padding:8px 16px;font-weight:500;border-radius:4px 4px 0 0;margin-right:4px;">My Broadcast</div>
+            <div style="color:var(--cb-teal);font-size:12px;padding:8px 16px;border-radius:4px 4px 0 0;">Creator Portal</div>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;border-bottom:1px solid #EEE;min-height:120px;">
+            <div style="padding:14px;border-right:1px solid #EEE;">
+              <div style="font-size:10px;color:#999;margin-bottom:4px;">Room Subject</div>
+              <div style="font-size:12px;font-weight:500;color:#333;margin-bottom:12px;">Your room name here</div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px;">
+                <div>
+                  <div style="font-size:10px;color:#999;margin-bottom:3px;">Camera</div>
+                  <div style="background:#fff;border:1px solid #CCC;border-radius:3px;padding:4px 8px;font-size:10px;color:#555;display:flex;justify-content:space-between;">HP 5MP Camera <span>▾</span></div>
+                </div>
+                <div>
+                  <div style="font-size:10px;color:#999;margin-bottom:3px;">Resolution</div>
+                  <div style="background:#fff;border:1px solid #CCC;border-radius:3px;padding:4px 8px;font-size:10px;color:#555;display:flex;justify-content:space-between;">1280×720 <span>▾</span></div>
+                </div>
+              </div>
+              <div style="background:#111;border-radius:5px;height:48px;display:flex;align-items:center;justify-content:center;">
+                <span style="color:#555;font-size:16px;">⊘</span>
+              </div>
+            </div>
+            <div style="padding:14px;background:#FAFAFA;">
+              <div style="background:var(--cb-orange);color:#fff;font-size:12px;font-weight:600;padding:9px;border-radius:4px;text-align:center;margin-bottom:8px;">Start Broadcasting</div>
+              <div style="text-align:center;font-size:10px;color:#999;">For high quality streams we strongly recommend:<br><span style="color:var(--cb-teal);">Use external software (OBS)</span></div>
+            </div>
+          </div>
+          <!-- TABS with Apps highlighted -->
+          <div class="cb-tabs-row">
+            <div class="cb-tabs">
+              <div class="cb-tab hl">Apps</div>
+              <div class="cb-tab">Games</div>
+              <div class="cb-tab">Bio</div>
+              <div class="cb-tab">Settings &amp; Privacy</div>
+              <div class="cb-tab">Contest Stats</div>
+              <div class="cb-tab">Token Stats</div>
+              <div class="cb-tab">Share</div>
+              <div class="cb-tab">Memberships</div>
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="step"><div class="step-header"><div class="step-num">C</div><div class="step-title">Disabled</div></div>
-        <div class="step-body"><p>The panel handler exits early and nothing is displayed. Use this if you're running another panel app alongside Apex Revenue.</p></div>
+      <div class="callout">
+        <div>💡</div>
+        <div>The <strong>Apps tab</strong> is visible at the bottom of the broadcaster page — you don't need to go live first. Just being on this page gives you full access to the App Directory.</div>
       </div>
-    </section>
+    </div>
 
-    <div class="divider"></div>
+    <!-- STEP 3 -->
+    <div class="step">
+      <div class="step-head">
+        <div class="step-num">3</div>
+        <div class="step-body">
+          <div class="step-title">Select "Apps" → Search "ApexRevenue" → Click "Start App"</div>
+          <div class="step-desc">Click the <strong>Apps</strong> tab. In the App Directory, type <strong>ApexRevenue</strong> in the search bar (no space), select it from the dropdown, then click the teal <strong>Start App</strong> button on its listing page.</div>
+        </div>
+      </div>
 
-    <!-- PRO TIPS -->
-    <section class="guide-section" id="pro-tips">
-      <div class="section-eyebrow">Pro Tips</div>
-      <h2 class="section-title">Getting the Most Out of It</h2>
-      <div class="alert alert-tip"><div class="alert-icon" style="color:var(--green)">✓</div><div class="alert-text"><strong>Set a tip goal at the start of every broadcast.</strong> The progress bar and 25/50/75% milestone announcements significantly increase token velocity — viewers can see how close the goal is and are more motivated to push it over.</div></div>
-      <div class="alert alert-tip"><div class="alert-icon" style="color:var(--green)">✓</div><div class="alert-text"><strong>Use the recurring banner for social proof.</strong> A 15-minute recurring message like <code style="font-size:11px;font-family:'DM Mono',monospace;color:var(--text)">{total} tokens tipped today — top tipper: {toptipper} with {toptips} tk</code> shows new viewers activity is happening.</div></div>
-      <div class="alert alert-tip"><div class="alert-icon" style="color:var(--green)">✓</div><div class="alert-text"><strong>Enable data masking and link filtering before going live.</strong> These run silently and protect your room from phone number drops and spam links without any manual moderation on your part.</div></div>
-      <div class="alert alert-tip"><div class="alert-icon" style="color:var(--green)">✓</div><div class="alert-text"><strong>The extension and CB app work together.</strong> When both are running, tip events, goal completions, and session data sync directly into your browser overlay in real time.</div></div>
-      <div class="alert alert-warn"><div class="alert-icon">⚠</div><div class="alert-text"><strong>Use /apex reset sparingly.</strong> It clears all session tip totals and goal progress. All-time tier history is preserved in key-value storage, but the session leaderboard starts over from zero.</div></div>
-    </section>
+      <!-- SUB: Search -->
+      <div style="padding:0 30px 10px;font-family:'Syne',sans-serif;font-size:10px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);">— Search</div>
+      <div class="screen-wrap">
+        <div class="screen">
+          <div class="screen-chrome">
+            <div class="chrome-dot r"></div><div class="chrome-dot y"></div><div class="chrome-dot g"></div>
+            <div class="chrome-url">chaturbate.com/broadcast/</div>
+          </div>
+          <div class="cb-tabs-row">
+            <div class="cb-tabs">
+              <div class="cb-tab active">Apps</div>
+              <div class="cb-tab">Games</div>
+              <div class="cb-tab">Bio</div>
+              <div class="cb-tab">Settings &amp; Privacy</div>
+              <div class="cb-tab">Token Stats</div>
+            </div>
+          </div>
+          <div style="display:grid;grid-template-columns:150px 1fr;">
+            <div style="background:#F8F8F8;border-right:1px solid #DDD;padding:12px;">
+              <div style="font-size:10px;color:#999;margin-bottom:8px;font-weight:500;">No Running Apps</div>
+              <div style="background:#EBEBEB;border-radius:4px;padding:7px 10px;font-size:11px;color:var(--cb-teal);font-weight:500;display:flex;align-items:center;gap:6px;">⊞ Explore Apps</div>
+            </div>
+            <div style="padding:14px;">
+              <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+                <div style="font-size:13px;font-weight:600;color:#333;">App Directory</div>
+                <div style="background:var(--cb-orange);color:#fff;font-size:9px;font-weight:700;padding:2px 7px;border-radius:3px;letter-spacing:0.05em;">NEW</div>
+              </div>
+              <div style="background:linear-gradient(135deg,#0073AB,#00A8CC);border-radius:6px;padding:12px 14px;margin-bottom:12px;">
+                <div style="font-size:13px;font-weight:700;color:#fff;margin-bottom:2px;">Unleash the Power of Chat</div>
+                <div style="font-size:10px;color:rgba(255,255,255,0.8);">Supercharge room engagement with tip menus, overlays and fun games.</div>
+              </div>
+              <!-- Search box -->
+              <div style="display:flex;align-items:center;gap:8px;border:2px solid var(--cb-teal);border-radius:6px;padding:7px 12px;margin-bottom:8px;background:#fff;">
+                <span style="font-size:13px;color:#999;">🔍</span>
+                <span style="font-size:13px;color:#333;flex:1;">ApexRevenue</span>
+                <span style="font-size:12px;color:#CCC;cursor:default;">✕</span>
+              </div>
+              <!-- Dropdown -->
+              <div style="border:1px solid #DDD;border-radius:6px;background:#fff;padding:9px 12px;box-shadow:0 4px 14px rgba(0,0,0,0.1);display:flex;align-items:center;gap:10px;margin-bottom:12px;">
+                <span style="font-size:12px;color:#999;">🔍</span>
+                <span style="font-size:13px;color:#333;font-weight:500;">ApexRevenue</span>
+              </div>
+              <div style="font-size:12px;font-weight:600;color:#333;margin-bottom:8px;">Favorites</div>
+              <div style="background:#fff;border:1px solid #DDD;border-radius:8px;padding:12px;display:flex;gap:10px;align-items:flex-start;max-width:240px;">
+                <div style="width:40px;height:40px;border-radius:7px;background:#1A1A1A;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                  <div class="apex-tri-sm"></div>
+                </div>
+                <div>
+                  <div style="font-size:13px;font-weight:600;color:#333;margin-bottom:2px;">ApexRevenue</div>
+                  <div style="font-size:10px;color:#999;line-height:1.5;">No reviews yet<br>All-in-one, Leaderboard, Overlay<br>by theclassygent496395</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
 
-  </main>
+      <!-- SUB: Listing + Start App -->
+      <div style="padding:0 30px 10px;font-family:'Syne',sans-serif;font-size:10px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);">— App listing page</div>
+      <div class="screen-wrap">
+        <div class="screen">
+          <div class="screen-chrome">
+            <div class="chrome-dot r"></div><div class="chrome-dot y"></div><div class="chrome-dot g"></div>
+            <div class="chrome-url">chaturbate.com/broadcast/</div>
+          </div>
+          <div class="cb-tabs-row">
+            <div class="cb-tabs">
+              <div class="cb-tab active">Apps</div>
+              <div class="cb-tab">Games</div>
+              <div class="cb-tab">Bio</div>
+              <div class="cb-tab">Settings &amp; Privacy</div>
+              <div class="cb-tab">Contest Stats</div>
+              <div class="cb-tab">Token Stats</div>
+              <div class="cb-tab">Share</div>
+              <div class="cb-tab">Memberships</div>
+            </div>
+          </div>
+          <div style="display:grid;grid-template-columns:150px 1fr;">
+            <div style="background:#F8F8F8;border-right:1px solid #DDD;padding:12px;">
+              <div style="font-size:10px;color:#999;margin-bottom:8px;font-weight:500;">No Running Apps</div>
+              <div style="background:#EBEBEB;border-radius:4px;padding:7px 10px;font-size:11px;color:var(--cb-teal);font-weight:500;display:flex;align-items:center;gap:6px;">⊞ Explore Apps</div>
+            </div>
+            <div style="padding:14px;">
+              <div style="font-size:12px;color:var(--cb-teal);margin-bottom:12px;">‹ Back</div>
+              <div style="display:flex;align-items:flex-start;gap:12px;margin-bottom:14px;">
+                <div style="width:52px;height:52px;border-radius:9px;background:#1A1A1A;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                  <div class="apex-tri-lg"></div>
+                </div>
+                <div style="flex:1;">
+                  <div style="font-size:16px;font-weight:700;color:#333;display:flex;align-items:center;gap:6px;margin-bottom:2px;">ApexRevenue <span style="color:#E05C7A;font-size:14px;">♥</span></div>
+                  <div style="font-size:11px;color:#999;">All-in-one, Leaderboard, Overlay</div>
+                </div>
+                <div style="background:var(--cb-teal);color:#fff;font-size:13px;font-weight:600;padding:9px 18px;border-radius:5px;white-space:nowrap;cursor:default;">Start App</div>
+              </div>
+              <!-- Sub tabs -->
+              <div style="display:flex;gap:0;border-bottom:1px solid #DDD;margin-bottom:12px;">
+                <div style="padding:7px 12px;font-size:12px;color:var(--cb-teal);border-bottom:2px solid var(--cb-teal);font-weight:500;">About</div>
+                <div style="padding:7px 12px;font-size:12px;color:#999;">Settings</div>
+                <div style="padding:7px 12px;font-size:12px;color:#999;">Reviews</div>
+              </div>
+              <!-- Stats row -->
+              <div style="display:grid;grid-template-columns:repeat(5,1fr);border:1px solid #DDD;border-radius:6px;overflow:hidden;margin-bottom:12px;">
+                <div style="padding:8px;text-align:center;border-right:1px solid #DDD;">
+                  <div style="font-size:9px;text-transform:uppercase;letter-spacing:0.05em;color:#999;margin-bottom:3px;">Ratings</div>
+                  <div style="font-size:14px;font-weight:700;color:#333;">0</div>
+                  <div style="font-size:9px;color:#CCC;">★★★★★</div>
+                </div>
+                <div style="padding:8px;text-align:center;border-right:1px solid #DDD;">
+                  <div style="font-size:9px;text-transform:uppercase;letter-spacing:0.05em;color:#999;margin-bottom:3px;">Developer</div>
+                  <div style="font-size:9px;font-weight:500;color:#555;line-height:1.4;">theclassy<br>gent496395</div>
+                </div>
+                <div style="padding:8px;text-align:center;border-right:1px solid #DDD;">
+                  <div style="font-size:9px;text-transform:uppercase;letter-spacing:0.05em;color:#999;margin-bottom:3px;">Current Users</div>
+                  <div style="font-size:14px;font-weight:700;color:#333;">0</div>
+                  <div style="font-size:9px;color:#999;">Users</div>
+                </div>
+                <div style="padding:8px;text-align:center;border-right:1px solid #DDD;">
+                  <div style="font-size:9px;text-transform:uppercase;letter-spacing:0.05em;color:#999;margin-bottom:3px;">Favorited</div>
+                  <div style="font-size:14px;font-weight:700;color:#333;">1</div>
+                  <div style="font-size:9px;color:#999;">Users</div>
+                </div>
+                <div style="padding:8px;text-align:center;">
+                  <div style="font-size:9px;text-transform:uppercase;letter-spacing:0.05em;color:#999;margin-bottom:3px;">Last Updated</div>
+                  <div style="font-size:14px;font-weight:700;color:#333;">0</div>
+                  <div style="font-size:9px;color:#999;">Days Ago</div>
+                </div>
+              </div>
+              <div style="font-size:12px;font-weight:600;color:#333;margin-bottom:5px;">Overview</div>
+              <div style="font-size:11.5px;color:#777;line-height:1.6;">The Problem: Top-earning cam performers are leaving money on the table every single session — and paying someone else to let it happen.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="callout">
+        <div>⚡</div>
+        <div>Once you click <strong>Start App</strong>, Apex Revenue activates instantly in your broadcaster session. The overlay and dashboard appear in your room — no reload needed.</div>
+      </div>
+    </div>
+
+  </div><!-- /steps -->
+
+  <div class="done">
+    <h2>You're all set 🎉</h2>
+    <p>Apex Revenue is now live in your Chaturbate broadcaster session. Here's what you've unlocked:</p>
+    <div class="features">
+      <div class="feat">
+        <div class="feat-icon">🐋</div>
+        <div class="feat-name">Whale Tracker</div>
+        <div class="feat-desc">Real-time alerts the moment high-value tippers go active in your room</div>
+      </div>
+      <div class="feat">
+        <div class="feat-icon">⚡</div>
+        <div class="feat-name">AI Tip Prompts</div>
+        <div class="feat-desc">Smart monetization cues based on your live session data</div>
+      </div>
+      <div class="feat">
+        <div class="feat-icon">🏆</div>
+        <div class="feat-name">Fan Leaderboard</div>
+        <div class="feat-desc">30-day rolling leaderboard that surfaces and rewards your top tippers</div>
+      </div>
+    </div>
+  </div>
+
 </div>
 
 <footer>
-  <div class="footer-inner">
-    <a href="/"><img src="https://apex-revenue-downloads.s3.amazonaws.com/assets/logo.png" alt="Apex Revenue" style="height:28px;width:auto;opacity:0.6"></a>
-    <ul class="footer-links">
-      <li><a href="/">Home</a></li>
-      <li><a href="https://apexrevenue.works/privacy">Privacy</a></li>
-      <li><a href="https://apexrevenue.works/support">Support</a></li>
-      <li><a href="https://github.com/ridgejohnston/Apex-Revenue-Edge" target="_blank">GitHub</a></li>
-    </ul>
-  </div>
-  <p class="footer-copy">© 2025 Apex Revenue. All rights reserved.</p>
+  <img src="/mnt/user-data/uploads/Apex_Revenue_Logo_with_background.png" alt="Apex Revenue" style="height:32px;border-radius:6px;">
+  <div class="footer-meta">support@apexrevenue.works</div>
 </footer>
 
-<script>
-  function toggleSettings(header) {
-    const body = header.nextElementSibling;
-    const chevron = header.querySelector('.chevron');
-    const isOpen = body.classList.contains('open');
-    body.classList.toggle('open', !isOpen);
-    chevron.style.transform = isOpen ? '' : 'rotate(180deg)';
-  }
-
-  function copyText(btn, text) {
-    navigator.clipboard.writeText(text).then(() => {
-      btn.textContent = 'Copied!'; btn.classList.add('copied');
-      setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 2000);
-    });
-  }
-
-  const tocItems = document.querySelectorAll('.toc-item[data-target]');
-  const observer = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        tocItems.forEach(i => i.classList.remove('active'));
-        const active = document.querySelector(`.toc-item[data-target="${entry.target.id}"]`);
-        if (active) active.classList.add('active');
-      }
-    });
-  }, { rootMargin: '-20% 0px -70% 0px' });
-  document.querySelectorAll('[id]').forEach(s => observer.observe(s));
-</script>
 </body>
 </html>

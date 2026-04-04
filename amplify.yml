@@ -10,5 +10,6 @@ frontend:
       - index.html
       - cb-app.html
       - apexsensations.html
+      - signup.html
   cache:
     paths: []

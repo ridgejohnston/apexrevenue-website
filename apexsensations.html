@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ApexSensations — Interactive Toy Control for Chaturbate</title>
+  <meta name="description" content="The most advanced interactive tip-to-vibe system for Chaturbate performers. Auto-tiers, combo bonuses, leaderboard, and real-time toy control.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg:            #0A0A0A;
+      --bg-card:       #111111;
+      --bg-input:      #181818;
+      --red:           #E8001A;
+      --red-mid:       #A80012;
+      --red-deep:      #6B0010;
+      --red-glow:      rgba(232,0,26,0.13);
+      --red-border-hi: rgba(232,0,26,0.5);
+      --text:          #F2F2F2;
+      --muted:         #5A5A5A;
+      --muted2:        #888;
+      --border:        rgba(255,255,255,0.07);
+      --border-hi:     rgba(255,255,255,0.15);
+      --green:         #2DD4A0;
+      --amber:         #F59E0B;
+      --purple:        #A855F7;
+      --radius:        14px;
+    }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 16px; line-height: 1.6; min-height: 100vh; overflow-x: hidden; }
+
+    /* ── NAV ── */
+    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 200; display: flex; align-items: center; justify-content: space-between; padding: 14px 40px; background: rgba(10,10,10,0.92); backdrop-filter: blur(12px); border-bottom: 0.5px solid var(--border); }
+    .nav-logo img { height: 36px; width: auto; display: block; }
+    .nav-links { display: flex; align-items: center; gap: 10px; }
+    .nav-link { display: inline-flex; align-items: center; padding: 6px 16px; border-radius: 8px; font-size: 13px; font-weight: 500; color: var(--muted2); text-decoration: none; letter-spacing: 0.3px; transition: all 0.15s; border: 0.5px solid transparent; }
+    .nav-link:hover { color: var(--text); background: rgba(255,255,255,0.05); border-color: var(--border-hi); }
+    .nav-link.active { color: var(--red); background: var(--red-glow); border-color: var(--red-border-hi); }
+    .nav-badge { font-size: 11px; font-weight: 500; letter-spacing: 1px; text-transform: uppercase; padding: 5px 12px; border: 0.5px solid var(--red-border-hi); border-radius: 20px; color: var(--red); background: var(--red-glow); }
+    @media(max-width:640px){ nav{padding:14px 20px;} .nav-link span.hide-sm{display:none;} }
+
+    /* ── HERO ── */
+    .hero { min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 120px 24px 80px; position: relative; overflow: hidden; }
+    .hero::before { content:''; position:absolute; top:-200px; left:50%; transform:translateX(-50%); width:800px; height:800px; background:radial-gradient(circle, rgba(232,0,26,0.06) 0%, transparent 60%); pointer-events:none; }
+    .hero::after { content:''; position:absolute; bottom:-100px; right:-100px; width:500px; height:500px; background:radial-gradient(circle, rgba(168,0,18,0.04) 0%, transparent 60%); pointer-events:none; }
+    .hero-pill { display:inline-flex; align-items:center; gap:8px; padding:6px 16px; border:0.5px solid var(--red-border-hi); border-radius:30px; font-size:12px; font-weight:600; letter-spacing:1.5px; text-transform:uppercase; color:var(--red); background:var(--red-glow); margin-bottom:28px; animation:fadeUp 0.6s ease both; }
+    .hero-pill .vibe-dot { width:8px; height:8px; border-radius:50%; background:var(--red); box-shadow:0 0 8px var(--red); animation:vibePulse 0.6s infinite alternate; }
+    @keyframes vibePulse { from{transform:scale(1);box-shadow:0 0 6px var(--red);} to{transform:scale(1.4);box-shadow:0 0 14px var(--red);} }
+    .hero-title { font-family:'Bebas Neue',cursive; font-size:clamp(64px,12vw,140px); line-height:0.92; letter-spacing:4px; color:var(--text); animation:fadeUp 0.6s 0.1s ease both; }
+    .hero-title .red { color:var(--red); }
+    .hero-sub { max-width:560px; font-size:18px; font-weight:300; color:var(--muted2); margin:20px auto 48px; animation:fadeUp 0.6s 0.2s ease both; line-height:1.65; }
+    .hero-sub strong { color:var(--text); font-weight:500; }
+    .hero-ctas { display:flex; align-items:center; justify-content:center; gap:14px; flex-wrap:wrap; animation:fadeUp 0.6s 0.3s ease both; }
+    .btn-red { display:inline-flex; align-items:center; gap:10px; padding:14px 32px; background:var(--red); color:#fff; font-family:'DM Sans',sans-serif; font-size:15px; font-weight:600; border:none; border-radius:var(--radius); cursor:pointer; text-decoration:none; transition:transform 0.15s,box-shadow 0.15s; }
+    .btn-red:hover { transform:translateY(-2px); box-shadow:0 8px 28px rgba(232,0,26,0.4); }
+    .btn-ghost { display:inline-flex; align-items:center; gap:10px; padding:13px 28px; background:transparent; color:var(--muted2); font-family:'DM Sans',sans-serif; font-size:15px; font-weight:500; border:0.5px solid var(--border-hi); border-radius:var(--radius); text-decoration:none; transition:all 0.15s; }
+    .btn-ghost:hover { color:var(--text); border-color:rgba(255,255,255,0.3); }
+
+    /* ── TIER PREVIEW STRIP ── */
+    .tier-strip { display:flex; align-items:center; justify-content:center; gap:10px; margin-top:56px; flex-wrap:wrap; animation:fadeUp 0.6s 0.5s ease both; }
+    .tier-chip { display:flex; align-items:center; gap:7px; padding:8px 16px; border-radius:40px; border:0.5px solid; font-size:13px; font-weight:500; }
+    .tier-chip .vibe-bars { display:flex; align-items:flex-end; gap:2px; height:14px; }
+    .tier-chip .vibe-bars span { width:3px; background:currentColor; border-radius:2px; }
+
+    /* ── SECTION WRAPPERS ── */
+    .section { padding: 100px 24px; }
+    .section-inner { max-width:900px; margin:0 auto; }
+    .section-eyebrow { font-size:11px; letter-spacing:2.5px; font-weight:700; text-transform:uppercase; color:var(--red); margin-bottom:12px; }
+    .section-title { font-family:'Bebas Neue',cursive; font-size:clamp(40px,6vw,72px); letter-spacing:3px; line-height:1; color:var(--text); margin-bottom:20px; }
+    .section-desc { font-size:16px; font-weight:300; color:var(--muted2); max-width:580px; line-height:1.75; }
+
+    /* ── LIVESTREAM PREVIEW ── */
+    .preview-section { padding:80px 24px 100px; background:linear-gradient(180deg, #0A0A0A 0%, #0D0809 50%, #0A0A0A 100%); }
+    .preview-grid { display:grid; grid-template-columns:1fr 1fr; gap:24px; margin-top:60px; }
+    @media(max-width:760px){ .preview-grid{grid-template-columns:1fr;} }
+    
+    .preview-card { background:var(--bg-card); border:0.5px solid var(--border); border-radius:20px; overflow:hidden; position:relative; opacity:0; transform:translateY(24px); transition:opacity 0.5s ease,transform 0.5s ease; }
+    .preview-card.visible { opacity:1; transform:translateY(0); }
+    .preview-card.span2 { grid-column:span 2; }
+    @media(max-width:760px){ .preview-card.span2{grid-column:span 1;} }
+    .preview-card-header { padding:16px 20px; border-bottom:0.5px solid var(--border); display:flex; align-items:center; justify-content:space-between; }
+    .preview-card-title { font-size:12px; font-weight:600; letter-spacing:1px; text-transform:uppercase; color:var(--muted2); }
+    .preview-card-badge { font-size:10px; font-weight:600; letter-spacing:0.5px; padding:3px 10px; border-radius:20px; }
+    .badge-live { background:rgba(232,0,26,0.15); color:var(--red); border:0.5px solid var(--red-border-hi); }
+    .badge-feature { background:rgba(168,85,247,0.12); color:var(--purple); border:0.5px solid rgba(168,85,247,0.35); }
+    .badge-command { background:rgba(45,212,160,0.1); color:var(--green); border:0.5px solid rgba(45,212,160,0.3); }
+    .preview-body { padding:20px; }
+
+    /* ── CHATURBATE ROOM MOCKUP ── */
+    .cb-room { background:#0D0D0D; border-radius:14px; overflow:hidden; font-family:'DM Mono',monospace; }
+    .cb-room-bar { background:#141414; padding:8px 14px; display:flex; align-items:center; gap:8px; border-bottom:0.5px solid var(--border); }
+    .cb-bar-dot { width:8px; height:8px; border-radius:50%; }
+    .cb-bar-title { font-size:11px; color:var(--muted2); margin-left:4px; flex:1; }
+    .cb-bar-live { display:flex; align-items:center; gap:5px; font-size:10px; font-weight:600; color:var(--red); }
+    .cb-live-dot { width:6px; height:6px; border-radius:50%; background:var(--red); animation:pulse 1.5s infinite; }
+    @keyframes pulse { 0%,100%{opacity:1;} 50%{opacity:0.3;} }
+    .cb-feed { padding:12px 14px; display:flex; flex-direction:column; gap:7px; min-height:180px; }
+    .cb-msg { font-size:12px; line-height:1.5; display:flex; align-items:flex-start; gap:7px; }
+    .cb-user { font-weight:500; white-space:nowrap; }
+    .cb-user.whale { color:#F59E0B; }
+    .cb-user.tier2 { color:#E8001A; }
+    .cb-user.tier3 { color:#F97316; }
+    .cb-user.mod { color:#2DD4A0; }
+    .cb-user.system { color:var(--purple); }
+    .cb-colon { color:var(--muted); }
+    .cb-text { color:var(--muted2); }
+    .cb-text.alert { color:var(--text); font-weight:500; }
+    .cb-text.tip { color:#F59E0B; }
+    .cb-text.system { color:var(--purple); font-style:italic; }
+    .cb-text.announce { color:var(--red); font-weight:600; }
+
+    /* ── TIER TABLE ── */
+    .tier-table { width:100%; border-collapse:collapse; }
+    .tier-table th { font-size:10px; font-weight:600; letter-spacing:1.5px; text-transform:uppercase; color:var(--muted); padding:10px 12px; text-align:left; border-bottom:0.5px solid var(--border); }
+    .tier-table td { padding:12px 12px; font-size:13px; border-bottom:0.5px solid rgba(255,255,255,0.04); vertical-align:middle; }
+    .tier-table tr:last-child td { border-bottom:none; }
+    .tier-name { font-weight:600; }
+    .tier-bars { display:flex; align-items:flex-end; gap:3px; height:18px; }
+    .tier-bars span { border-radius:2px; width:5px; }
+    .tier-tag { display:inline-flex; align-items:center; padding:3px 10px; border-radius:20px; font-size:11px; font-weight:600; font-family:'DM Mono',monospace; }
+
+    /* ── COMMAND BLOCK ── */
+    .cmd-block { background:#0D0D0D; border:0.5px solid var(--border); border-radius:12px; padding:16px 18px; margin-bottom:12px; display:flex; align-items:flex-start; gap:14px; }
+    .cmd-prefix { font-family:'DM Mono',monospace; font-size:13px; color:var(--red); font-weight:500; white-space:nowrap; margin-top:1px; }
+    .cmd-info {}
+    .cmd-usage { font-family:'DM Mono',monospace; font-size:12px; color:var(--green); margin-bottom:5px; }
+    .cmd-desc { font-size:13px; color:var(--muted2); line-height:1.5; }
+    .cmd-example { font-family:'DM Mono',monospace; font-size:11px; color:var(--muted); background:rgba(255,255,255,0.04); padding:4px 10px; border-radius:6px; display:inline-block; margin-top:6px; }
+
+    /* ── SPECIAL PATTERNS ── */
+    .pattern-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; }
+    @media(max-width:560px){ .pattern-grid{grid-template-columns:repeat(2,1fr);} }
+    .pattern-card { background:#0D0D0D; border:0.5px solid var(--border); border-radius:12px; padding:14px 16px; transition:border-color 0.15s; }
+    .pattern-card:hover { border-color:var(--red-border-hi); }
+    .pattern-amount { font-family:'Bebas Neue',cursive; font-size:28px; letter-spacing:2px; color:var(--red); line-height:1; margin-bottom:4px; }
+    .pattern-tokens { font-size:10px; color:var(--muted); letter-spacing:1px; text-transform:uppercase; margin-bottom:8px; }
+    .pattern-name { font-size:13px; font-weight:600; color:var(--text); margin-bottom:4px; }
+    .pattern-desc { font-size:11px; color:var(--muted2); line-height:1.5; }
+
+    /* ── COMBO SYSTEM ── */
+    .combo-visual { display:flex; align-items:center; gap:0; margin:20px 0; }
+    .combo-tip { background:#111; border:0.5px solid var(--border); border-radius:10px; padding:10px 14px; text-align:center; }
+    .combo-tip .tk { font-family:'Bebas Neue',cursive; font-size:26px; color:var(--red); letter-spacing:1px; }
+    .combo-tip .label { font-size:10px; color:var(--muted); letter-spacing:1px; }
+    .combo-arrow { padding:0 10px; color:var(--muted); font-size:18px; }
+    .combo-bonus { background:rgba(45,212,160,0.08); border:0.5px solid rgba(45,212,160,0.3); border-radius:10px; padding:10px 14px; text-align:center; }
+    .combo-bonus .pct { font-family:'Bebas Neue',cursive; font-size:22px; color:var(--green); letter-spacing:1px; }
+    .combo-bonus .label { font-size:10px; color:rgba(45,212,160,0.6); letter-spacing:1px; }
+
+    /* ── FEATURE CARDS GRID ── */
+    .features-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-top:60px; }
+    @media(max-width:720px){ .features-grid{grid-template-columns:repeat(2,1fr);} }
+    @media(max-width:480px){ .features-grid{grid-template-columns:1fr;} }
+    .feat-card { background:var(--bg-card); border:0.5px solid var(--border); border-radius:16px; padding:28px 24px; opacity:0; transform:translateY(20px); transition:opacity 0.5s ease,transform 0.5s ease,border-color 0.2s; }
+    .feat-card.visible { opacity:1; transform:translateY(0); }
+    .feat-card:hover { border-color:var(--border-hi); }
+    .feat-icon { width:40px; height:40px; border-radius:10px; background:var(--red-glow); border:0.5px solid var(--red-border-hi); display:flex; align-items:center; justify-content:center; margin-bottom:16px; font-size:18px; }
+    .feat-title { font-family:'Bebas Neue',cursive; font-size:22px; letter-spacing:1.5px; color:var(--text); margin-bottom:8px; }
+    .feat-desc { font-size:13px; color:var(--muted2); line-height:1.65; }
+
+    /* ── LEADERBOARD PREVIEW ── */
+    .lb-row { display:flex; align-items:center; gap:14px; padding:11px 14px; border-radius:10px; margin-bottom:6px; }
+    .lb-row:hover { background:rgba(255,255,255,0.02); }
+    .lb-rank { font-family:'Bebas Neue',cursive; font-size:20px; letter-spacing:1px; width:28px; text-align:center; }
+    .lb-rank.gold { color:#F59E0B; }
+    .lb-rank.silver { color:#9CA3AF; }
+    .lb-rank.bronze { color:#CD7F32; }
+    .lb-rank.other { color:var(--muted); }
+    .lb-name { flex:1; font-size:13px; font-weight:500; color:var(--text); }
+    .lb-amount { font-family:'Bebas Neue',cursive; font-size:18px; letter-spacing:1px; color:var(--red); }
+    .lb-bar-wrap { width:80px; height:4px; background:rgba(255,255,255,0.06); border-radius:2px; }
+    .lb-bar { height:4px; border-radius:2px; background:linear-gradient(90deg,var(--red-mid),var(--red)); }
+
+    /* ── INSTALL SECTION ── */
+    .install-section { background:linear-gradient(135deg, #0D0809 0%, #0A0A0A 100%); border-top:0.5px solid var(--border); padding:100px 24px; }
+    .install-inner { max-width:800px; margin:0 auto; }
+    .install-steps-list { display:flex; flex-direction:column; gap:0; margin-top:48px; }
+    .install-step-item { display:flex; align-items:flex-start; gap:24px; padding:32px 0; border-bottom:0.5px solid var(--border); }
+    .install-step-item:last-child { border-bottom:none; }
+    .step-num-big { font-family:'Bebas Neue',cursive; font-size:56px; letter-spacing:2px; color:rgba(232,0,26,0.2); line-height:1; min-width:48px; padding-top:2px; }
+    .step-content { flex:1; }
+    .step-h { font-family:'Bebas Neue',cursive; font-size:28px; letter-spacing:2px; color:var(--text); margin-bottom:8px; }
+    .step-p { font-size:14px; color:var(--muted2); line-height:1.7; }
+    .step-code { font-family:'DM Mono',monospace; font-size:12px; color:var(--green); background:#0D0D0D; border:0.5px solid rgba(45,212,160,0.2); border-radius:8px; padding:10px 14px; margin-top:12px; display:block; }
+
+    /* ── FOOTER ── */
+    footer { border-top:0.5px solid var(--border); padding:32px 24px; }
+    .footer-inner { max-width:900px; margin:0 auto; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:16px; }
+    .footer-logo img { height:28px; width:auto; opacity:0.6; }
+    .footer-links { display:flex; gap:24px; list-style:none; }
+    .footer-links a { font-size:12px; color:var(--muted); text-decoration:none; transition:color 0.15s; }
+    .footer-links a:hover { color:var(--text); }
+    .footer-copy { font-size:11px; color:var(--muted); width:100%; text-align:center; margin-top:16px; }
+    @keyframes fadeUp { from{opacity:0;transform:translateY(20px);} to{opacity:1;transform:translateY(0);} }
+    @media(max-width:600px){ .hero-title{font-size:64px;} }
+  </style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════
+     NAV
+═══════════════════════════════════════ -->
+<nav>
+  <div class="nav-logo"><img src="https://apex-revenue-downloads.s3.amazonaws.com/assets/logo.png" alt="Apex Revenue"></div>
+  <div class="nav-links">
+    <a href="/" class="nav-link">Extension</a>
+    <a href="/cb-app" class="nav-link">CB App Guide</a>
+    <a href="/apexsensations" class="nav-link active">ApexSensations</a>
+  </div>
+  <div class="nav-badge">Live App</div>
+</nav>
+
+<!-- ═══════════════════════════════════════
+     HERO
+═══════════════════════════════════════ -->
+<section class="hero">
+  <div class="hero-pill">
+    <div class="vibe-dot"></div>
+    Chaturbate Interactive App
+  </div>
+  <h1 class="hero-title">APEX<br><span class="red">SENSATIONS</span></h1>
+  <p class="hero-sub">The most advanced tip-to-vibe system on Chaturbate. <strong>5 vibration tiers, 6 special patterns, combo bonuses, real-time leaderboard</strong> — all in a single CB app that runs live in your room.</p>
+  <div class="hero-ctas">
+    <a href="/cb-app" class="btn-red">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 1v9M5 7l3 4 3-4" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M2 13h12" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/></svg>
+      Install to Your Room
+    </a>
+    <a href="#guide" class="btn-ghost">Read the Guide ↓</a>
+  </div>
+
+  <!-- Tier strip -->
+  <div class="tier-strip">
+    <div class="tier-chip" style="color:#888;border-color:rgba(255,255,255,0.12);background:rgba(255,255,255,0.03);">
+      <div class="vibe-bars">
+        <span style="height:4px;"></span>
+        <span style="height:8px;"></span>
+      </div>
+      Tease &nbsp;<span style="font-family:'DM Mono',monospace;font-size:11px;opacity:0.6;">10+ tk</span>
+    </div>
+    <div class="tier-chip" style="color:#F97316;border-color:rgba(249,115,22,0.35);background:rgba(249,115,22,0.06);">
+      <div class="vibe-bars">
+        <span style="height:5px;"></span>
+        <span style="height:9px;"></span>
+        <span style="height:6px;"></span>
+      </div>
+      Feel It &nbsp;<span style="font-family:'DM Mono',monospace;font-size:11px;opacity:0.6;">50+ tk</span>
+    </div>
+    <div class="tier-chip" style="color:#E8001A;border-color:rgba(232,0,26,0.4);background:rgba(232,0,26,0.07);">
+      <div class="vibe-bars">
+        <span style="height:5px;"></span>
+        <span style="height:12px;"></span>
+        <span style="height:8px;"></span>
+        <span style="height:14px;"></span>
+      </div>
+      Intense &nbsp;<span style="font-family:'DM Mono',monospace;font-size:11px;opacity:0.6;">100+ tk</span>
+    </div>
+    <div class="tier-chip" style="color:#A855F7;border-color:rgba(168,85,247,0.4);background:rgba(168,85,247,0.07);">
+      <div class="vibe-bars">
+        <span style="height:6px;"></span>
+        <span style="height:14px;"></span>
+        <span style="height:10px;"></span>
+        <span style="height:16px;"></span>
+        <span style="height:12px;"></span>
+      </div>
+      Wild &nbsp;<span style="font-family:'DM Mono',monospace;font-size:11px;opacity:0.6;">200+ tk</span>
+    </div>
+    <div class="tier-chip" style="color:#F59E0B;border-color:rgba(245,158,11,0.5);background:rgba(245,158,11,0.08);">
+      <div class="vibe-bars">
+        <span style="height:8px;"></span>
+        <span style="height:16px;"></span>
+        <span style="height:10px;"></span>
+        <span style="height:18px;"></span>
+        <span style="height:14px;"></span>
+      </div>
+      MAX POWER &nbsp;<span style="font-family:'DM Mono',monospace;font-size:11px;opacity:0.6;">500+ tk</span>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════
+     LIVESTREAM PREVIEWS
+═══════════════════════════════════════ -->
+<section class="preview-section" id="guide">
+  <div class="section-inner">
+    <div class="section-eyebrow">Livestream Preview</div>
+    <h2 class="section-title">WHAT YOUR ROOM<br>LOOKS LIKE LIVE</h2>
+    <p class="section-desc">Every tip triggers a real-time vibration, public announcement, and queue update — keeping viewers engaged and competing for top spots.</p>
+
+    <div class="preview-grid">
+
+      <!-- LIVE CHAT FEED -->
+      <div class="preview-card span2">
+        <div class="preview-card-header">
+          <div class="preview-card-title">Live Room Feed</div>
+          <div class="preview-card-badge badge-live">● LIVE</div>
+        </div>
+        <div class="preview-body">
+          <div class="cb-room">
+            <div class="cb-room-bar">
+              <div class="cb-bar-dot" style="background:#FF5F57;"></div>
+              <div class="cb-bar-dot" style="background:#FFBD2E;"></div>
+              <div class="cb-bar-dot" style="background:#28CA41;"></div>
+              <div class="cb-bar-title">theclassygent496395 — Chaturbate</div>
+              <div class="cb-bar-live"><div class="cb-live-dot"></div>LIVE</div>
+            </div>
+            <div class="cb-feed">
+              <div class="cb-msg">
+                <span class="cb-user system">ApexSensations</span><span class="cb-colon">:</span>
+                <span class="cb-text system">🎉 Welcome, silverwave! Thanks for holding 50+ tokens. You've unlocked Feel It tier access!</span>
+              </div>
+              <div class="cb-msg">
+                <span class="cb-user tier3">flirtmaster99</span><span class="cb-colon">:</span>
+                <span class="cb-text tip">tipped 25 tokens — Tease vibe active for 7s 💫</span>
+              </div>
+              <div class="cb-msg">
+                <span class="cb-user mod">CodyMod</span><span class="cb-colon">:</span>
+                <span class="cb-text">lmao that was instant</span>
+              </div>
+              <div class="cb-msg">
+                <span class="cb-user tier2">silverwave</span><span class="cb-colon">:</span>
+                <span class="cb-text tip">tipped 100 tokens — ⚡ Intense vibe 12s! Queue: 2 ahead of you</span>
+              </div>
+              <div class="cb-msg">
+                <span class="cb-user system">ApexSensations</span><span class="cb-colon">:</span>
+                <span class="cb-text announce">🔥 COMBO BONUS! silverwave tipped again within 30s — +25% vibe duration!</span>
+              </div>
+              <div class="cb-msg">
+                <span class="cb-user whale">BigKingTips</span><span class="cb-colon">:</span>
+                <span class="cb-text tip">tipped 500 tokens — 🏆 MAX POWER 25s!! 🐋 WHALE ALERT!</span>
+              </div>
+              <div class="cb-msg">
+                <span class="cb-user system">ApexSensations</span><span class="cb-colon">:</span>
+                <span class="cb-text system">🌊 Wave Pattern activated by nightsurge — exact 111 tokens!</span>
+              </div>
+              <div class="cb-msg">
+                <span class="cb-user tier3">newviewer_x</span><span class="cb-colon">:</span>
+                <span class="cb-text">how do I get on the leaderboard?</span>
+              </div>
+              <div class="cb-msg">
+                <span class="cb-user system">ApexSensations</span><span class="cb-colon">:</span>
+                <span class="cb-text system">📊 Tip goal reached: 2,000 tokens! Resetting for Round 2 🎆</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- VIBRATION TIERS TABLE -->
+      <div class="preview-card">
+        <div class="preview-card-header">
+          <div class="preview-card-title">Vibration Tiers</div>
+          <div class="preview-card-badge badge-feature">5 Levels</div>
+        </div>
+        <div class="preview-body">
+          <table class="tier-table">
+            <thead>
+              <tr>
+                <th>Tier</th>
+                <th>Min Tokens</th>
+                <th>Intensity</th>
+                <th>Duration</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  <div class="tier-bars" style="display:inline-flex;margin-right:8px;">
+                    <span style="height:5px;background:#888;"></span>
+                    <span style="height:9px;background:#888;"></span>
+                  </div>
+                  <span class="tier-name" style="color:#888;">Tease</span>
+                </td>
+                <td><span class="tier-tag" style="background:rgba(255,255,255,0.04);color:#888;border:0.5px solid rgba(255,255,255,0.1);">10 tk</span></td>
+                <td style="color:#888;font-family:'DM Mono',monospace;font-size:12px;">vibe 3</td>
+                <td style="color:#888;font-family:'DM Mono',monospace;font-size:12px;">3s</td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="tier-bars" style="display:inline-flex;margin-right:8px;">
+                    <span style="height:6px;background:#F97316;"></span>
+                    <span style="height:10px;background:#F97316;"></span>
+                    <span style="height:7px;background:#F97316;"></span>
+                  </div>
+                  <span class="tier-name" style="color:#F97316;">Feel It</span>
+                </td>
+                <td><span class="tier-tag" style="background:rgba(249,115,22,0.08);color:#F97316;border:0.5px solid rgba(249,115,22,0.3);">50 tk</span></td>
+                <td style="color:#F97316;font-family:'DM Mono',monospace;font-size:12px;">vibe 7</td>
+                <td style="color:#F97316;font-family:'DM Mono',monospace;font-size:12px;">7s</td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="tier-bars" style="display:inline-flex;margin-right:8px;">
+                    <span style="height:7px;background:#E8001A;"></span>
+                    <span style="height:13px;background:#E8001A;"></span>
+                    <span style="height:9px;background:#E8001A;"></span>
+                    <span style="height:15px;background:#E8001A;"></span>
+                  </div>
+                  <span class="tier-name" style="color:#E8001A;">Intense</span>
+                </td>
+                <td><span class="tier-tag" style="background:rgba(232,0,26,0.08);color:#E8001A;border:0.5px solid rgba(232,0,26,0.3);">100 tk</span></td>
+                <td style="color:#E8001A;font-family:'DM Mono',monospace;font-size:12px;">vibe 12</td>
+                <td style="color:#E8001A;font-family:'DM Mono',monospace;font-size:12px;">12s</td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="tier-bars" style="display:inline-flex;margin-right:8px;">
+                    <span style="height:8px;background:#A855F7;"></span>
+                    <span style="height:15px;background:#A855F7;"></span>
+                    <span style="height:11px;background:#A855F7;"></span>
+                    <span style="height:17px;background:#A855F7;"></span>
+                    <span style="height:13px;background:#A855F7;"></span>
+                  </div>
+                  <span class="tier-name" style="color:#A855F7;">Wild</span>
+                </td>
+                <td><span class="tier-tag" style="background:rgba(168,85,247,0.08);color:#A855F7;border:0.5px solid rgba(168,85,247,0.3);">200 tk</span></td>
+                <td style="color:#A855F7;font-family:'DM Mono',monospace;font-size:12px;">vibe 16</td>
+                <td style="color:#A855F7;font-family:'DM Mono',monospace;font-size:12px;">18s</td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="tier-bars" style="display:inline-flex;margin-right:8px;">
+                    <span style="height:9px;background:#F59E0B;"></span>
+                    <span style="height:17px;background:#F59E0B;"></span>
+                    <span style="height:12px;background:#F59E0B;"></span>
+                    <span style="height:19px;background:#F59E0B;"></span>
+                    <span style="height:15px;background:#F59E0B;"></span>
+                  </div>
+                  <span class="tier-name" style="color:#F59E0B;">MAX POWER</span>
+                </td>
+                <td><span class="tier-tag" style="background:rgba(245,158,11,0.08);color:#F59E0B;border:0.5px solid rgba(245,158,11,0.4);">500 tk</span></td>
+                <td style="color:#F59E0B;font-family:'DM Mono',monospace;font-size:12px;">vibe 20</td>
+                <td style="color:#F59E0B;font-family:'DM Mono',monospace;font-size:12px;">25s</td>
+              </tr>
+            </tbody>
+          </table>
+          <p style="font-size:11px;color:var(--muted);margin-top:12px;">Default ranges. Fully adjustable with <code style="font-family:'DM Mono',monospace;color:var(--red);">!settier</code></p>
+        </div>
+      </div>
+
+      <!-- LEADERBOARD PREVIEW -->
+      <div class="preview-card">
+        <div class="preview-card-header">
+          <div class="preview-card-title">Top Tipper Leaderboard</div>
+          <div class="preview-card-badge badge-feature">Live</div>
+        </div>
+        <div class="preview-body">
+          <div style="margin-bottom:8px;">
+            <div class="lb-row">
+              <div class="lb-rank gold">01</div>
+              <div class="lb-name">BigKingTips 🐋</div>
+              <div class="lb-bar-wrap"><div class="lb-bar" style="width:100%;"></div></div>
+              <div class="lb-amount" style="color:#F59E0B;">2,840</div>
+            </div>
+            <div class="lb-row">
+              <div class="lb-rank silver">02</div>
+              <div class="lb-name">silverwave</div>
+              <div class="lb-bar-wrap"><div class="lb-bar" style="width:72%;background:linear-gradient(90deg,#7A7A7A,#9CA3AF);"></div></div>
+              <div class="lb-amount" style="color:#9CA3AF;">2,050</div>
+            </div>
+            <div class="lb-row">
+              <div class="lb-rank bronze">03</div>
+              <div class="lb-name">nightsurge</div>
+              <div class="lb-bar-wrap"><div class="lb-bar" style="width:50%;background:linear-gradient(90deg,#7A4F1A,#CD7F32);"></div></div>
+              <div class="lb-amount" style="color:#CD7F32;">1,410</div>
+            </div>
+            <div class="lb-row">
+              <div class="lb-rank other">04</div>
+              <div class="lb-name">flirtmaster99</div>
+              <div class="lb-bar-wrap"><div class="lb-bar" style="width:28%;background:linear-gradient(90deg,#4A1010,#E8001A);opacity:0.5;"></div></div>
+              <div class="lb-amount" style="color:var(--red);opacity:0.7;">780</div>
+            </div>
+            <div class="lb-row">
+              <div class="lb-rank other">05</div>
+              <div class="lb-name">galaxytips</div>
+              <div class="lb-bar-wrap"><div class="lb-bar" style="width:16%;background:linear-gradient(90deg,#4A1010,#E8001A);opacity:0.3;"></div></div>
+              <div class="lb-amount" style="color:var(--muted);">450</div>
+            </div>
+          </div>
+          <p style="font-size:11px;color:var(--muted);">Top 10 shown in room subject. Resets each session.</p>
+        </div>
+      </div>
+
+    </div><!-- /preview-grid -->
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════
+     SPECIAL PATTERNS
+═══════════════════════════════════════ -->
+<section class="section">
+  <div class="section-inner">
+    <div class="section-eyebrow">Special Patterns</div>
+    <h2 class="section-title">6 EXACT-TOKEN<br>EXPERIENCES</h2>
+    <p class="section-desc">Tip the exact amount to trigger a unique vibration pattern. Every viewer learns your tip menu and aims for the pattern they want.</p>
+
+    <div class="pattern-grid" style="margin-top:48px;">
+      <div class="pattern-card">
+        <div class="pattern-amount">111</div>
+        <div class="pattern-tokens">TOKENS</div>
+        <div class="pattern-name">🌊 Wave</div>
+        <div class="pattern-desc">Gentle rising swell that builds and recedes in rhythmic motion.</div>
+      </div>
+      <div class="pattern-card">
+        <div class="pattern-amount">222</div>
+        <div class="pattern-tokens">TOKENS</div>
+        <div class="pattern-name">💓 Pulse</div>
+        <div class="pattern-desc">Steady heartbeat-like throbs, building intensity over time.</div>
+      </div>
+      <div class="pattern-card">
+        <div class="pattern-amount">333</div>
+        <div class="pattern-tokens">TOKENS</div>
+        <div class="pattern-name">🌋 Earthquake</div>
+        <div class="pattern-desc">Rapid shaking bursts with intense peaks — unpredictable chaos.</div>
+      </div>
+      <div class="pattern-card">
+        <div class="pattern-amount">444</div>
+        <div class="pattern-tokens">TOKENS</div>
+        <div class="pattern-name">🎆 Fireworks</div>
+        <div class="pattern-desc">Explosive bursts followed by sparkling aftershocks in sequence.</div>
+      </div>
+      <div class="pattern-card">
+        <div class="pattern-amount">555</div>
+        <div class="pattern-tokens">TOKENS</div>
+        <div class="pattern-name">🎮 Give Control</div>
+        <div class="pattern-desc">Tipper controls the toy for 30 seconds via random escalation.</div>
+      </div>
+      <div class="pattern-card" style="border-color:rgba(232,0,26,0.2);">
+        <div class="pattern-amount" style="color:var(--muted);">666</div>
+        <div class="pattern-tokens">TOKENS</div>
+        <div class="pattern-name">⏸ Pause</div>
+        <div class="pattern-desc">Instantly halts all vibration — a complete power-off moment.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════
+     COMBO BONUS SYSTEM
+═══════════════════════════════════════ -->
+<section class="section" style="padding-top:0;">
+  <div class="section-inner">
+    <div class="section-eyebrow">Combo System</div>
+    <h2 class="section-title">REWARD RAPID<br>TIPPERS</h2>
+    <p class="section-desc">When a viewer tips multiple times within 30 seconds, they earn a combo bonus — longer vibrations for each consecutive tip, up to 3× multiplier.</p>
+
+    <div style="background:var(--bg-card);border:0.5px solid var(--border);border-radius:20px;padding:36px;margin-top:48px;">
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:20px;text-align:center;">
+        <div style="padding:20px;background:#0D0D0D;border-radius:14px;border:0.5px solid var(--border);">
+          <div style="font-family:'Bebas Neue',cursive;font-size:44px;color:var(--text);letter-spacing:2px;line-height:1;">+0%</div>
+          <div style="font-size:11px;color:var(--muted);letter-spacing:1px;margin-top:4px;">FIRST TIP</div>
+          <div style="font-size:12px;color:var(--muted2);margin-top:8px;">Base duration</div>
+        </div>
+        <div style="padding:20px;background:rgba(232,0,26,0.05);border-radius:14px;border:0.5px solid rgba(232,0,26,0.2);">
+          <div style="font-family:'Bebas Neue',cursive;font-size:44px;color:var(--red);letter-spacing:2px;line-height:1;">+25%</div>
+          <div style="font-size:11px;color:rgba(232,0,26,0.6);letter-spacing:1px;margin-top:4px;">COMBO ×2</div>
+          <div style="font-size:12px;color:var(--muted2);margin-top:8px;">2nd tip within 30s</div>
+        </div>
+        <div style="padding:20px;background:rgba(245,158,11,0.05);border-radius:14px;border:0.5px solid rgba(245,158,11,0.3);">
+          <div style="font-family:'Bebas Neue',cursive;font-size:44px;color:#F59E0B;letter-spacing:2px;line-height:1;">+50%</div>
+          <div style="font-size:11px;color:rgba(245,158,11,0.7);letter-spacing:1px;margin-top:4px;">COMBO ×3 MAX</div>
+          <div style="font-size:12px;color:var(--muted2);margin-top:8px;">3rd+ tip within 30s</div>
+        </div>
+      </div>
+      <p style="font-size:13px;color:var(--muted2);margin-top:20px;text-align:center;">Combo resets if more than 30 seconds pass between tips.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════
+     BROADCASTER COMMANDS
+═══════════════════════════════════════ -->
+<section class="section" style="background:linear-gradient(180deg,#0A0A0A 0%,#0D0809 100%);padding-top:80px;">
+  <div class="section-inner">
+    <div class="section-eyebrow">Broadcaster Commands</div>
+    <h2 class="section-title">FULL CONTROL<br>MID-STREAM</h2>
+    <p class="section-desc">Adjust tiers, tokens, and goals in real time without restarting the app — all from the Chaturbate chat.</p>
+
+    <div style="margin-top:48px;">
+      <div class="cmd-block">
+        <div class="cmd-prefix">!</div>
+        <div class="cmd-info">
+          <div class="cmd-usage">settier &lt;n&gt; &lt;min&gt; &lt;max&gt;</div>
+          <div class="cmd-desc">Adjust a vibration tier's token range live. The auto-cascade system automatically adjusts adjacent tiers to prevent overlap — no gaps or conflicts.</div>
+          <div class="cmd-example">!settier 3 75 149 → sets Intense tier to 75–149 tokens</div>
+        </div>
+      </div>
+      <div class="cmd-block">
+        <div class="cmd-prefix">!</div>
+        <div class="cmd-info">
+          <div class="cmd-usage">settok &lt;amount&gt;</div>
+          <div class="cmd-desc">Override the tip goal token target mid-session. Useful for special events or when you want to extend a goal round.</div>
+          <div class="cmd-example">!settok 5000 → sets goal to 5,000 tokens</div>
+        </div>
+      </div>
+      <div class="cmd-block">
+        <div class="cmd-prefix">!</div>
+        <div class="cmd-info">
+          <div class="cmd-usage">setreached &lt;amount&gt;</div>
+          <div class="cmd-desc">Manually set the current tokens-reached value. Use this to correct the displayed progress or sync after a network interruption.</div>
+          <div class="cmd-example">!setreached 1200 → marks 1,200 tokens as received</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Auto-cascade callout -->
+    <div style="background:rgba(45,212,160,0.04);border:0.5px solid rgba(45,212,160,0.2);border-radius:16px;padding:28px 32px;margin-top:32px;display:flex;gap:20px;align-items:flex-start;">
+      <div style="font-size:24px;margin-top:2px;">⚡</div>
+      <div>
+        <div style="font-family:'Bebas Neue',cursive;font-size:22px;letter-spacing:2px;color:var(--green);margin-bottom:8px;">AUTO-CASCADE ON TIER ADJUSTMENT</div>
+        <div style="font-size:14px;color:var(--muted2);line-height:1.7;">When you use <code style="font-family:'DM Mono',monospace;font-size:12px;color:var(--green);">!settier</code> to adjust a range, ApexSensations automatically expands or contracts adjacent tier ranges to maintain clean boundaries — no overlaps, no dead zones.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════
+     ALL FEATURES
+═══════════════════════════════════════ -->
+<section class="section">
+  <div class="section-inner">
+    <div class="section-eyebrow">Full Feature Set</div>
+    <h2 class="section-title">EVERYTHING YOUR<br>ROOM NEEDS</h2>
+    <div class="features-grid">
+      <div class="feat-card">
+        <div class="feat-icon">🎛️</div>
+        <div class="feat-title">5-TIER VIBES</div>
+        <div class="feat-desc">Tease → Feel It → Intense → Wild → MAX POWER. Intensity 3–20, duration 3–25s. Every tip lands somewhere on the scale.</div>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon">🎆</div>
+        <div class="feat-title">6 PATTERNS</div>
+        <div class="feat-desc">Wave, Pulse, Earthquake, Fireworks, Give Control, Pause — triggered by exact token amounts. Viewers memorize the menu.</div>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon">🔥</div>
+        <div class="feat-title">COMBO BONUS</div>
+        <div class="feat-desc">Rapid tippers earn +25% per consecutive tip within 30s, up to 3× max duration. Keeps the pace electric.</div>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon">⏳</div>
+        <div class="feat-title">TIP QUEUE</div>
+        <div class="feat-desc">Tips stack in an orderly queue. Viewers see their position and get depth notices — everyone knows their turn is coming.</div>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon">🏆</div>
+        <div class="feat-title">LEADERBOARD</div>
+        <div class="feat-desc">Top 10 tippers tracked live. Whale alerts for 200+ token single tips. Competitive dynamics drive higher totals every session.</div>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon">💌</div>
+        <div class="feat-title">WELCOME WHISPER</div>
+        <div class="feat-desc">Token-holders get a private whisper greeting on entry — personalised, exclusive, and builds instant loyalty.</div>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon">🔄</div>
+        <div class="feat-title">AUTO-RESET GOAL</div>
+        <div class="feat-desc">Infinite-loop tip goals with themed announcements, toy reward patterns, and an optional grand finale cap.</div>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon">🎮</div>
+        <div class="feat-title">TOY COMPATIBLE</div>
+        <div class="feat-desc">Outputs standard PS_CMD JSON — works with Lovense Cam Extension and Buttplug.io devices out of the box.</div>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon">⚡</div>
+        <div class="feat-title">LIVE ADJUSTMENTS</div>
+        <div class="feat-desc">Change tier ranges, goals, and token counts mid-stream with broadcaster commands. No restarts needed.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════
+     INSTALL GUIDE
+═══════════════════════════════════════ -->
+<section class="install-section" id="install">
+  <div class="install-inner">
+    <div class="section-eyebrow">Getting Started</div>
+    <h2 class="section-title">INSTALL IN<br>MINUTES</h2>
+    <p class="section-desc">ApexSensations runs as a Chaturbate CB App directly inside your broadcaster dashboard. No code experience required.</p>
+
+    <div class="install-steps-list">
+      <div class="install-step-item">
+        <div class="step-num-big">01</div>
+        <div class="step-content">
+          <div class="step-h">OPEN YOUR CB DEVELOPER PORTAL</div>
+          <div class="step-p">Log into Chaturbate, go to <strong>My Apps → Developer</strong>, and click <strong>Create New App</strong>. Give your app a name (e.g. "ApexSensations") and set the bot type to <strong>Chaturbate App</strong>.</div>
+        </div>
+      </div>
+      <div class="install-step-item">
+        <div class="step-num-big">02</div>
+        <div class="step-content">
+          <div class="step-h">PASTE THE APP CODE</div>
+          <div class="step-p">In the IDE editor, clear the default template and paste the full <code style="font-family:'DM Mono',monospace;color:var(--red);font-size:12px;">apexsensations_cb_app.js</code> source code. This is the single file that powers all 5 tiers, patterns, queue, leaderboard, and goal system.</div>
+          <a href="/cb-app" style="display:inline-flex;align-items:center;gap:8px;margin-top:12px;font-size:13px;color:var(--red);text-decoration:none;font-weight:500;">
+            View full CB App install guide →
+          </a>
+        </div>
+      </div>
+      <div class="install-step-item">
+        <div class="step-num-big">03</div>
+        <div class="step-content">
+          <div class="step-h">SAVE, TEST, AND PUBLISH</div>
+          <div class="step-p">Click <strong>Save & Test</strong> to run the app in a private room first. Verify your toy responds to test tips. Once confirmed, click <strong>Publish</strong> to make the app available for your live streams.</div>
+        </div>
+      </div>
+      <div class="install-step-item">
+        <div class="step-num-big">04</div>
+        <div class="step-content">
+          <div class="step-h">GO LIVE — IT RUNS AUTOMATICALLY</div>
+          <div class="step-p">Start your stream, launch the app from <strong>My Apps</strong>, and every tip will automatically trigger vibrations, announcements, queue updates, and leaderboard tracking — with zero manual intervention required.</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-top:56px;text-align:center;">
+      <a href="/cb-app" class="btn-red" style="font-size:16px;padding:17px 44px;">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M9 1v11M5 8.5l4 5 4-5" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M2 16h14" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/></svg>
+        Get the Full Install Guide
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════
+     FOOTER
+═══════════════════════════════════════ -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-logo"><img src="https://apex-revenue-downloads.s3.amazonaws.com/assets/logo.png" alt="Apex Revenue"></div>
+    <ul class="footer-links">
+      <li><a href="/">Extension</a></li>
+      <li><a href="/cb-app">CB App Guide</a></li>
+      <li><a href="/apexsensations">ApexSensations</a></li>
+    </ul>
+    <p class="footer-copy">© 2026 Apex Revenue. All rights reserved.</p>
+  </div>
+</footer>
+
+<script>
+  /* ── SCROLL REVEAL ── */
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.preview-card, .feat-card').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>

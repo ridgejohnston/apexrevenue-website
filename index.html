@@ -902,7 +902,7 @@
     <a href="/cb-app.html" style="display:inline-flex;align-items:center;padding:6px 14px;border-radius:8px;font-size:13px;font-weight:500;color:#888;background:transparent;border:0.5px solid transparent;text-decoration:none;letter-spacing:0.3px;transition:all 0.15s;" onmouseover="this.style.color='#F2F2F2';this.style.background='rgba(255,255,255,0.05)';this.style.borderColor='rgba(255,255,255,0.15)'" onmouseout="this.style.color='#888';this.style.background='transparent';this.style.borderColor='transparent'">CB App Guide</a>
     <a href="/apexsensations.html" style="display:inline-flex;align-items:center;padding:6px 14px;border-radius:8px;font-size:13px;font-weight:500;color:#888;background:transparent;border:0.5px solid transparent;text-decoration:none;letter-spacing:0.3px;transition:all 0.15s;" onmouseover="this.style.color='#F2F2F2';this.style.background='rgba(255,255,255,0.05)';this.style.borderColor='rgba(255,255,255,0.15)'" onmouseout="this.style.color='#888';this.style.background='transparent';this.style.borderColor='transparent'">ApexSensations</a>
   </div>
-  <div class="nav-badge">Referral Program</div>
+  <div class="nav-badge">Beta — Platinum Free</div>
 </nav>
 
 <section class="hero">
@@ -1051,13 +1051,24 @@
       <div class="step-num">03</div>
       <div class="step-eyebrow">Step 03</div>
       <h2 class="step-title">Create Your Account</h2>
-      <p class="step-desc">Start free — upgrade to <strong>Platinum</strong> any time and only pay for what you use via Stripe metered billing.</p>
+      <p class="step-desc">Sign up and get <strong>instant Platinum access</strong> — no credit card, no billing, no catch. Every account during our beta phase is fully unlocked.</p>
 
+      <!-- Beta Banner -->
+      <div style="display:flex;align-items:flex-start;gap:14px;background:rgba(232,0,26,0.06);border:1px solid rgba(232,0,26,0.3);border-radius:14px;padding:20px 22px;margin-bottom:28px;position:relative;overflow:hidden;">
+        <div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--red) 40%,transparent);"></div>
+        <div style="font-size:22px;line-height:1;margin-top:2px;">🎉</div>
+        <div>
+          <div style="font-family:'Bebas Neue',cursive;font-size:20px;letter-spacing:2px;color:var(--red);margin-bottom:5px;">PLATINUM IS FREE DURING BETA</div>
+          <div style="font-size:13px;color:var(--muted2,#888);line-height:1.6;">Every account created during the beta phase receives <strong style="color:var(--text);">full Platinum access at no cost</strong> — whale alerts, AI tip prompts, unlimited sessions, cloud backup, and the full earnings dashboard. No credit card required. Billing will only begin after the beta period ends, and you'll be notified well in advance.</div>
+        </div>
+      </div>
+
+      <!-- Plan cards -->
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:32px;">
 
         <!-- Free -->
-        <div style="background:#0D0D0D;border:0.5px solid var(--border);border-radius:14px;padding:20px;">
-          <div style="font-size:11px;letter-spacing:1.5px;font-weight:600;color:var(--muted);text-transform:uppercase;margin-bottom:8px;">Free</div>
+        <div style="background:#0D0D0D;border:0.5px solid var(--border);border-radius:14px;padding:20px;opacity:0.55;">
+          <div style="font-size:11px;letter-spacing:1.5px;font-weight:600;color:var(--muted);text-transform:uppercase;margin-bottom:8px;">Free <span style="font-size:10px;color:var(--muted);font-weight:400;text-transform:none;letter-spacing:0;">(post-beta)</span></div>
           <div style="font-family:'Bebas Neue',cursive;font-size:28px;letter-spacing:1px;color:var(--text);margin-bottom:4px;">$0</div>
           <div style="font-size:11px;color:var(--muted);margin-bottom:16px;">No credit card required</div>
           <ul style="list-style:none;display:flex;flex-direction:column;gap:8px;">
@@ -1065,7 +1076,6 @@
             <li style="font-size:12px;color:var(--muted);display:flex;gap:8px;align-items:flex-start;"><span style="margin-top:1px;">–</span><span>7-day fan history</span></li>
             <li style="font-size:12px;color:var(--muted);display:flex;gap:8px;align-items:flex-start;"><span style="margin-top:1px;">–</span><span>Basic AI tip prompts</span></li>
             <li style="font-size:12px;color:var(--muted);display:flex;gap:8px;align-items:flex-start;"><span style="margin-top:1px;">–</span><span>Basic earnings dashboard</span></li>
-            <li style="font-size:12px;color:#2A2A2A;display:flex;gap:8px;align-items:flex-start;text-decoration:line-through;"><span style="margin-top:1px;">–</span><span>Cloud backup &amp; CSV export</span></li>
           </ul>
         </div>
 
@@ -1074,10 +1084,10 @@
           <div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--red),transparent);"></div>
           <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
             <div style="font-size:11px;letter-spacing:1.5px;font-weight:600;color:var(--red);text-transform:uppercase;">Platinum</div>
-            <div style="font-size:10px;font-weight:600;padding:2px 8px;background:var(--red-glow);border:0.5px solid var(--red-border-hi);border-radius:20px;color:var(--red);">Metered</div>
+            <div style="font-size:10px;font-weight:700;padding:2px 9px;background:rgba(45,212,160,0.1);border:0.5px solid rgba(45,212,160,0.4);border-radius:20px;color:#2DD4A0;letter-spacing:0.5px;">FREE IN BETA</div>
           </div>
-          <div style="font-family:'Bebas Neue',cursive;font-size:22px;letter-spacing:1px;color:var(--text);margin-bottom:4px;">Pay as you use</div>
-          <div style="font-size:11px;color:var(--muted);margin-bottom:16px;">Stripe metered — charged per session, prompt &amp; sync</div>
+          <div style="font-family:'Bebas Neue',cursive;font-size:28px;letter-spacing:1px;color:var(--green,#2DD4A0);margin-bottom:2px;">$0 <span style="font-size:16px;color:var(--muted);text-decoration:line-through;letter-spacing:0;">5%</span></div>
+          <div style="font-size:11px;color:rgba(45,212,160,0.6);margin-bottom:16px;">No billing until beta ends</div>
           <ul style="list-style:none;display:flex;flex-direction:column;gap:8px;">
             <li style="font-size:12px;color:var(--text);display:flex;gap:8px;align-items:flex-start;"><span style="color:var(--red);margin-top:1px;">✓</span><span>Unlimited sessions</span></li>
             <li style="font-size:12px;color:var(--text);display:flex;gap:8px;align-items:flex-start;"><span style="color:var(--red);margin-top:1px;">✓</span><span>30-day fan history</span></li>
@@ -1092,9 +1102,8 @@
       <div class="btn-group">
         <a href="https://apexrevenue.works/signup" target="_blank" class="btn-red" onclick="markStep3Done()">
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 1a3 3 0 100 6 3 3 0 000-6zM2 13c0-3 2.7-5 6-5s6 2 6 5" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/></svg>
-          Create Free Account
+          Create Free Account — Platinum Unlocked
         </a>
-        <a href="https://apexrevenue.works/pricing" target="_blank" class="btn-outline">View Pricing Details</a>
       </div>
       <div class="divider"></div>
       <button class="btn-outline" onclick="markStep3Done(); scrollToStep(4)">Already have an account? Continue →</button>

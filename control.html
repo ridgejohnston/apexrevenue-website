@@ -182,23 +182,8 @@ input[type=range]::-webkit-slider-thumb:active{cursor:grabbing;transform:scale(1
           <input type="number" class="tip-input" id="tip-amount" placeholder="Custom amount" min="1" step="1">
           <button class="tip-send-btn" onclick="sendTipReload()">Tip</button>
         </div>
-        <div class="quick-tips">
-          <button class="quick-tip-btn" onclick="quickReload(50)">
-            <span class="qt-amount">50</span>
-            <span class="qt-time" id="qt-time-50">+--s</span>
-          </button>
-          <button class="quick-tip-btn" onclick="quickReload(100)">
-            <span class="qt-amount">100</span>
-            <span class="qt-time" id="qt-time-100">+--s</span>
-          </button>
-          <button class="quick-tip-btn" onclick="quickReload(250)">
-            <span class="qt-amount">250</span>
-            <span class="qt-time" id="qt-time-250">+--s</span>
-          </button>
-          <button class="quick-tip-btn" onclick="quickReload(500)">
-            <span class="qt-amount">500</span>
-            <span class="qt-time" id="qt-time-500">+--s</span>
-          </button>
+        <div class="quick-tips" id="quick-tips-container">
+          <!-- Quick-tip buttons rendered dynamically from settings -->
         </div>
         <p class="reload-help" id="reload-help">Tip tokens in the broadcaster's chat to reload your account & extend time</p>
       </div>
@@ -234,7 +219,12 @@ let cooldownActive = false;
 let tokenBalance = 0;
 let eventCosts = { wave: 15, pulse: 25, earthquake: 50, max: 100 };
 let eventDurations = { wave: 10, pulse: 10, earthquake: 8, max: 5 };
-let tokensPerMinute = 100;
+let quickTips = [
+  { tokens: 50, secs: 30 },
+  { tokens: 100, secs: 60 },
+  { tokens: 250, secs: 150 },
+  { tokens: 500, secs: 300 }
+];
 let sessionRoom = '';
 
 if (!otp) {
@@ -261,7 +251,7 @@ function connectRelay() {
       if (data.balance !== undefined) tokenBalance = data.balance;
       if (data.eventCosts) eventCosts = data.eventCosts;
       if (data.eventDurations) eventDurations = data.eventDurations;
-      if (data.tokensPerMinute) tokensPerMinute = data.tokensPerMinute;
+      if (data.quickTips) quickTips = data.quickTips;
       showControlPanel();
     }
 
@@ -319,7 +309,7 @@ function showControlPanel() {
   document.getElementById('panel').style.display = 'block';
   updateAccountDisplay();
   updateCostDisplays();
-  updateQuickTipTimes();
+  renderQuickTips();
   if (sessionRoom) {
     document.getElementById('reload-help').textContent =
       'Tip tokens in ' + sessionRoom + "'s chat to reload your account & extend time";
@@ -377,11 +367,16 @@ function updatePatternLocks() {
   });
 }
 
-function updateQuickTipTimes() {
-  [50, 100, 250, 500].forEach(function(a) {
-    const secs = Math.floor((a / tokensPerMinute) * 60);
-    const el = document.getElementById('qt-time-' + a);
-    if (el) el.textContent = '+' + secs + 's';
+function renderQuickTips() {
+  const container = document.getElementById('quick-tips-container');
+  container.innerHTML = '';
+  quickTips.forEach(function(qt, i) {
+    const btn = document.createElement('button');
+    btn.className = 'quick-tip-btn';
+    btn.onclick = function() { quickReload(qt.tokens, qt.secs); };
+    btn.innerHTML = '<span class="qt-amount">' + qt.tokens + '</span>'
+      + '<span class="qt-time">+' + qt.secs + 's</span>';
+    container.appendChild(btn);
   });
 }
 
@@ -459,14 +454,24 @@ function sendTipReload() {
   input.value = '';
 }
 
-function quickReload(amount) { requestReload(amount); }
+function quickReload(amount, secs) { requestReload(amount, secs); }
 
-function requestReload(amount) {
-  // Tell relay about the tip request so it can prompt/verify
+function requestReload(amount, knownSecs) {
   if (relay && relay.readyState === WebSocket.OPEN) {
     relay.send(JSON.stringify({ type: 'fan_tip_request', otp: otp, amount: amount }));
   }
-  const extraSecs = Math.floor((amount / tokensPerMinute) * 60);
+  // Use known secs from quick-tip preset, or look up from quickTips array
+  let extraSecs = knownSecs || 0;
+  if (!extraSecs) {
+    for (let i = 0; i < quickTips.length; i++) {
+      if (amount === quickTips[i].tokens) { extraSecs = quickTips[i].secs; break; }
+    }
+  }
+  // Fallback: estimate from the 60s tier
+  if (!extraSecs && quickTips.length >= 2) {
+    extraSecs = Math.floor((amount / quickTips[1].tokens) * quickTips[1].secs);
+  }
+  if (!extraSecs) extraSecs = Math.floor(amount * 0.6);
   showFeedback('Tip ' + amount + ' tk in ' + (sessionRoom || "broadcaster's") + ' chat → +' + extraSecs + 's', 'limited');
 }
 

@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Give Control | Apex Revenue</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#0a0a14;color:#e0e0f0;font-family:'Segoe UI',system-ui,sans-serif;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px}
+.container{max-width:480px;width:100%}
+/* ── Auth Screen ── */
+.auth-screen{text-align:center}
+.auth-screen h1{font-size:24px;margin-bottom:12px}
+.auth-screen .spinner{width:40px;height:40px;border:3px solid #2a2a4a;border-top-color:#a855f7;border-radius:50%;animation:spin .8s linear infinite;margin:24px auto}
+@keyframes spin{to{transform:rotate(360deg)}}
+.auth-screen .error{color:#ff6b6b;margin-top:16px}
+/* ── Control Panel ── */
+.panel{display:none}
+.header{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;background:linear-gradient(135deg,#1a0a2e,#2a1a4a);border-radius:16px 16px 0 0;border:1px solid #3a2a5a;border-bottom:none}
+.header h2{font-size:18px;font-weight:900}
+.header h2 span{margin-right:6px}
+.timer{font-size:24px;font-weight:900;font-family:'Courier New',monospace;color:#ff3d80;text-shadow:0 0 12px rgba(255,61,128,.5)}
+.timer.warning{animation:timerPulse 1s infinite}
+@keyframes timerPulse{0%,100%{opacity:1}50%{opacity:.5}}
+.body{background:#12122a;border:1px solid #2a2a4a;border-top:none;padding:24px;border-radius:0 0 16px 16px}
+/* ── Slider Section ── */
+.slider-section{margin-bottom:24px}
+.slider-label{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.slider-label span{font-size:13px;color:#94a3b8}
+.intensity-value{font-size:32px;font-weight:900;color:#a855f7}
+input[type=range]{-webkit-appearance:none;width:100%;height:12px;border-radius:6px;background:linear-gradient(90deg,#1a1a3a 0%,#7c5cfc 50%,#ff3d80 100%);outline:none;cursor:pointer}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:28px;height:28px;border-radius:50%;background:#fff;box-shadow:0 2px 8px rgba(0,0,0,.4);cursor:grab}
+input[type=range]::-webkit-slider-thumb:active{cursor:grabbing;transform:scale(1.1)}
+.send-btn{width:100%;padding:14px;border:none;border-radius:12px;font-size:16px;font-weight:800;cursor:pointer;transition:all .2s;margin-top:12px;text-transform:uppercase;letter-spacing:2px}
+.send-btn.ready{background:linear-gradient(135deg,#7c5cfc,#a855f7);color:#fff}
+.send-btn.ready:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(124,92,252,.4)}
+.send-btn.cooldown{background:#1a1a2a;color:#64748b;cursor:not-allowed}
+.send-btn.cooldown::after{content:' (wait...)'}
+/* ── Pattern Buttons ── */
+.patterns{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px}
+.pattern-btn{padding:14px;border:2px solid #2a2a4a;border-radius:12px;background:#0a0a1a;color:#e0e0f0;font-size:14px;font-weight:700;cursor:pointer;transition:all .15s;text-align:center}
+.pattern-btn:hover{border-color:#7c5cfc;background:#1a1a3a}
+.pattern-btn:active{transform:scale(.96)}
+.pattern-btn.cooldown{opacity:.4;cursor:not-allowed}
+.pattern-btn .emoji{font-size:24px;display:block;margin-bottom:4px}
+/* ── Stop Button ── */
+.stop-section{display:flex;align-items:center;justify-content:space-between;padding-top:16px;border-top:1px solid #2a2a4a}
+.stop-btn{padding:12px 24px;border:2px solid #ff3d3d;border-radius:12px;background:transparent;color:#ff3d3d;font-size:14px;font-weight:800;cursor:pointer;transition:all .15s}
+.stop-btn:hover{background:#2a0a0a}
+.rate-info{font-size:11px;color:#64748b}
+/* ── Expired Screen ── */
+.expired{display:none;text-align:center}
+.expired h2{font-size:28px;margin-bottom:12px}
+.expired p{color:#94a3b8}
+/* ── Feedback ── */
+.feedback{position:fixed;top:20px;left:50%;transform:translateX(-50%);background:#1a1a3a;border:1px solid #3a3a5a;border-radius:12px;padding:10px 20px;font-size:13px;font-weight:600;opacity:0;transition:opacity .3s;pointer-events:none;z-index:99}
+.feedback.show{opacity:1}
+.feedback.sent{color:#6aff6a}
+.feedback.limited{color:#ffd166}
+</style>
+</head>
+<body>
+<div class="container">
+  <!-- Auth Screen -->
+  <div class="auth-screen" id="auth-screen">
+    <h1>Authenticating...</h1>
+    <div class="spinner"></div>
+    <p style="color:#94a3b8;font-size:13px">Verifying your Give Control token</p>
+    <p class="error" id="auth-error" style="display:none"></p>
+  </div>
+
+  <!-- Control Panel -->
+  <div class="panel" id="panel">
+    <div class="header">
+      <h2><span>🎮</span> YOU HAVE CONTROL</h2>
+      <div class="timer" id="timer">--:--</div>
+    </div>
+    <div class="body">
+      <!-- Intensity Slider -->
+      <div class="slider-section">
+        <div class="slider-label">
+          <span>Intensity</span>
+          <div class="intensity-value" id="intensity-display">10</div>
+        </div>
+        <input type="range" id="slider" min="1" max="20" value="10" step="1">
+        <button class="send-btn ready" id="send-btn" onclick="sendIntensity()">Send Intensity</button>
+      </div>
+
+      <!-- Pattern Buttons -->
+      <div class="patterns">
+        <button class="pattern-btn" onclick="sendPattern('wave', 10)" id="btn-wave">
+          <span class="emoji">🌊</span> WAVE
+        </button>
+        <button class="pattern-btn" onclick="sendPattern('pulse', 10)" id="btn-pulse">
+          <span class="emoji">💓</span> PULSE
+        </button>
+        <button class="pattern-btn" onclick="sendPattern('earthquake', 8)" id="btn-earthquake">
+          <span class="emoji">🌋</span> EARTHQUAKE
+        </button>
+        <button class="pattern-btn" onclick="sendPattern('max', 5)" id="btn-max">
+          <span class="emoji">⚡</span> MAX POWER
+        </button>
+      </div>
+
+      <!-- Stop + Rate Info -->
+      <div class="stop-section">
+        <button class="stop-btn" onclick="sendStop()">⏸ STOP TOY</button>
+        <span class="rate-info">1 command per 2 seconds</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Expired Screen -->
+  <div class="expired" id="expired">
+    <h2>Session Ended</h2>
+    <p id="expired-reason">Your Give Control session has ended. Thanks for playing!</p>
+  </div>
+
+  <!-- Feedback Toast -->
+  <div class="feedback" id="feedback"></div>
+</div>
+
+<script>
+const RELAY_URL = 'wss://mr5rjohfed.execute-api.us-east-1.amazonaws.com/production';
+const otp = new URLSearchParams(window.location.search).get('token');
+
+let relay = null;
+let sessionExpires = 0;
+let timerInterval = null;
+let cooldownActive = false;
+
+if (!otp) {
+  document.getElementById('auth-error').textContent = 'No token provided. Check your Give Control link.';
+  document.getElementById('auth-error').style.display = 'block';
+  document.querySelector('.spinner').style.display = 'none';
+} else {
+  connectRelay();
+}
+
+function connectRelay() {
+  relay = new WebSocket(RELAY_URL);
+
+  relay.onopen = () => {
+    relay.send(JSON.stringify({ type: 'auth_control', otp: otp }));
+  };
+
+  relay.onmessage = (evt) => {
+    const data = JSON.parse(evt.data);
+
+    if (data.type === 'auth_ok') {
+      sessionExpires = data.expiresAt * 1000;
+      showControlPanel(data.duration, data.room);
+    }
+
+    if (data.type === 'auth_fail') {
+      document.getElementById('auth-error').textContent = data.reason || 'Authentication failed';
+      document.getElementById('auth-error').style.display = 'block';
+      document.querySelector('.spinner').style.display = 'none';
+    }
+
+    if (data.type === 'session_ended') {
+      showExpired(data.reason === 'terminated' ? 'The broadcaster ended your session.' : 'Time is up!');
+    }
+
+    if (data.type === 'time_update') {
+      // Server-side time update
+    }
+
+    if (data.type === 'rate_limited') {
+      showFeedback('Slow down! Wait ' + data.wait + 's', 'limited');
+    }
+  };
+
+  relay.onclose = () => {
+    if (sessionExpires > Date.now()) {
+      // Unexpected close, try reconnect
+      setTimeout(connectRelay, 2000);
+    }
+  };
+
+  relay.onerror = () => {
+    document.getElementById('auth-error').textContent = 'Connection error. Try refreshing.';
+    document.getElementById('auth-error').style.display = 'block';
+    document.querySelector('.spinner').style.display = 'none';
+  };
+}
+
+function showControlPanel(duration, room) {
+  document.getElementById('auth-screen').style.display = 'none';
+  document.getElementById('panel').style.display = 'block';
+
+  // Start countdown timer
+  timerInterval = setInterval(updateTimer, 100);
+  updateTimer();
+}
+
+function updateTimer() {
+  const remaining = Math.max(0, sessionExpires - Date.now());
+  const secs = Math.ceil(remaining / 1000);
+  const min = Math.floor(secs / 60);
+  const sec = secs % 60;
+  const timerEl = document.getElementById('timer');
+  timerEl.textContent = String(min).padStart(2, '0') + ':' + String(sec).padStart(2, '0');
+
+  if (secs <= 10) timerEl.classList.add('warning');
+  else timerEl.classList.remove('warning');
+
+  if (secs <= 0) {
+    clearInterval(timerInterval);
+    showExpired('Time is up!');
+  }
+}
+
+function showExpired(reason) {
+  document.getElementById('panel').style.display = 'none';
+  document.getElementById('expired').style.display = 'block';
+  document.getElementById('expired-reason').textContent = reason || 'Session ended.';
+  if (timerInterval) clearInterval(timerInterval);
+}
+
+// ── Slider ──
+const slider = document.getElementById('slider');
+const intensityDisplay = document.getElementById('intensity-display');
+slider.addEventListener('input', () => {
+  intensityDisplay.textContent = slider.value;
+});
+
+function sendIntensity() {
+  if (cooldownActive) return;
+  const level = parseInt(slider.value);
+  sendCommand(level, 'constant', 3);
+  showFeedback('Sent: Level ' + level + '/20', 'sent');
+}
+
+function sendPattern(pattern, secs) {
+  if (cooldownActive) return;
+  const vibeMap = { wave: 12, pulse: 15, earthquake: 20, max: 20 };
+  sendCommand(vibeMap[pattern] || 10, pattern, secs);
+  showFeedback('Sent: ' + pattern.toUpperCase(), 'sent');
+}
+
+function sendStop() {
+  if (cooldownActive) return;
+  sendCommand(0, 'stop', 0);
+  showFeedback('Toy stopped', 'sent');
+}
+
+function sendCommand(vibe, pattern, secs) {
+  if (!relay || relay.readyState !== WebSocket.OPEN) return;
+  if (cooldownActive) return;
+
+  relay.send(JSON.stringify({
+    type: 'fan_control',
+    otp: otp,
+    payload: { vibe: vibe, pattern: pattern, secs: secs }
+  }));
+
+  // Mirror to fan's own sync page if open
+  try {
+    if (window.opener) {
+      window.opener.postMessage({ type: 'vibe', vibe: vibe, secs: secs }, '*');
+    }
+  } catch(e) {}
+
+  // Start cooldown
+  startCooldown();
+}
+
+function startCooldown() {
+  cooldownActive = true;
+  const sendBtn = document.getElementById('send-btn');
+  sendBtn.className = 'send-btn cooldown';
+  document.querySelectorAll('.pattern-btn').forEach(b => b.classList.add('cooldown'));
+
+  setTimeout(() => {
+    cooldownActive = false;
+    sendBtn.className = 'send-btn ready';
+    document.querySelectorAll('.pattern-btn').forEach(b => b.classList.remove('cooldown'));
+  }, 2000);
+}
+
+function showFeedback(msg, cls) {
+  const el = document.getElementById('feedback');
+  el.textContent = msg;
+  el.className = 'feedback show ' + cls;
+  setTimeout(() => { el.className = 'feedback'; }, 1500);
+}
+</script>
+</body>
+</html>

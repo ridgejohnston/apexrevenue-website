@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sync Your Toy | Apex Revenue</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#0a0a14;color:#e0e0f0;font-family:'Segoe UI',system-ui,sans-serif;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px}
+.container{max-width:480px;width:100%;text-align:center}
+h1{font-size:28px;font-weight:900;margin-bottom:8px;background:linear-gradient(135deg,#7c5cfc,#a855f7);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.subtitle{color:#94a3b8;font-size:14px;margin-bottom:32px}
+.card{background:#12122a;border:1px solid #2a2a4a;border-radius:16px;padding:28px;margin-bottom:20px}
+.status-indicator{display:inline-flex;align-items:center;gap:8px;padding:8px 16px;border-radius:20px;font-size:13px;font-weight:600;margin-bottom:16px}
+.status-indicator.disconnected{background:#1a0a0a;color:#ff6b6b;border:1px solid #3a1a1a}
+.status-indicator.connecting{background:#1a1a0a;color:#ffd166;border:1px solid #3a3a1a}
+.status-indicator.connected{background:#0a1a0a;color:#6aff6a;border:1px solid #1a3a1a}
+.status-dot{width:8px;height:8px;border-radius:50%;background:currentColor}
+.connecting .status-dot{animation:pulse 1s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:14px 28px;border:none;border-radius:12px;font-size:15px;font-weight:700;cursor:pointer;transition:all .2s}
+.btn-primary{background:linear-gradient(135deg,#7c5cfc,#a855f7);color:#fff}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(124,92,252,.4)}
+.btn-primary:disabled{opacity:.4;cursor:not-allowed;transform:none;box-shadow:none}
+.btn-danger{background:#2a0a0a;color:#ff6b6b;border:1px solid #3a1a1a}
+.btn-danger:hover{background:#3a1a1a}
+.device-list{text-align:left;margin:16px 0}
+.device{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;background:#1a1a3a;border-radius:10px;margin-bottom:8px}
+.device-name{font-weight:600;font-size:14px}
+.device-battery{font-size:12px;color:#94a3b8}
+.vibe-bar{height:6px;background:#1a1a3a;border-radius:3px;margin-top:16px;overflow:hidden}
+.vibe-bar-fill{height:100%;background:linear-gradient(90deg,#7c5cfc,#ff3d80);border-radius:3px;transition:width .3s;width:0%}
+.vibe-label{font-size:12px;color:#94a3b8;margin-top:6px}
+.log{max-height:200px;overflow-y:auto;text-align:left;margin-top:16px;padding:12px;background:#0a0a1a;border-radius:8px;font-family:monospace;font-size:11px;color:#64748b}
+.log div{padding:2px 0;border-bottom:1px solid #1a1a2a}
+.log .event{color:#a855f7}
+.log .error{color:#ff6b6b}
+.log .success{color:#6aff6a}
+.setup-steps{text-align:left;margin:16px 0}
+.setup-steps li{padding:8px 0;color:#94a3b8;font-size:13px}
+.setup-steps li strong{color:#e0e0f0}
+a{color:#a855f7;text-decoration:none}
+a:hover{text-decoration:underline}
+.room-badge{display:inline-block;padding:4px 12px;background:#1a1a3a;border-radius:8px;font-size:13px;font-weight:600;color:#a855f7;margin-bottom:16px}
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>Sync Your Toy</h1>
+  <p class="subtitle">Feel every vibe in real time</p>
+
+  <div class="card">
+    <div class="room-badge" id="room-badge">Room: ---</div>
+
+    <div class="status-indicator disconnected" id="status">
+      <span class="status-dot"></span>
+      <span id="status-text">Not connected</span>
+    </div>
+
+    <div id="step-connect">
+      <p style="color:#94a3b8;font-size:13px;margin-bottom:16px">
+        Make sure <a href="https://intiface.com/central/" target="_blank">Intiface Central</a> is running and your toy is paired.
+      </p>
+      <button class="btn btn-primary" id="btn-connect" onclick="startSync()">
+        Connect My Toy
+      </button>
+    </div>
+
+    <div id="step-active" style="display:none">
+      <div class="device-list" id="device-list"></div>
+      <div class="vibe-bar"><div class="vibe-bar-fill" id="vibe-fill"></div></div>
+      <div class="vibe-label" id="vibe-label">Waiting for vibes...</div>
+      <button class="btn btn-danger" onclick="disconnect()" style="margin-top:16px">Disconnect</button>
+    </div>
+  </div>
+
+  <div class="card" id="setup-card" style="display:none">
+    <h3 style="margin-bottom:12px">First Time Setup</h3>
+    <ol class="setup-steps">
+      <li><strong>Download</strong> <a href="https://intiface.com/central/" target="_blank">Intiface Central</a> (free, desktop app)</li>
+      <li><strong>Open</strong> Intiface Central and click "Start Server"</li>
+      <li><strong>Pair</strong> your toy — click "Devices" then "Start Scanning"</li>
+      <li><strong>Come back here</strong> and click "Connect My Toy"</li>
+    </ol>
+  </div>
+
+  <div class="card">
+    <div class="log" id="log"></div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/buttplug@3.2.2/dist/web/buttplug.min.js"></script>
+<script>
+const RELAY_URL = 'wss://mr5rjohfed.execute-api.us-east-1.amazonaws.com/production';
+const params = new URLSearchParams(window.location.search);
+const room = params.get('room') || '';
+
+let buttplugClient = null;
+let relayWs = null;
+let devices = [];
+
+document.getElementById('room-badge').textContent = 'Room: ' + (room || 'Unknown');
+if (!room) {
+  log('No room specified in URL. Add ?room=modelname', 'error');
+  document.getElementById('btn-connect').disabled = true;
+}
+
+function log(msg, cls) {
+  const el = document.getElementById('log');
+  const d = document.createElement('div');
+  d.className = cls || '';
+  d.textContent = '[' + new Date().toLocaleTimeString() + '] ' + msg;
+  el.prepend(d);
+  if (el.children.length > 100) el.removeChild(el.lastChild);
+}
+
+function setStatus(state, text) {
+  const el = document.getElementById('status');
+  el.className = 'status-indicator ' + state;
+  document.getElementById('status-text').textContent = text;
+}
+
+async function startSync() {
+  try {
+    setStatus('connecting', 'Connecting to Intiface...');
+    log('Connecting to Intiface Central...', 'event');
+
+    // Connect to Intiface Central
+    buttplugClient = new Buttplug.ButtplugClient('ApexSensations Sync');
+
+    buttplugClient.addListener('deviceadded', (device) => {
+      devices.push(device);
+      renderDevices();
+      log('Device found: ' + device.name, 'success');
+    });
+
+    buttplugClient.addListener('deviceremoved', (device) => {
+      devices = devices.filter(d => d.index !== device.index);
+      renderDevices();
+      log('Device removed: ' + device.name, 'error');
+    });
+
+    const connector = new Buttplug.ButtplugBrowserWebsocketClientConnector('ws://127.0.0.1:12345');
+    await buttplugClient.connect(connector);
+    log('Connected to Intiface Central', 'success');
+
+    // Start scanning for toys
+    await buttplugClient.startScanning();
+    log('Scanning for toys...', 'event');
+
+    // Wait a moment for device discovery
+    await new Promise(r => setTimeout(r, 2000));
+    await buttplugClient.stopScanning();
+
+    if (buttplugClient.devices.length === 0) {
+      log('No toys found. Make sure your toy is on and paired in Intiface.', 'error');
+      document.getElementById('setup-card').style.display = 'block';
+    }
+    devices = [...buttplugClient.devices];
+    renderDevices();
+
+    // Connect to relay
+    connectRelay();
+
+  } catch (err) {
+    log('Connection failed: ' + err.message, 'error');
+    setStatus('disconnected', 'Connection failed');
+    document.getElementById('setup-card').style.display = 'block';
+    if (err.message.includes('WebSocket')) {
+      log('Is Intiface Central running? Click "Start Server" in Intiface.', 'error');
+    }
+  }
+}
+
+function connectRelay() {
+  setStatus('connecting', 'Connecting to relay...');
+  log('Connecting to Apex relay...', 'event');
+
+  relayWs = new WebSocket(RELAY_URL);
+
+  relayWs.onopen = () => {
+    relayWs.send(JSON.stringify({
+      type: 'register',
+      role: 'fan',
+      room: room,
+      username: 'sync_fan_' + Math.random().toString(36).slice(2, 8)
+    }));
+    log('Connected to relay', 'success');
+  };
+
+  relayWs.onmessage = async (evt) => {
+    const data = JSON.parse(evt.data);
+
+    if (data.type === 'registered') {
+      setStatus('connected', 'Synced to ' + room);
+      document.getElementById('step-connect').style.display = 'none';
+      document.getElementById('step-active').style.display = 'block';
+      log('Registered as fan in room: ' + room, 'success');
+    }
+
+    if (data.type === 'vibe') {
+      const level = Math.min(Math.max(parseFloat(data.vibe) || 0, 0), 20);
+      const normalized = level / 20; // Buttplug uses 0.0-1.0
+      const secs = parseInt(data.secs) || 5;
+
+      log('Vibe received: level ' + level + '/20 for ' + secs + 's', 'event');
+
+      // Update vibe bar
+      document.getElementById('vibe-fill').style.width = (normalized * 100) + '%';
+      document.getElementById('vibe-label').textContent =
+        'Vibrating: ' + level + '/20 (' + data.pattern + ') for ' + secs + 's';
+
+      // Send to all connected toys
+      for (const device of devices) {
+        try {
+          if (device.vibrateAttributes && device.vibrateAttributes.length > 0) {
+            await device.vibrate(normalized);
+          }
+        } catch (e) {
+          log('Device error: ' + e.message, 'error');
+        }
+      }
+
+      // Auto-stop after duration
+      setTimeout(async () => {
+        for (const device of devices) {
+          try { await device.stop(); } catch(e) {}
+        }
+        document.getElementById('vibe-fill').style.width = '0%';
+        document.getElementById('vibe-label').textContent = 'Waiting for vibes...';
+      }, secs * 1000);
+    }
+
+    if (data.type === 'model_offline') {
+      log('Model went offline', 'error');
+      setStatus('disconnected', 'Model offline');
+    }
+  };
+
+  relayWs.onclose = () => {
+    log('Relay disconnected', 'error');
+    setStatus('disconnected', 'Disconnected');
+    // Auto-reconnect after 5 seconds
+    setTimeout(() => {
+      if (buttplugClient && buttplugClient.connected) {
+        log('Attempting reconnect...', 'event');
+        connectRelay();
+      }
+    }, 5000);
+  };
+
+  relayWs.onerror = (err) => {
+    log('Relay error', 'error');
+  };
+}
+
+function renderDevices() {
+  const list = document.getElementById('device-list');
+  if (devices.length === 0) {
+    list.innerHTML = '<p style="color:#94a3b8;font-size:13px;text-align:center">No toys detected</p>';
+    return;
+  }
+  list.innerHTML = devices.map(d =>
+    '<div class="device"><span class="device-name">' + d.name + '</span>' +
+    '<span class="device-battery">Connected</span></div>'
+  ).join('');
+}
+
+function disconnect() {
+  if (relayWs) { relayWs.close(); relayWs = null; }
+  if (buttplugClient) {
+    buttplugClient.disconnect();
+    buttplugClient = null;
+  }
+  devices = [];
+  setStatus('disconnected', 'Disconnected');
+  document.getElementById('step-connect').style.display = 'block';
+  document.getElementById('step-active').style.display = 'none';
+  log('Disconnected', 'event');
+}
+
+// Listen for postMessage from control page (fan's own commands)
+window.addEventListener('message', async (evt) => {
+  if (evt.data && evt.data.type === 'vibe') {
+    const level = Math.min(Math.max(parseFloat(evt.data.vibe) || 0, 0), 20);
+    const normalized = level / 20;
+    const secs = parseInt(evt.data.secs) || 5;
+    for (const device of devices) {
+      try {
+        if (device.vibrateAttributes && device.vibrateAttributes.length > 0) {
+          await device.vibrate(normalized);
+          setTimeout(() => device.stop(), secs * 1000);
+        }
+      } catch(e) {}
+    }
+  }
+});
+</script>
+</body>
+</html>

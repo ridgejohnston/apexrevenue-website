@@ -183,7 +183,10 @@ input[type=range]::-webkit-slider-thumb:active{cursor:grabbing;transform:scale(1
           <button class="tip-send-btn" onclick="sendTipReload()">Tip</button>
         </div>
         <div class="quick-tips" id="quick-tips-container">
-          <!-- Quick-tip buttons rendered dynamically from settings -->
+          <button class="quick-tip-btn" onclick="quickReload(50)"><span class="qt-amount">50</span><span class="qt-time" id="qt-time-50">+30s</span></button>
+          <button class="quick-tip-btn" onclick="quickReload(100)"><span class="qt-amount">100</span><span class="qt-time" id="qt-time-100">+60s</span></button>
+          <button class="quick-tip-btn" onclick="quickReload(250)"><span class="qt-amount">250</span><span class="qt-time" id="qt-time-250">+150s</span></button>
+          <button class="quick-tip-btn" onclick="quickReload(500)"><span class="qt-amount">500</span><span class="qt-time" id="qt-time-500">+300s</span></button>
         </div>
         <p class="reload-help" id="reload-help">Tip tokens in the broadcaster's chat to reload your account & extend time</p>
       </div>
@@ -219,12 +222,7 @@ let cooldownActive = false;
 let tokenBalance = 0;
 let eventCosts = { wave: 15, pulse: 25, earthquake: 50, max: 100 };
 let eventDurations = { wave: 10, pulse: 10, earthquake: 8, max: 5 };
-let quickTips = [
-  { tokens: 50, secs: 30 },
-  { tokens: 100, secs: 60 },
-  { tokens: 250, secs: 150 },
-  { tokens: 500, secs: 300 }
-];
+let tokensPerMinute = 100;
 let sessionRoom = '';
 
 if (!otp) {
@@ -251,7 +249,7 @@ function connectRelay() {
       if (data.balance !== undefined) tokenBalance = data.balance;
       if (data.eventCosts) eventCosts = data.eventCosts;
       if (data.eventDurations) eventDurations = data.eventDurations;
-      if (data.quickTips) quickTips = data.quickTips;
+      if (data.tokensPerMinute) tokensPerMinute = data.tokensPerMinute;
       showControlPanel();
     }
 
@@ -309,7 +307,7 @@ function showControlPanel() {
   document.getElementById('panel').style.display = 'block';
   updateAccountDisplay();
   updateCostDisplays();
-  renderQuickTips();
+  updateQuickTipTimes();
   if (sessionRoom) {
     document.getElementById('reload-help').textContent =
       'Tip tokens in ' + sessionRoom + "'s chat to reload your account & extend time";
@@ -367,16 +365,11 @@ function updatePatternLocks() {
   });
 }
 
-function renderQuickTips() {
-  const container = document.getElementById('quick-tips-container');
-  container.innerHTML = '';
-  quickTips.forEach(function(qt, i) {
-    const btn = document.createElement('button');
-    btn.className = 'quick-tip-btn';
-    btn.onclick = function() { quickReload(qt.tokens, qt.secs); };
-    btn.innerHTML = '<span class="qt-amount">' + qt.tokens + '</span>'
-      + '<span class="qt-time">+' + qt.secs + 's</span>';
-    container.appendChild(btn);
+function updateQuickTipTimes() {
+  [50, 100, 250, 500].forEach(function(amount) {
+    const secs = Math.floor((amount / tokensPerMinute) * 60);
+    const el = document.getElementById('qt-time-' + amount);
+    if (el) el.textContent = '+' + secs + 's';
   });
 }
 
@@ -454,24 +447,13 @@ function sendTipReload() {
   input.value = '';
 }
 
-function quickReload(amount, secs) { requestReload(amount, secs); }
+function quickReload(amount) { requestReload(amount); }
 
-function requestReload(amount, knownSecs) {
+function requestReload(amount) {
   if (relay && relay.readyState === WebSocket.OPEN) {
     relay.send(JSON.stringify({ type: 'fan_tip_request', otp: otp, amount: amount }));
   }
-  // Use known secs from quick-tip preset, or look up from quickTips array
-  let extraSecs = knownSecs || 0;
-  if (!extraSecs) {
-    for (let i = 0; i < quickTips.length; i++) {
-      if (amount === quickTips[i].tokens) { extraSecs = quickTips[i].secs; break; }
-    }
-  }
-  // Fallback: estimate from the 60s tier
-  if (!extraSecs && quickTips.length >= 2) {
-    extraSecs = Math.floor((amount / quickTips[1].tokens) * quickTips[1].secs);
-  }
-  if (!extraSecs) extraSecs = Math.floor(amount * 0.6);
+  const extraSecs = Math.floor((amount / tokensPerMinute) * 60);
   showFeedback('Tip ' + amount + ' tk in ' + (sessionRoom || "broadcaster's") + ' chat → +' + extraSecs + 's', 'limited');
 }
 

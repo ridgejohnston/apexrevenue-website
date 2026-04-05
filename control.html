@@ -3,17 +3,19 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Give Control | Apex Revenue</title>
+<title>Give Control | ApexSensations</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{background:#0a0a14;color:#e0e0f0;font-family:'Segoe UI',system-ui,sans-serif;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px}
 .container{max-width:480px;width:100%}
+
 /* ── Auth Screen ── */
 .auth-screen{text-align:center}
 .auth-screen h1{font-size:24px;margin-bottom:12px}
 .auth-screen .spinner{width:40px;height:40px;border:3px solid #2a2a4a;border-top-color:#a855f7;border-radius:50%;animation:spin .8s linear infinite;margin:24px auto}
 @keyframes spin{to{transform:rotate(360deg)}}
 .auth-screen .error{color:#ff6b6b;margin-top:16px}
+
 /* ── Control Panel ── */
 .panel{display:none}
 .header{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;background:linear-gradient(135deg,#1a0a2e,#2a1a4a);border-radius:16px 16px 0 0;border:1px solid #3a2a5a;border-bottom:none}
@@ -23,11 +25,22 @@ body{background:#0a0a14;color:#e0e0f0;font-family:'Segoe UI',system-ui,sans-seri
 .timer.warning{animation:timerPulse 1s infinite}
 @keyframes timerPulse{0%,100%{opacity:1}50%{opacity:.5}}
 .body{background:#12122a;border:1px solid #2a2a4a;border-top:none;padding:24px;border-radius:0 0 16px 16px}
+
+/* ── Token Account ── */
+.account-bar{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;margin-bottom:20px;background:linear-gradient(135deg,#1a1a3a,#0a1a2a);border:1px solid #2a3a5a;border-radius:12px}
+.account-left{display:flex;align-items:center;gap:10px}
+.account-icon{font-size:28px}
+.account-label{font-size:11px;color:#94a3b8;text-transform:uppercase;letter-spacing:1px}
+.account-value{font-size:30px;font-weight:900;color:#ffd166;text-shadow:0 0 10px rgba(255,209,102,.3);font-family:'Courier New',monospace}
+.account-value.low{color:#ff6b6b;animation:timerPulse 1s infinite}
+.account-tag{font-size:10px;color:#64748b;padding:4px 8px;border:1px solid #2a2a4a;border-radius:6px;white-space:nowrap}
+
 /* ── Slider Section ── */
 .slider-section{margin-bottom:24px}
 .slider-label{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
 .slider-label span{font-size:13px;color:#94a3b8}
 .intensity-value{font-size:32px;font-weight:900;color:#a855f7}
+.free-tag{font-size:10px;color:#6aff6a;text-transform:uppercase;letter-spacing:1px;margin-left:8px}
 input[type=range]{-webkit-appearance:none;width:100%;height:12px;border-radius:6px;background:linear-gradient(90deg,#1a1a3a 0%,#7c5cfc 50%,#ff3d80 100%);outline:none;cursor:pointer}
 input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:28px;height:28px;border-radius:50%;background:#fff;box-shadow:0 2px 8px rgba(0,0,0,.4);cursor:grab}
 input[type=range]::-webkit-slider-thumb:active{cursor:grabbing;transform:scale(1.1)}
@@ -35,35 +48,67 @@ input[type=range]::-webkit-slider-thumb:active{cursor:grabbing;transform:scale(1
 .send-btn.ready{background:linear-gradient(135deg,#7c5cfc,#a855f7);color:#fff}
 .send-btn.ready:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(124,92,252,.4)}
 .send-btn.cooldown{background:#1a1a2a;color:#64748b;cursor:not-allowed}
-.send-btn.cooldown::after{content:' (wait...)'}
-/* ── Pattern Buttons ── */
+
+/* ── Major Event Buttons (Auto-Tip) ── */
+.events-title{font-size:12px;color:#ffd166;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:10px;font-weight:700}
 .patterns{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px}
-.pattern-btn{padding:14px;border:2px solid #2a2a4a;border-radius:12px;background:#0a0a1a;color:#e0e0f0;font-size:14px;font-weight:700;cursor:pointer;transition:all .15s;text-align:center}
-.pattern-btn:hover{border-color:#7c5cfc;background:#1a1a3a}
+.pattern-btn{padding:16px 10px;border:2px solid #2a2a4a;border-radius:12px;background:#0a0a1a;color:#e0e0f0;font-size:14px;font-weight:700;cursor:pointer;transition:all .15s;text-align:center;position:relative}
+.pattern-btn:hover{border-color:#ffd166;background:#1a1a2a;transform:translateY(-1px)}
 .pattern-btn:active{transform:scale(.96)}
 .pattern-btn.cooldown{opacity:.4;cursor:not-allowed}
+.pattern-btn.locked{opacity:.25;cursor:not-allowed;border-color:#3a1a1a}
 .pattern-btn .emoji{font-size:24px;display:block;margin-bottom:4px}
+.pattern-btn .cost-tag{display:inline-block;font-size:12px;color:#0a0a14;background:#ffd166;padding:2px 8px;border-radius:6px;margin-top:6px;font-weight:800}
+.pattern-btn.locked .cost-tag{background:#ff6b6b}
+.auto-tip-badge{display:block;font-size:9px;color:#6aff6a;text-transform:uppercase;letter-spacing:1px;margin-top:4px}
+
+/* ── Reload Account (Tip Slot) ── */
+.reload-section{margin-bottom:20px;padding:16px;background:linear-gradient(135deg,#0a1a0a,#0a0a1a);border:1px solid #2a3a2a;border-radius:12px}
+.reload-title{font-size:12px;color:#6aff6a;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:12px;font-weight:700}
+.tip-row{display:flex;gap:8px;margin-bottom:10px}
+.tip-input{flex:1;padding:10px 14px;border:2px solid #2a3a2a;border-radius:10px;background:#0a0a14;color:#ffd166;font-size:18px;font-weight:700;font-family:'Courier New',monospace;outline:none;text-align:center}
+.tip-input:focus{border-color:#6aff6a}
+.tip-input::placeholder{color:#3a3a4a;font-weight:400;font-size:14px}
+.tip-send-btn{padding:10px 20px;border:2px solid #6aff6a;border-radius:10px;background:transparent;color:#6aff6a;font-size:14px;font-weight:800;cursor:pointer;transition:all .15s;white-space:nowrap}
+.tip-send-btn:hover{background:#6aff6a;color:#0a0a14}
+.quick-tips{display:flex;gap:8px}
+.quick-tip-btn{flex:1;padding:10px 6px;border:1px solid #2a3a2a;border-radius:10px;background:#0a0a14;color:#e0e0f0;font-size:12px;font-weight:700;cursor:pointer;transition:all .15s;text-align:center}
+.quick-tip-btn:hover{border-color:#6aff6a;background:#0a1a0a;color:#6aff6a}
+.quick-tip-btn .qt-amount{display:block;font-size:16px;font-weight:900;color:#ffd166}
+.quick-tip-btn .qt-time{display:block;font-size:10px;color:#6aff6a;margin-top:2px}
+.reload-help{font-size:11px;color:#4a5a4a;margin-top:10px;text-align:center;line-height:1.4}
+
 /* ── Stop Button ── */
 .stop-section{display:flex;align-items:center;justify-content:space-between;padding-top:16px;border-top:1px solid #2a2a4a}
 .stop-btn{padding:12px 24px;border:2px solid #ff3d3d;border-radius:12px;background:transparent;color:#ff3d3d;font-size:14px;font-weight:800;cursor:pointer;transition:all .15s}
 .stop-btn:hover{background:#2a0a0a}
 .rate-info{font-size:11px;color:#64748b}
+
 /* ── Expired Screen ── */
 .expired{display:none;text-align:center}
 .expired h2{font-size:28px;margin-bottom:12px}
 .expired p{color:#94a3b8}
+
 /* ── Feedback ── */
-.feedback{position:fixed;top:20px;left:50%;transform:translateX(-50%);background:#1a1a3a;border:1px solid #3a3a5a;border-radius:12px;padding:10px 20px;font-size:13px;font-weight:600;opacity:0;transition:opacity .3s;pointer-events:none;z-index:99}
+.feedback{position:fixed;top:20px;left:50%;transform:translateX(-50%);background:#1a1a3a;border:1px solid #3a3a5a;border-radius:12px;padding:10px 20px;font-size:13px;font-weight:600;opacity:0;transition:all .3s;pointer-events:none;z-index:99}
 .feedback.show{opacity:1}
 .feedback.sent{color:#6aff6a}
 .feedback.limited{color:#ffd166}
+.feedback.error{color:#ff6b6b}
+.feedback.deducted{color:#ffd166}
+
+/* ── Animations ── */
+@keyframes balancePop{0%{transform:scale(1)}50%{transform:scale(1.15)}100%{transform:scale(1)}}
+.balance-pop{animation:balancePop .3s ease}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
+.shake{animation:shake .3s ease}
 </style>
 </head>
 <body>
 <div class="container">
   <!-- Auth Screen -->
   <div class="auth-screen" id="auth-screen">
-    <h1>Authenticating...</h1>
+    <h1>Connecting...</h1>
     <div class="spinner"></div>
     <p style="color:#94a3b8;font-size:13px">Verifying your Give Control token</p>
     <p class="error" id="auth-error" style="display:none"></p>
@@ -76,36 +121,92 @@ input[type=range]::-webkit-slider-thumb:active{cursor:grabbing;transform:scale(1
       <div class="timer" id="timer">--:--</div>
     </div>
     <div class="body">
-      <!-- Intensity Slider -->
+
+      <!-- Token Account -->
+      <div class="account-bar">
+        <div class="account-left">
+          <div class="account-icon">🪙</div>
+          <div>
+            <div class="account-label">Your Token Account</div>
+            <div class="account-value" id="balance-display">---</div>
+          </div>
+        </div>
+        <div class="account-tag">AUTO-TIP</div>
+      </div>
+
+      <!-- Intensity Slider (FREE) -->
       <div class="slider-section">
         <div class="slider-label">
-          <span>Intensity</span>
+          <span>Intensity <span class="free-tag">FREE</span></span>
           <div class="intensity-value" id="intensity-display">10</div>
         </div>
         <input type="range" id="slider" min="1" max="20" value="10" step="1">
         <button class="send-btn ready" id="send-btn" onclick="sendIntensity()">Send Intensity</button>
       </div>
 
-      <!-- Pattern Buttons -->
+      <!-- Major Events (Auto-Tip on Click) -->
+      <div class="events-title">Major Events — auto-tips on click</div>
       <div class="patterns">
-        <button class="pattern-btn" onclick="sendPattern('wave', 10)" id="btn-wave">
+        <button class="pattern-btn" onclick="triggerEvent('wave')" id="btn-wave">
           <span class="emoji">🌊</span> WAVE
+          <span class="cost-tag" id="cost-wave">-- tk</span>
+          <span class="auto-tip-badge">auto-tip</span>
         </button>
-        <button class="pattern-btn" onclick="sendPattern('pulse', 10)" id="btn-pulse">
+        <button class="pattern-btn" onclick="triggerEvent('pulse')" id="btn-pulse">
           <span class="emoji">💓</span> PULSE
+          <span class="cost-tag" id="cost-pulse">-- tk</span>
+          <span class="auto-tip-badge">auto-tip</span>
         </button>
-        <button class="pattern-btn" onclick="sendPattern('earthquake', 8)" id="btn-earthquake">
+        <button class="pattern-btn" onclick="triggerEvent('earthquake')" id="btn-earthquake">
           <span class="emoji">🌋</span> EARTHQUAKE
+          <span class="cost-tag" id="cost-earthquake">-- tk</span>
+          <span class="auto-tip-badge">auto-tip</span>
         </button>
-        <button class="pattern-btn" onclick="sendPattern('max', 5)" id="btn-max">
+        <button class="pattern-btn" onclick="triggerEvent('max')" id="btn-max">
           <span class="emoji">⚡</span> MAX POWER
+          <span class="cost-tag" id="cost-max">-- tk</span>
+          <span class="auto-tip-badge">auto-tip</span>
         </button>
+      </div>
+
+      <!-- Reload Notice -->
+      <div style="text-align:center;padding:12px 16px;margin-bottom:16px;background:linear-gradient(135deg,#1a0a2e,#0a1a2a);border:1px solid #ffd16644;border-radius:10px">
+        <div style="font-size:13px;font-weight:800;color:#ffd166;letter-spacing:1px;text-transform:uppercase">Send Tips to Increase Token Balance</div>
+        <div style="font-size:11px;color:#94a3b8;margin-top:4px" id="reload-notice-sub">Tip in the broadcaster's chat to reload your account & add time</div>
+      </div>
+
+      <!-- Reload Account -->
+      <div class="reload-section">
+        <div class="reload-title">🔄 Reload Account — Add Tokens & Time</div>
+        <div class="tip-row">
+          <input type="number" class="tip-input" id="tip-amount" placeholder="Custom amount" min="1" step="1">
+          <button class="tip-send-btn" onclick="sendTipReload()">Tip</button>
+        </div>
+        <div class="quick-tips">
+          <button class="quick-tip-btn" onclick="quickReload(50)">
+            <span class="qt-amount">50</span>
+            <span class="qt-time" id="qt-time-50">+--s</span>
+          </button>
+          <button class="quick-tip-btn" onclick="quickReload(100)">
+            <span class="qt-amount">100</span>
+            <span class="qt-time" id="qt-time-100">+--s</span>
+          </button>
+          <button class="quick-tip-btn" onclick="quickReload(250)">
+            <span class="qt-amount">250</span>
+            <span class="qt-time" id="qt-time-250">+--s</span>
+          </button>
+          <button class="quick-tip-btn" onclick="quickReload(500)">
+            <span class="qt-amount">500</span>
+            <span class="qt-time" id="qt-time-500">+--s</span>
+          </button>
+        </div>
+        <p class="reload-help" id="reload-help">Tip tokens in the broadcaster's chat to reload your account & extend time</p>
       </div>
 
       <!-- Stop + Rate Info -->
       <div class="stop-section">
         <button class="stop-btn" onclick="sendStop()">⏸ STOP TOY</button>
-        <span class="rate-info">1 command per 2 seconds</span>
+        <span class="rate-info">Slider & Stop are free</span>
       </div>
     </div>
   </div>
@@ -129,6 +230,13 @@ let sessionExpires = 0;
 let timerInterval = null;
 let cooldownActive = false;
 
+// Token account state — populated from auth_ok
+let tokenBalance = 0;
+let eventCosts = { wave: 15, pulse: 25, earthquake: 50, max: 100 };
+let eventDurations = { wave: 10, pulse: 10, earthquake: 8, max: 5 };
+let tokensPerMinute = 100;
+let sessionRoom = '';
+
 if (!otp) {
   document.getElementById('auth-error').textContent = 'No token provided. Check your Give Control link.';
   document.getElementById('auth-error').style.display = 'block';
@@ -149,7 +257,12 @@ function connectRelay() {
 
     if (data.type === 'auth_ok') {
       sessionExpires = data.expiresAt * 1000;
-      showControlPanel(data.duration, data.room);
+      sessionRoom = data.room || '';
+      if (data.balance !== undefined) tokenBalance = data.balance;
+      if (data.eventCosts) eventCosts = data.eventCosts;
+      if (data.eventDurations) eventDurations = data.eventDurations;
+      if (data.tokensPerMinute) tokensPerMinute = data.tokensPerMinute;
+      showControlPanel();
     }
 
     if (data.type === 'auth_fail') {
@@ -162,20 +275,34 @@ function connectRelay() {
       showExpired(data.reason === 'terminated' ? 'The broadcaster ended your session.' : 'Time is up!');
     }
 
-    if (data.type === 'time_update') {
-      // Server-side time update
+    // Balance update from additional CB tips
+    if (data.type === 'balance_update') {
+      tokenBalance = data.balance;
+      updateAccountDisplay();
+      if (data.extraSecs) sessionExpires += data.extraSecs * 1000;
+      showFeedback('+' + (data.addedTokens || 0) + ' tk reloaded!', 'sent');
+    }
+
+    if (data.type === 'time_extended') {
+      if (data.extraSecs) sessionExpires += data.extraSecs * 1000;
     }
 
     if (data.type === 'rate_limited') {
       showFeedback('Slow down! Wait ' + data.wait + 's', 'limited');
     }
+
+    // Server confirmed event deduction
+    if (data.type === 'event_confirmed') {
+      // Balance already deducted locally, but sync if server disagrees
+      if (data.balance !== undefined) {
+        tokenBalance = data.balance;
+        updateAccountDisplay();
+      }
+    }
   };
 
   relay.onclose = () => {
-    if (sessionExpires > Date.now()) {
-      // Unexpected close, try reconnect
-      setTimeout(connectRelay, 2000);
-    }
+    if (sessionExpires > Date.now()) setTimeout(connectRelay, 2000);
   };
 
   relay.onerror = () => {
@@ -185,11 +312,20 @@ function connectRelay() {
   };
 }
 
-function showControlPanel(duration, room) {
+// ── Control Panel Init ────────────────────────────────────────────────────────
+
+function showControlPanel() {
   document.getElementById('auth-screen').style.display = 'none';
   document.getElementById('panel').style.display = 'block';
-
-  // Start countdown timer
+  updateAccountDisplay();
+  updateCostDisplays();
+  updateQuickTipTimes();
+  if (sessionRoom) {
+    document.getElementById('reload-help').textContent =
+      'Tip tokens in ' + sessionRoom + "'s chat to reload your account & extend time";
+    document.getElementById('reload-notice-sub').textContent =
+      'Tip in ' + sessionRoom + "'s chat to reload your account & add time";
+  }
   timerInterval = setInterval(updateTimer, 100);
   updateTimer();
 }
@@ -201,14 +337,9 @@ function updateTimer() {
   const sec = secs % 60;
   const timerEl = document.getElementById('timer');
   timerEl.textContent = String(min).padStart(2, '0') + ':' + String(sec).padStart(2, '0');
-
   if (secs <= 10) timerEl.classList.add('warning');
   else timerEl.classList.remove('warning');
-
-  if (secs <= 0) {
-    clearInterval(timerInterval);
-    showExpired('Time is up!');
-  }
+  if (secs <= 0) { clearInterval(timerInterval); showExpired('Time is up!'); }
 }
 
 function showExpired(reason) {
@@ -218,64 +349,140 @@ function showExpired(reason) {
   if (timerInterval) clearInterval(timerInterval);
 }
 
-// ── Slider ──
+// ── Token Account Display ─────────────────────────────────────────────────────
+
+function updateAccountDisplay() {
+  const el = document.getElementById('balance-display');
+  el.textContent = tokenBalance;
+  el.classList.remove('low', 'balance-pop');
+  void el.offsetWidth;
+  el.classList.add('balance-pop');
+  const minCost = Math.min(eventCosts.wave, eventCosts.pulse, eventCosts.earthquake, eventCosts.max);
+  if (tokenBalance < minCost) el.classList.add('low');
+  updatePatternLocks();
+}
+
+function updateCostDisplays() {
+  document.getElementById('cost-wave').textContent = eventCosts.wave + ' tk';
+  document.getElementById('cost-pulse').textContent = eventCosts.pulse + ' tk';
+  document.getElementById('cost-earthquake').textContent = eventCosts.earthquake + ' tk';
+  document.getElementById('cost-max').textContent = eventCosts.max + ' tk';
+}
+
+function updatePatternLocks() {
+  ['wave', 'pulse', 'earthquake', 'max'].forEach(function(p) {
+    const btn = document.getElementById('btn-' + p);
+    if (tokenBalance < eventCosts[p]) btn.classList.add('locked');
+    else btn.classList.remove('locked');
+  });
+}
+
+function updateQuickTipTimes() {
+  [50, 100, 250, 500].forEach(function(a) {
+    const secs = Math.floor((a / tokensPerMinute) * 60);
+    const el = document.getElementById('qt-time-' + a);
+    if (el) el.textContent = '+' + secs + 's';
+  });
+}
+
+// ── Slider (FREE) ─────────────────────────────────────────────────────────────
+
 const slider = document.getElementById('slider');
 const intensityDisplay = document.getElementById('intensity-display');
-slider.addEventListener('input', () => {
-  intensityDisplay.textContent = slider.value;
-});
+slider.addEventListener('input', () => { intensityDisplay.textContent = slider.value; });
 
 function sendIntensity() {
   if (cooldownActive) return;
   const level = parseInt(slider.value);
-  sendCommand(level, 'constant', 3);
+  sendCommand({ vibe: level, pattern: 'constant', secs: 3 });
   showFeedback('Sent: Level ' + level + '/20', 'sent');
 }
 
-function sendPattern(pattern, secs) {
+// ── Major Events (AUTO-TIP: deducts from account, sends tip command) ──────────
+
+function triggerEvent(pattern) {
   if (cooldownActive) return;
+  const cost = eventCosts[pattern];
+
+  if (tokenBalance < cost) {
+    showFeedback('Need ' + cost + ' tk — reload your account!', 'error');
+    const btn = document.getElementById('btn-' + pattern);
+    btn.classList.add('shake');
+    setTimeout(() => btn.classList.remove('shake'), 300);
+    return;
+  }
+
+  // AUTO-DEDUCT from token account
+  tokenBalance -= cost;
+  updateAccountDisplay();
+
+  // Send tip event through WebSocket → relay → extension → CB app → toy
   const vibeMap = { wave: 12, pulse: 15, earthquake: 20, max: 20 };
-  sendCommand(vibeMap[pattern] || 10, pattern, secs);
-  showFeedback('Sent: ' + pattern.toUpperCase(), 'sent');
+  sendCommand({
+    vibe: vibeMap[pattern] || 10,
+    pattern: pattern,
+    secs: eventDurations[pattern] || 5,
+    cost: cost,
+    autoTip: true
+  });
+
+  showFeedback(pattern.toUpperCase() + ' — auto-tipped ' + cost + ' tk', 'deducted');
 }
 
 function sendStop() {
   if (cooldownActive) return;
-  sendCommand(0, 'stop', 0);
+  sendCommand({ vibe: 0, pattern: 'stop', secs: 0 });
   showFeedback('Toy stopped', 'sent');
 }
 
-function sendCommand(vibe, pattern, secs) {
+function sendCommand(payload) {
   if (!relay || relay.readyState !== WebSocket.OPEN) return;
   if (cooldownActive) return;
 
   relay.send(JSON.stringify({
     type: 'fan_control',
     otp: otp,
-    payload: { vibe: vibe, pattern: pattern, secs: secs }
+    payload: payload
   }));
 
-  // Mirror to fan's own sync page if open
-  try {
-    if (window.opener) {
-      window.opener.postMessage({ type: 'vibe', vibe: vibe, secs: secs }, '*');
-    }
-  } catch(e) {}
-
-  // Start cooldown
+  try { if (window.opener) window.opener.postMessage({ type: 'vibe', vibe: payload.vibe, secs: payload.secs }, '*'); } catch(e) {}
   startCooldown();
 }
 
+// ── Reload Account (Tip Slot + Quick Tips) ────────────────────────────────────
+
+function sendTipReload() {
+  const input = document.getElementById('tip-amount');
+  const amount = parseInt(input.value);
+  if (!amount || amount < 1) { showFeedback('Enter a valid amount', 'error'); return; }
+  requestReload(amount);
+  input.value = '';
+}
+
+function quickReload(amount) { requestReload(amount); }
+
+function requestReload(amount) {
+  // Tell relay about the tip request so it can prompt/verify
+  if (relay && relay.readyState === WebSocket.OPEN) {
+    relay.send(JSON.stringify({ type: 'fan_tip_request', otp: otp, amount: amount }));
+  }
+  const extraSecs = Math.floor((amount / tokensPerMinute) * 60);
+  showFeedback('Tip ' + amount + ' tk in ' + (sessionRoom || "broadcaster's") + ' chat → +' + extraSecs + 's', 'limited');
+}
+
+// ── Cooldown ──────────────────────────────────────────────────────────────────
+
 function startCooldown() {
   cooldownActive = true;
-  const sendBtn = document.getElementById('send-btn');
-  sendBtn.className = 'send-btn cooldown';
-  document.querySelectorAll('.pattern-btn').forEach(b => b.classList.add('cooldown'));
-
+  document.getElementById('send-btn').className = 'send-btn cooldown';
+  document.querySelectorAll('.pattern-btn').forEach(b => {
+    if (!b.classList.contains('locked')) b.classList.add('cooldown');
+  });
   setTimeout(() => {
     cooldownActive = false;
-    sendBtn.className = 'send-btn ready';
+    document.getElementById('send-btn').className = 'send-btn ready';
     document.querySelectorAll('.pattern-btn').forEach(b => b.classList.remove('cooldown'));
+    updatePatternLocks();
   }, 2000);
 }
 
@@ -283,7 +490,7 @@ function showFeedback(msg, cls) {
   const el = document.getElementById('feedback');
   el.textContent = msg;
   el.className = 'feedback show ' + cls;
-  setTimeout(() => { el.className = 'feedback'; }, 1500);
+  setTimeout(() => { el.className = 'feedback'; }, 2500);
 }
 </script>
 </body>

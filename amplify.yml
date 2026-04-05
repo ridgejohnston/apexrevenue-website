@@ -11,5 +11,8 @@ frontend:
       - cb-app.html
       - apexsensations.html
       - signup.html
+      - control.html
+      - sync.html
+      - Apex_Revenue_Logo_with_background.png
   cache:
     paths: []

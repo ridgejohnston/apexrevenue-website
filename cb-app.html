@@ -401,6 +401,41 @@ footer{border-top:1px solid var(--border);padding:24px 40px;display:flex;align-i
     </div>
   </div>
 
+  <!-- v0.2.0 Features -->
+  <div class="done" style="margin-top:48px;border-top:1px solid rgba(255,255,255,0.06);padding-top:48px;">
+    <div style="display:inline-block;font-size:11px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#a855f7;background:rgba(168,85,247,0.1);border:1px solid rgba(168,85,247,0.25);padding:5px 14px;border-radius:20px;margin-bottom:16px;">NEW IN v0.2.0</div>
+    <h2>Interactive Features</h2>
+    <p>ApexSensations v0.2.0 adds two powerful interactive features and new broadcaster commands.</p>
+
+    <div class="features">
+      <div class="feat">
+        <div class="feat-icon">🎮</div>
+        <div class="feat-name">Give Control</div>
+        <div class="feat-desc">Fans tip to take over your toy in real time. A secure OTP is whispered to them with a link to the control page. Session auto-expires on a timer.</div>
+      </div>
+      <div class="feat">
+        <div class="feat-icon">🔗</div>
+        <div class="feat-name">Digital Sync</div>
+        <div class="feat-desc">Fans with Bluetooth toys sync to your vibes. Every tip-triggered vibration mirrors on their device via Intiface Central. Type /sync to announce.</div>
+      </div>
+      <div class="feat">
+        <div class="feat-icon">📡</div>
+        <div class="feat-name">Broadcaster Commands</div>
+        <div class="feat-desc"><code style="background:rgba(168,85,247,0.12);color:#a855f7;padding:2px 6px;border-radius:4px;font-size:12px;">/sync</code> announce sync &bull; <code style="background:rgba(168,85,247,0.12);color:#a855f7;padding:2px 6px;border-radius:4px;font-size:12px;">/endcontrol</code> stop Give Control &bull; <code style="background:rgba(168,85,247,0.12);color:#a855f7;padding:2px 6px;border-radius:4px;font-size:12px;">/extendcontrol 30</code> extend session</div>
+      </div>
+    </div>
+
+    <div style="background:rgba(168,85,247,0.04);border:1px solid rgba(168,85,247,0.15);border-radius:14px;padding:24px 28px;margin-top:28px;text-align:left;">
+      <div style="font-weight:600;font-size:15px;color:#a855f7;margin-bottom:10px;">Settings to configure:</div>
+      <div style="font-size:13px;color:var(--muted);line-height:2;">
+        <strong style="color:var(--text);">sync_enabled</strong> — Enable Digital Sync (Yes/No)<br>
+        <strong style="color:var(--text);">sync_announce_interval</strong> — Minutes between auto-announcements (default: 15)<br>
+        <strong style="color:var(--text);">control_page_url</strong> — Give Control page URL (default: apexrevenue.works/control)<br>
+        <strong style="color:var(--text);">sync_page_url</strong> — Digital Sync page URL (default: apexrevenue.works/sync)
+      </div>
+    </div>
+  </div>
+
 </div>
 
 <footer>

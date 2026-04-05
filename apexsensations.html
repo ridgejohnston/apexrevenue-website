@@ -611,12 +611,113 @@
       </div>
     </div>
 
+    <!-- v0.2.0 — Session & Sync Commands -->
+    <div style="margin-top:56px;">
+      <div style="font-family:'Bebas Neue',cursive;font-size:28px;letter-spacing:3px;color:var(--purple);margin-bottom:24px;">SESSION &amp; SYNC COMMANDS <span style="font-size:14px;background:rgba(168,85,247,0.15);padding:3px 10px;border-radius:8px;vertical-align:middle;margin-left:8px;">v0.2.0</span></div>
+
+      <div class="cmd-block">
+        <div class="cmd-prefix" style="color:var(--purple);">/</div>
+        <div class="cmd-info">
+          <div class="cmd-usage">sync</div>
+          <div class="cmd-desc">Announce Digital Sync to the room. Viewers with Bluetooth toys can visit the sync page and feel every vibration in real time through Intiface Central.</div>
+          <div class="cmd-example">/sync → broadcasts sync URL and setup instructions to everyone</div>
+        </div>
+      </div>
+      <div class="cmd-block">
+        <div class="cmd-prefix" style="color:var(--purple);">/</div>
+        <div class="cmd-info">
+          <div class="cmd-usage">endcontrol</div>
+          <div class="cmd-desc">Immediately terminate the active Give Control session. Returns full toy control to the broadcaster. <strong>Owner/Mod only.</strong></div>
+          <div class="cmd-example">/endcontrol → ends current fan's control session instantly</div>
+        </div>
+      </div>
+      <div class="cmd-block">
+        <div class="cmd-prefix" style="color:var(--purple);">/</div>
+        <div class="cmd-info">
+          <div class="cmd-usage">extendcontrol &lt;seconds&gt;</div>
+          <div class="cmd-desc">Extend the current Give Control session by the specified number of seconds. <strong>Owner/Mod only.</strong></div>
+          <div class="cmd-example">/extendcontrol 30 → adds 30 more seconds to the active session</div>
+        </div>
+      </div>
+    </div>
+
     <!-- Auto-cascade callout -->
     <div style="background:rgba(45,212,160,0.04);border:0.5px solid rgba(45,212,160,0.2);border-radius:16px;padding:28px 32px;margin-top:32px;display:flex;gap:20px;align-items:flex-start;">
       <div style="font-size:24px;margin-top:2px;">⚡</div>
       <div>
         <div style="font-family:'Bebas Neue',cursive;font-size:22px;letter-spacing:2px;color:var(--green);margin-bottom:8px;">AUTO-CASCADE ON TIER ADJUSTMENT</div>
         <div style="font-size:14px;color:var(--muted2);line-height:1.7;">When you use <code style="font-family:'DM Mono',monospace;font-size:12px;color:var(--green);">!settier</code> to adjust a range, ApexSensations automatically expands or contracts adjacent tier ranges to maintain clean boundaries — no overlaps, no dead zones.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════
+     GIVE CONTROL + DIGITAL SYNC  (v0.2.0)
+═══════════════════════════════════════ -->
+<section class="section" style="background:linear-gradient(180deg,rgba(168,85,247,0.03) 0%,transparent 100%);">
+  <div class="section-inner">
+    <div class="section-eyebrow" style="color:var(--purple);border-color:rgba(168,85,247,0.3);background:rgba(168,85,247,0.06);">New in v0.2.0</div>
+    <h2 class="section-title">GIVE CONTROL<br>&amp; DIGITAL SYNC</h2>
+    <p class="section-desc">Two new interactive features that bring fans closer to the action — one gives direct toy control, the other lets fans feel every vibration on their own device.</p>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:32px;margin-top:56px;">
+      <!-- Give Control Card -->
+      <div style="background:var(--bg-card);border:0.5px solid rgba(168,85,247,0.2);border-radius:20px;padding:40px 36px;position:relative;overflow:hidden;">
+        <div style="position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#7c5cfc,#a855f7);"></div>
+        <div style="font-size:42px;margin-bottom:16px;">🎮</div>
+        <div style="font-family:'Bebas Neue',cursive;font-size:32px;letter-spacing:3px;color:var(--purple);margin-bottom:12px;">GIVE CONTROL</div>
+        <div style="color:var(--muted2);font-size:14px;line-height:1.8;margin-bottom:24px;">
+          A fan tips the exact Give Control token amount and receives a <strong style="color:var(--text);">one-time password</strong> whispered privately. They visit the control page, enter the OTP, and take over the toy — adjusting intensity, patterns, and speed in real time for the configured duration.
+        </div>
+        <div style="font-size:13px;color:var(--muted);line-height:1.9;">
+          <div><span style="color:var(--purple);">&#9654;</span> OTP generated per session — secure &amp; single-use</div>
+          <div><span style="color:var(--purple);">&#9654;</span> Broadcaster can <code style="font-family:'DM Mono',monospace;font-size:11px;color:var(--purple);">/endcontrol</code> at any time</div>
+          <div><span style="color:var(--purple);">&#9654;</span> Auto-expires after configured duration + 2s</div>
+          <div><span style="color:var(--purple);">&#9654;</span> Room announcement + overlay event on activation</div>
+        </div>
+      </div>
+
+      <!-- Digital Sync Card -->
+      <div style="background:var(--bg-card);border:0.5px solid rgba(45,212,160,0.2);border-radius:20px;padding:40px 36px;position:relative;overflow:hidden;">
+        <div style="position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#2DD4A0,#6aff6a);"></div>
+        <div style="font-size:42px;margin-bottom:16px;">🔗</div>
+        <div style="font-family:'Bebas Neue',cursive;font-size:32px;letter-spacing:3px;color:var(--green);margin-bottom:12px;">DIGITAL SYNC</div>
+        <div style="color:var(--muted2);font-size:14px;line-height:1.8;margin-bottom:24px;">
+          Fans with Bluetooth-enabled toys can <strong style="color:var(--text);">sync to the broadcaster's vibes</strong> in real time. Every tip-triggered vibration mirrors on their personal device — same intensity, same pattern, same duration. Powered by Intiface Central + Buttplug.io.
+        </div>
+        <div style="font-size:13px;color:var(--muted);line-height:1.9;">
+          <div><span style="color:var(--green);">&#9654;</span> Works with Lovense, We-Vibe, Kiiroo &amp; 200+ devices</div>
+          <div><span style="color:var(--green);">&#9654;</span> Broadcaster types <code style="font-family:'DM Mono',monospace;font-size:11px;color:var(--green);">/sync</code> to announce</div>
+          <div><span style="color:var(--green);">&#9654;</span> Periodic auto-announcements (configurable interval)</div>
+          <div><span style="color:var(--green);">&#9654;</span> Fan connects via Intiface Central (free, local)</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- How it works flow -->
+    <div style="background:rgba(255,255,255,0.02);border:0.5px solid var(--border);border-radius:20px;padding:40px 36px;margin-top:40px;">
+      <div style="font-family:'Bebas Neue',cursive;font-size:22px;letter-spacing:2px;color:var(--text);margin-bottom:24px;text-align:center;">HOW GIVE CONTROL WORKS</div>
+      <div style="display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap;">
+        <div style="background:rgba(168,85,247,0.08);border:0.5px solid rgba(168,85,247,0.25);border-radius:12px;padding:14px 20px;text-align:center;font-size:13px;color:var(--text);min-width:140px;">
+          <div style="font-size:20px;margin-bottom:6px;">💰</div>Fan tips exact amount
+        </div>
+        <div style="color:var(--muted);font-size:20px;">→</div>
+        <div style="background:rgba(168,85,247,0.08);border:0.5px solid rgba(168,85,247,0.25);border-radius:12px;padding:14px 20px;text-align:center;font-size:13px;color:var(--text);min-width:140px;">
+          <div style="font-size:20px;margin-bottom:6px;">🔑</div>OTP generated &amp; whispered
+        </div>
+        <div style="color:var(--muted);font-size:20px;">→</div>
+        <div style="background:rgba(168,85,247,0.08);border:0.5px solid rgba(168,85,247,0.25);border-radius:12px;padding:14px 20px;text-align:center;font-size:13px;color:var(--text);min-width:140px;">
+          <div style="font-size:20px;margin-bottom:6px;">🌐</div>Fan visits control page
+        </div>
+        <div style="color:var(--muted);font-size:20px;">→</div>
+        <div style="background:rgba(168,85,247,0.08);border:0.5px solid rgba(168,85,247,0.25);border-radius:12px;padding:14px 20px;text-align:center;font-size:13px;color:var(--text);min-width:140px;">
+          <div style="font-size:20px;margin-bottom:6px;">🎮</div>Real-time toy control
+        </div>
+        <div style="color:var(--muted);font-size:20px;">→</div>
+        <div style="background:rgba(168,85,247,0.08);border:0.5px solid rgba(168,85,247,0.25);border-radius:12px;padding:14px 20px;text-align:center;font-size:13px;color:var(--text);min-width:140px;">
+          <div style="font-size:20px;margin-bottom:6px;">⏱️</div>Auto-expires on timer
+        </div>
       </div>
     </div>
   </div>
@@ -674,6 +775,16 @@
         <div class="feat-icon">⚡</div>
         <div class="feat-title">LIVE ADJUSTMENTS</div>
         <div class="feat-desc">Change tier ranges, goals, and token counts mid-stream with broadcaster commands. No restarts needed.</div>
+      </div>
+      <div class="feat-card" style="border-color:rgba(168,85,247,0.2);">
+        <div class="feat-icon">🎮</div>
+        <div class="feat-title">GIVE CONTROL</div>
+        <div class="feat-desc">Fans tip to take over your toy. OTP-secured, time-limited, with real-time WebSocket control. End or extend anytime with /endcontrol and /extendcontrol.</div>
+      </div>
+      <div class="feat-card" style="border-color:rgba(45,212,160,0.2);">
+        <div class="feat-icon">🔗</div>
+        <div class="feat-title">DIGITAL SYNC</div>
+        <div class="feat-desc">Fans with Bluetooth toys sync to your vibes in real time. Every tip-triggered vibration mirrors on their device via Intiface Central.</div>
       </div>
     </div>
   </div>

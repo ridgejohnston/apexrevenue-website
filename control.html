@@ -40,7 +40,6 @@ body{background:#0a0a14;color:#e0e0f0;font-family:'Segoe UI',system-ui,sans-seri
 .slider-label{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
 .slider-label span{font-size:13px;color:#94a3b8}
 .intensity-value{font-size:32px;font-weight:900;color:#a855f7}
-.free-tag{font-size:10px;color:#6aff6a;text-transform:uppercase;letter-spacing:1px;margin-left:8px}
 input[type=range]{-webkit-appearance:none;width:100%;height:12px;border-radius:6px;background:linear-gradient(90deg,#1a1a3a 0%,#7c5cfc 50%,#ff3d80 100%);outline:none;cursor:pointer}
 input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:28px;height:28px;border-radius:50%;background:#fff;box-shadow:0 2px 8px rgba(0,0,0,.4);cursor:grab}
 input[type=range]::-webkit-slider-thumb:active{cursor:grabbing;transform:scale(1.1)}
@@ -61,6 +60,9 @@ input[type=range]::-webkit-slider-thumb:active{cursor:grabbing;transform:scale(1
 .pattern-btn .cost-tag{display:inline-block;font-size:12px;color:#0a0a14;background:#ffd166;padding:2px 8px;border-radius:6px;margin-top:6px;font-weight:800}
 .pattern-btn.locked .cost-tag{background:#ff6b6b}
 .auto-tip-badge{display:block;font-size:9px;color:#6aff6a;text-transform:uppercase;letter-spacing:1px;margin-top:4px}
+.pattern-btn.pause{border-color:#ff3d3d44}
+.pattern-btn.pause:hover{border-color:#ff3d3d;background:#1a0a0a}
+.cost-tag.pause-tag{background:#6aff6a;color:#0a0a14}
 
 /* ── Reload Account (Tip Slot) ── */
 .reload-section{margin-bottom:20px;padding:16px;background:linear-gradient(135deg,#0a1a0a,#0a0a1a);border:1px solid #2a3a2a;border-radius:12px}
@@ -77,12 +79,6 @@ input[type=range]::-webkit-slider-thumb:active{cursor:grabbing;transform:scale(1
 .quick-tip-btn .qt-amount{display:block;font-size:16px;font-weight:900;color:#ffd166}
 .quick-tip-btn .qt-time{display:block;font-size:10px;color:#6aff6a;margin-top:2px}
 .reload-help{font-size:11px;color:#4a5a4a;margin-top:10px;text-align:center;line-height:1.4}
-
-/* ── Stop Button ── */
-.stop-section{display:flex;align-items:center;justify-content:space-between;padding-top:16px;border-top:1px solid #2a2a4a}
-.stop-btn{padding:12px 24px;border:2px solid #ff3d3d;border-radius:12px;background:transparent;color:#ff3d3d;font-size:14px;font-weight:800;cursor:pointer;transition:all .15s}
-.stop-btn:hover{background:#2a0a0a}
-.rate-info{font-size:11px;color:#64748b}
 
 /* ── Expired Screen ── */
 .expired{display:none;text-align:center}
@@ -134,10 +130,10 @@ input[type=range]::-webkit-slider-thumb:active{cursor:grabbing;transform:scale(1
         <div class="account-tag">AUTO-TIP</div>
       </div>
 
-      <!-- Intensity Slider (FREE) -->
+      <!-- Intensity Slider -->
       <div class="slider-section">
         <div class="slider-label">
-          <span>Intensity <span class="free-tag">FREE</span></span>
+          <span>Intensity</span>
           <div class="intensity-value" id="intensity-display">10</div>
         </div>
         <input type="range" id="slider" min="1" max="20" value="10" step="1">
@@ -167,6 +163,10 @@ input[type=range]::-webkit-slider-thumb:active{cursor:grabbing;transform:scale(1
           <span class="cost-tag" id="cost-max">-- tk</span>
           <span class="auto-tip-badge">auto-tip</span>
         </button>
+        <button class="pattern-btn pause" onclick="sendStop()" id="btn-pause">
+          <span class="emoji">⏸</span> PAUSE TOY
+          <span class="cost-tag pause-tag" id="cost-pause">FREE</span>
+        </button>
       </div>
 
       <!-- Reload Notice -->
@@ -191,11 +191,6 @@ input[type=range]::-webkit-slider-thumb:active{cursor:grabbing;transform:scale(1
         <p class="reload-help" id="reload-help">Tip tokens in the broadcaster's chat to reload your account & extend time</p>
       </div>
 
-      <!-- Stop + Rate Info -->
-      <div class="stop-section">
-        <button class="stop-btn" onclick="sendStop()">⏸ STOP TOY</button>
-        <span class="rate-info">Slider & Stop are free</span>
-      </div>
     </div>
   </div>
 

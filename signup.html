@@ -406,7 +406,38 @@
       showStep('step-verify');
       document.getElementById('c0').focus();
     } catch (err) {
-      showError(errBox, friendlyError(err.message));
+      const msg = err.message || '';
+      // Account exists — check if it's unconfirmed and needs verification
+      if (msg.includes('UsernameExistsException') || msg.includes('already exists') || msg.includes('User already exists')) {
+        try {
+          // Try signing in to detect account state
+          await cognitoCall('InitiateAuth', {
+            ClientId: CLIENT_ID,
+            AuthFlow: 'USER_PASSWORD_AUTH',
+            AuthParameters: { USERNAME: email, PASSWORD: pw }
+          });
+          // Sign-in succeeded — account is confirmed, redirect to login
+          showError(errBox, 'You already have an account! Redirecting to sign in...');
+          setTimeout(() => { window.location.href = '/login'; }, 1500);
+        } catch (signInErr) {
+          const signInMsg = signInErr.message || '';
+          if (signInMsg.includes('UserNotConfirmedException') || signInMsg.includes('not confirmed')) {
+            // Account exists but NOT confirmed — resend code and show verify screen
+            currentEmail = email;
+            document.getElementById('verify-email-display').textContent = email;
+            try { await cognitoCall('ResendConfirmationCode', { ClientId: CLIENT_ID, Username: email }); } catch(e) {}
+            showStep('step-verify');
+            document.getElementById('c0').focus();
+          } else if (signInMsg.includes('NotAuthorizedException') || signInMsg.includes('Incorrect')) {
+            // Account exists, is confirmed, but wrong password entered
+            showError(errBox, 'An account with this email already exists. Please sign in with your password.');
+          } else {
+            showError(errBox, friendlyError(msg));
+          }
+        }
+      } else {
+        showError(errBox, friendlyError(msg));
+      }
     } finally {
       btn.classList.remove('loading'); btn.disabled = false;
     }

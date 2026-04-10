@@ -928,112 +928,96 @@
     <div class="progress-track">
       <div class="pt-step active" id="pt1"><div class="pt-circle">1</div><div class="pt-label">Install</div></div>
       <div class="pt-line" id="ptl1"></div>
-      <div class="pt-step" id="pt2"><div class="pt-circle">2</div><div class="pt-label">Download</div></div>
+      <div class="pt-step" id="pt2"><div class="pt-circle">2</div><div class="pt-label">Create Account</div></div>
       <div class="pt-line" id="ptl2"></div>
-      <div class="pt-step" id="pt3"><div class="pt-circle">3</div><div class="pt-label">Create Account</div></div>
-      <div class="pt-line" id="ptl3"></div>
-      <div class="pt-step" id="pt4"><div class="pt-circle">4</div><div class="pt-label">Claim Referral</div></div>
+      <div class="pt-step" id="pt3"><div class="pt-circle">3</div><div class="pt-label">Claim Referral</div></div>
     </div>
 
-    <!-- STEP 1 -->
+    <!-- STEP 1 — INSTALL EXTENSION -->
     <div class="step-card active" id="step1">
       <div class="step-num">01</div>
       <div class="step-eyebrow">Step 01</div>
       <h2 class="step-title">Install the Extension</h2>
-      <p class="step-desc">Add Apex Revenue to Chrome in seconds. Works on <strong>Chaturbate, Stripchat, MyFreeCams,</strong> and <strong>xTease</strong> automatically.</p>
-      <ul class="feature-list">
+      <p class="step-desc">Download the Apex Revenue extension and load it into Chrome in under two minutes. Works on <strong>Chaturbate, Stripchat, MyFreeCams,</strong> and <strong>xTease</strong> automatically.</p>
+
+      <ul class="feature-list" style="margin-bottom:28px;">
         <li><span>Real-time tip analytics overlaid directly on your stream page</span></li>
         <li><span>Whale tracker — never miss a high-value viewer</span></li>
         <li><span>AI-powered tip prompt suggestions at the right moment</span></li>
         <li><span>Fan leaderboards with 30-day rolling history</span></li>
       </ul>
-      <div class="btn-group">
-        <button class="btn-red" onclick="startInstall()">
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="3" fill="#fff"/><circle cx="8" cy="8" r="7" stroke="#fff" stroke-width="1.5"/><path d="M8 1v6M2.5 4.5l5.5 3M13.5 4.5L8 7.5" stroke="#fff" stroke-width="1.2" stroke-linecap="round"/></svg>
-          Add to Chrome — Free
-        </button>
-        <span style="font-size:12px;color:var(--muted);">Chrome Web Store · Verified</span>
-      </div>
-      <div class="divider"></div>
-      <button class="btn-outline" onclick="markStep1Done(); scrollToStep(2)">Already Installed? Continue →</button>
-    </div>
-
-    <!-- STEP 2 — DOWNLOAD EXTENSION -->
-    <div class="step-card" id="step2">
-      <div class="step-num">02</div>
-      <div class="step-eyebrow">Step 02</div>
-      <h2 class="step-title">Download the Extension</h2>
-      <p class="step-desc">Download the pre-built extension ZIP directly from <strong>AWS S3</strong> — no Git, no cloning, no Git LFS. Everything is already compiled and ready to load.</p>
 
       <!-- Download card -->
       <div style="background:#0D0D0D;border:1px solid rgba(232,0,26,0.3);border-radius:14px;padding:22px 24px;margin-bottom:28px;position:relative;overflow:hidden;">
         <div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--red) 40%,transparent);"></div>
         <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap;">
-          <div style="flex:1;min-width:200px;">
+          <div style="flex:1;min-width:180px;">
             <div style="font-family:'DM Mono',monospace;font-size:13px;color:var(--text);font-weight:500;margin-bottom:4px;">ApexRevenue-Extension-latest.zip</div>
             <div style="font-size:12px;color:var(--muted);">401 KB &nbsp;·&nbsp; v0.7.2 &nbsp;·&nbsp; Served from AWS S3</div>
           </div>
           <a href="https://apex-revenue-app-994438967527.s3.amazonaws.com/extension/ApexRevenue-Extension-latest.zip"
              class="btn-red"
-             download="ApexRevenue-Extension-0.7.2.zip"
-             onclick="markStep2Downloaded()"
-             style="display:inline-flex;align-items:center;gap:8px;padding:11px 22px;font-size:14px;white-space:nowrap;">
+             download="ApexRevenue-Extension.zip"
+             style="display:inline-flex;align-items:center;gap:8px;padding:11px 22px;font-size:14px;white-space:nowrap;text-decoration:none;">
             <svg width="15" height="15" viewBox="0 0 16 16" fill="none"><path d="M8 2v8M5 7l3 4 3-4" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M2 12h12" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/></svg>
             Download ZIP
           </a>
         </div>
       </div>
 
-      <!-- Install instructions -->
-      <ul class="feature-list" style="margin-bottom:28px;">
-        <li>
-          <span>
-            <strong style="color:var(--text);">Extract the ZIP</strong> anywhere — Desktop or Documents works great.
-            You'll get a folder containing <code style="font-size:11px;font-family:'DM Mono',monospace;color:var(--red);">manifest.json</code> at the top level.
-          </span>
-        </li>
-        <li>
-          <span>
-            Open Chrome and go to <code style="font-size:11px;font-family:'DM Mono',monospace;color:var(--red);">chrome://extensions</code>
-          </span>
-        </li>
-        <li>
-          <span>
-            Toggle <strong style="color:var(--text);">Developer mode</strong> on (top-right corner)
-          </span>
-        </li>
-        <li>
-          <span>
-            Click <strong style="color:var(--text);">Load unpacked</strong> → select the extracted folder
-            (the one containing <code style="font-size:11px;font-family:'DM Mono',monospace;color:var(--red);">manifest.json</code>)
-          </span>
-        </li>
-        <li>
-          <span>
-            Apex Revenue will appear in your extension list — pin it to your toolbar with the 🧩 button
-          </span>
-        </li>
-      </ul>
+      <!-- Load unpacked steps -->
+      <div style="display:flex;flex-direction:column;gap:0;border:0.5px solid var(--border);border-radius:14px;overflow:hidden;margin-bottom:28px;">
 
-      <!-- Visual guide -->
-      <div style="background:#111;border:0.5px solid var(--border);border-radius:12px;padding:18px 20px;margin-bottom:28px;font-family:'DM Mono',monospace;font-size:11px;line-height:2;color:var(--muted);">
-        <div><span style="color:var(--red);">📁</span> ApexRevenue-Extension-0.7.2/ &nbsp;<span style="color:#2DD4A0;font-size:10px;">← select THIS folder</span></div>
-        <div style="padding-left:20px;"><span style="color:var(--red);">📄</span> manifest.json</div>
-        <div style="padding-left:20px;"><span style="color:var(--muted);">📄</span> background.js</div>
-        <div style="padding-left:20px;"><span style="color:var(--muted);">📄</span> content.js</div>
-        <div style="padding-left:20px;"><span style="color:var(--muted);">📄</span> overlay.html / overlay.js</div>
-        <div style="padding-left:20px;"><span style="color:var(--muted);">📁</span> icons/</div>
-        <div style="padding-left:40px;"><span style="color:var(--muted);">🖼</span> icon16.png, icon32.png, icon48.png, icon128.png</div>
+        <div style="display:flex;align-items:flex-start;gap:16px;padding:18px 20px;border-bottom:0.5px solid var(--border);">
+          <div style="width:26px;height:26px;border-radius:50%;background:var(--red);color:#fff;font-family:'DM Mono',monospace;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;">1</div>
+          <div>
+            <div style="font-size:14px;font-weight:600;color:var(--text);margin-bottom:4px;">Extract the ZIP</div>
+            <div style="font-size:13px;color:var(--muted);line-height:1.6;">Right-click the downloaded file &rarr; <strong style="color:var(--text);">Extract All</strong>. You'll get a folder with <code style="font-size:11px;font-family:'DM Mono',monospace;color:var(--red);">manifest.json</code> inside — remember where you put it.</div>
+          </div>
+        </div>
+
+        <div style="display:flex;align-items:flex-start;gap:16px;padding:18px 20px;border-bottom:0.5px solid var(--border);">
+          <div style="width:26px;height:26px;border-radius:50%;background:var(--red);color:#fff;font-family:'DM Mono',monospace;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;">2</div>
+          <div>
+            <div style="font-size:14px;font-weight:600;color:var(--text);margin-bottom:4px;">Open Chrome Extensions</div>
+            <div style="font-size:13px;color:var(--muted);line-height:1.6;">In Chrome, navigate to <code style="font-size:11px;font-family:'DM Mono',monospace;color:var(--red);">chrome://extensions</code> &mdash; or click the &#8942; menu &rarr; <strong style="color:var(--text);">Extensions &rarr; Manage Extensions</strong>.</div>
+          </div>
+        </div>
+
+        <div style="display:flex;align-items:flex-start;gap:16px;padding:18px 20px;border-bottom:0.5px solid var(--border);">
+          <div style="width:26px;height:26px;border-radius:50%;background:var(--red);color:#fff;font-family:'DM Mono',monospace;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;">3</div>
+          <div>
+            <div style="font-size:14px;font-weight:600;color:var(--text);margin-bottom:4px;">Enable Developer Mode</div>
+            <div style="font-size:13px;color:var(--muted);line-height:1.6;">Toggle <strong style="color:var(--text);">Developer mode</strong> on using the switch in the <strong style="color:var(--text);">top-right corner</strong> of the extensions page.</div>
+          </div>
+        </div>
+
+        <div style="display:flex;align-items:flex-start;gap:16px;padding:18px 20px;border-bottom:0.5px solid var(--border);">
+          <div style="width:26px;height:26px;border-radius:50%;background:var(--red);color:#fff;font-family:'DM Mono',monospace;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;">4</div>
+          <div>
+            <div style="font-size:14px;font-weight:600;color:var(--text);margin-bottom:4px;">Load Unpacked</div>
+            <div style="font-size:13px;color:var(--muted);line-height:1.6;">Click <strong style="color:var(--text);">Load unpacked</strong> (top-left button) &rarr; browse to the extracted folder &rarr; select it. Apex Revenue will appear in your extension list instantly.</div>
+          </div>
+        </div>
+
+        <div style="display:flex;align-items:flex-start;gap:16px;padding:18px 20px;">
+          <div style="width:26px;height:26px;border-radius:50%;background:rgba(45,212,160,0.15);border:1px solid rgba(45,212,160,0.4);color:#2DD4A0;font-size:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;">✓</div>
+          <div>
+            <div style="font-size:14px;font-weight:600;color:#2DD4A0;margin-bottom:4px;">Pin it to your toolbar</div>
+            <div style="font-size:13px;color:var(--muted);line-height:1.6;">Click the 🧩 puzzle icon next to Chrome's address bar &rarr; find <strong style="color:var(--text);">Apex Revenue</strong> &rarr; click the 📌 pin icon so it's always one click away.</div>
+          </div>
+        </div>
+
       </div>
 
       <div class="divider"></div>
-      <button class="btn-outline" onclick="markStep2Done(); scrollToStep(3)">Extension loaded? Continue →</button>
+      <button class="btn-outline" onclick="markStep1Done(); scrollToStep(2)">Extension loaded? Continue to Create Account →</button>
     </div>
 
-        <!-- STEP 2 -->
-    <div class="step-card" id="step3">
-      <div class="step-num">03</div>
-      <div class="step-eyebrow">Step 03</div>
+    <!-- STEP 2 — CREATE ACCOUNT -->
+    <div class="step-card" id="step2">
+      <div class="step-num">02</div>
+      <div class="step-eyebrow">Step 02</div>
       <h2 class="step-title">Create Your Account</h2>
       <p class="step-desc">Sign up and get <strong>instant Platinum access</strong> — no credit card, no billing, no catch. Every account during our beta phase is fully unlocked.</p>
 
@@ -1084,19 +1068,19 @@
       </div>
 
       <div class="btn-group">
-        <a href="/signup.html" class="btn-red" onclick="markStep3Done()">
+        <a href="/signup.html" class="btn-red" onclick="markStep2Done()">
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 1a3 3 0 100 6 3 3 0 000-6zM2 13c0-3 2.7-5 6-5s6 2 6 5" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/></svg>
           Create Free Account — Platinum Unlocked
         </a>
       </div>
       <div class="divider"></div>
-      <button class="btn-outline" onclick="markStep3Done(); scrollToStep(4)">Already have an account? Continue →</button>
+      <button class="btn-outline" onclick="markStep2Done(); scrollToStep(3)">Already have an account? Continue →</button>
     </div>
 
-    <!-- STEP 3 -->
-    <div class="step-card" id="step4">
-      <div class="step-num">04</div>
-      <div class="step-eyebrow">Step 04</div>
+    <!-- STEP 3 — CLAIM REFERRAL -->
+    <div class="step-card" id="step3">
+      <div class="step-num">03</div>
+      <div class="step-eyebrow">Step 03</div>
       <h2 class="step-title">Claim Your Referral</h2>
       <p class="step-desc">Enter your referral code to link your account. Your invitor earns <strong>1% of your gross token earnings</strong> automatically — Apex Revenue collects a 5% platform fee and passes 20% of that back to whoever referred you.</p>
       <div class="ref-detected-banner" id="ref-banner">
@@ -1314,11 +1298,18 @@
   }
 
   /* ── PAGE STEP STATE ── */
-  let steps = { 1: false, 2: false, 3: false };
+  let steps = { 1: false, 2: false };
 
+
+
+
+
+
+
+  /* ── STEP STATE ── */
   function markStep1Done() {
     if (steps[1]) return; steps[1] = true;
-    const c = document.getElementById('step1');
+    var c = document.getElementById('step1');
     c.classList.remove('active'); c.classList.add('done');
     c.querySelector('.step-eyebrow').textContent = '✓ Step 01 — Complete';
     document.getElementById('pt1').classList.remove('active');
@@ -1328,30 +1319,26 @@
     document.getElementById('pt2').classList.add('active');
   }
 
-  function markStep3Done() {
-    if (!steps[2]) markStep2Done();
-    if (steps[3]) return; steps[3] = true;
-    const c = document.getElementById('step3');
+  function markStep2Done() {
+    if (!steps[1]) markStep1Done();
+    if (steps[2]) return; steps[2] = true;
+    var c = document.getElementById('step2');
     c.classList.remove('active'); c.classList.add('done');
-    c.querySelector('.step-eyebrow').textContent = '✓ Step 03 — Complete';
-    document.getElementById('pt3').classList.remove('active');
-    document.getElementById('pt3').classList.add('done');
-    document.getElementById('ptl3').classList.add('done');
-    document.getElementById('step4').classList.add('active');
-    document.getElementById('pt4').classList.add('active');
+    c.querySelector('.step-eyebrow').textContent = '✓ Step 02 — Complete';
+    document.getElementById('pt2').classList.remove('active');
+    document.getElementById('pt2').classList.add('done');
+    document.getElementById('ptl2').classList.add('done');
+    document.getElementById('step3').classList.add('active');
+    document.getElementById('pt3').classList.add('active');
   }
 
   function markStep3Done() {
     if (!steps[2]) markStep2Done();
-    if (steps[3]) return; steps[3] = true;
-    const c = document.getElementById('step3');
+    var c = document.getElementById('step3');
     c.classList.remove('active'); c.classList.add('done');
     c.querySelector('.step-eyebrow').textContent = '✓ Step 03 — Complete';
     document.getElementById('pt3').classList.remove('active');
     document.getElementById('pt3').classList.add('done');
-    document.getElementById('ptl3').classList.add('done');
-    document.getElementById('step4').classList.add('active');
-    document.getElementById('pt4').classList.add('active');
   }
 
   function scrollToStep(n) {
@@ -1378,10 +1365,10 @@
       if (!res.ok) throw new Error(await res.text());
       document.getElementById('referral-form').style.display = 'none';
       document.getElementById('success-card').classList.add('show');
-      const s3 = document.getElementById('step4');
+      const s3 = document.getElementById('step3');
       s3.classList.remove('active'); s3.classList.add('done');
-      s3.querySelector('.step-eyebrow').textContent = '✓ Step 04 — Complete';
-      document.getElementById('pt4').classList.remove('active');
+      s3.querySelector('.step-eyebrow').textContent = '✓ Step 03 — Complete';
+      document.getElementById('pt3').classList.remove('active');
       document.getElementById('pt4').classList.add('done');
     } catch (err) {
       showError('Something went wrong. Please try again or contact support.');

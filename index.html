@@ -710,94 +710,88 @@
     <div class="slides-wrap">
       <div class="slides-track" id="slidesTrack">
 
-        <!-- SLIDE 1 — DOWNLOADING -->
+        <!-- SLIDE 1 — DOWNLOAD -->
         <div class="slide">
           <div class="illus-box">
             <svg width="260" height="140" viewBox="0 0 260 140" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <!-- background grid lines -->
+              <!-- background grid -->
               <line x1="0" y1="35" x2="260" y2="35" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
               <line x1="0" y1="70" x2="260" y2="70" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
               <line x1="0" y1="105" x2="260" y2="105" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
+              <!-- AWS S3 badge -->
+              <rect x="28" y="16" width="56" height="22" rx="5" fill="#1A1A1A" stroke="rgba(255,153,0,0.35)" stroke-width="1"/>
+              <text x="56" y="30" font-family="'DM Mono',monospace" font-size="8" fill="#FF9900" text-anchor="middle">AWS S3</text>
+              <!-- dashed line S3 to zip -->
+              <line x1="84" y1="27" x2="112" y2="40" stroke="rgba(232,0,26,0.35)" stroke-width="1.5" stroke-dasharray="4 3"/>
               <!-- zip file icon -->
-              <rect x="80" y="20" width="52" height="64" rx="6" fill="#1A1A1A" stroke="rgba(255,255,255,0.12)" stroke-width="1"/>
-              <rect x="80" y="20" width="52" height="18" rx="6" fill="#222"/>
-              <rect x="80" y="30" width="52" height="8" fill="#222"/>
-              <!-- zip stripes -->
-              <rect x="98" y="26" width="16" height="4" rx="2" fill="#333"/>
-              <rect x="98" y="34" width="16" height="4" rx="2" fill="#E8001A" opacity="0.7"/>
-              <rect x="98" y="42" width="16" height="4" rx="2" fill="#333"/>
-              <rect x="98" y="50" width="16" height="4" rx="2" fill="#E8001A" opacity="0.5"/>
-              <rect x="98" y="58" width="16" height="4" rx="2" fill="#333"/>
-              <text x="106" y="76" font-family="'DM Mono',monospace" font-size="7" fill="#5A5A5A" text-anchor="middle">.zip</text>
-              <!-- download arrow -->
+              <rect x="96" y="28" width="48" height="58" rx="6" fill="#1A1A1A" stroke="rgba(255,255,255,0.12)" stroke-width="1"/>
+              <rect x="96" y="28" width="48" height="16" rx="6" fill="#222"/>
+              <rect x="96" y="36" width="48" height="8" fill="#222"/>
+              <rect x="112" y="32" width="16" height="4" rx="2" fill="#333"/>
+              <rect x="112" y="40" width="16" height="4" rx="2" fill="#E8001A" opacity="0.8"/>
+              <rect x="112" y="48" width="16" height="4" rx="2" fill="#333"/>
+              <rect x="112" y="56" width="16" height="4" rx="2" fill="#E8001A" opacity="0.5"/>
+              <rect x="112" y="64" width="16" height="4" rx="2" fill="#333"/>
+              <text x="120" y="78" font-family="'DM Mono',monospace" font-size="7" fill="#5A5A5A" text-anchor="middle">.zip</text>
+              <!-- animated download arrow -->
               <g class="dl-arrow">
-                <line x1="106" y1="90" x2="106" y2="112" stroke="#E8001A" stroke-width="2" stroke-linecap="round"/>
-                <polyline points="97,104 106,114 115,104" stroke="#E8001A" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                <line x1="120" y1="88" x2="120" y2="108" stroke="#E8001A" stroke-width="2" stroke-linecap="round"/>
+                <polyline points="111,100 120,110 129,100" stroke="#E8001A" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
               </g>
               <!-- progress bar -->
-              <rect x="68" y="122" width="76" height="6" rx="3" fill="#1A1A1A"/>
-              <rect x="68" y="122" width="55" height="6" rx="3" fill="#E8001A" opacity="0.85"/>
-              <!-- file label -->
-              <text x="106" y="137" font-family="'DM Mono',monospace" font-size="7.5" fill="#5A5A5A" text-anchor="middle">ApexRevenue.zip</text>
-              <!-- right side: folder -->
-              <rect x="164" y="44" width="52" height="44" rx="5" fill="#1A1A1A" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
-              <rect x="164" y="38" width="28" height="12" rx="3" fill="#1E1E1E" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
-              <text x="190" y="70" font-family="'DM Mono',monospace" font-size="7" fill="#3A3A3A" text-anchor="middle">apex-revenue-extension/</text>
-              <!-- arrow between -->
-              <line x1="142" y1="66" x2="160" y2="66" stroke="rgba(232,0,26,0.3)" stroke-width="1.5" stroke-dasharray="4 3"/>
-              <polyline points="156,61 162,66 156,71" stroke="rgba(232,0,26,0.4)" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+              <rect x="84" y="118" width="72" height="6" rx="3" fill="#1A1A1A"/>
+              <rect x="84" y="118" width="58" height="6" rx="3" fill="#E8001A" opacity="0.85"/>
+              <text x="120" y="134" font-family="'DM Mono',monospace" font-size="7.5" fill="#5A5A5A" text-anchor="middle">ApexRevenue-Extension.zip</text>
+              <!-- green checkmark on right when done -->
+              <circle cx="196" cy="66" r="20" fill="rgba(45,212,160,0.08)" stroke="rgba(45,212,160,0.2)" stroke-width="1"/>
+              <polyline points="186,66 193,74 207,57" stroke="#2DD4A0" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+              <text x="196" y="96" font-family="'DM Sans',sans-serif" font-size="8" fill="rgba(45,212,160,0.6)" text-anchor="middle">downloading</text>
             </svg>
           </div>
           <div class="slide-step-num">Step 1 of 4</div>
           <div class="slide-title">Your Download Has Started</div>
-          <p class="slide-desc">The <strong>ApexRevenue.zip</strong> file is downloading now. Once complete, locate it in your <strong>Downloads folder</strong> and extract (unzip) it — you'll get an <strong>apex-revenue-extension</strong> folder — that's what you load into Chrome.</p>
+          <p class="slide-desc">The <strong>ApexRevenue-Extension.zip</strong> is downloading from AWS S3. Once complete, find it in your <strong>Downloads folder</strong> — right-click it and choose <strong>Extract All</strong> to unzip it. You'll get a folder with <code style="font-family:'DM Mono',monospace;color:var(--red);font-size:12px;">manifest.json</code> inside.</p>
         </div>
 
-        <!-- SLIDE 2 — CHROME EXTENSIONS -->
+        <!-- SLIDE 2 — OPEN CHROME EXTENSIONS -->
         <div class="slide">
           <div class="illus-box">
             <svg width="280" height="148" viewBox="0 0 280 148" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <!-- browser chrome frame -->
+              <!-- browser frame -->
               <rect x="20" y="10" width="240" height="128" rx="8" fill="#181818" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
-              <!-- browser toolbar -->
               <rect x="20" y="10" width="240" height="28" rx="8" fill="#1E1E1E"/>
               <rect x="20" y="30" width="240" height="8" fill="#1E1E1E"/>
               <!-- traffic lights -->
               <circle cx="36" cy="24" r="5" fill="#333"/>
               <circle cx="51" cy="24" r="5" fill="#333"/>
               <circle cx="66" cy="24" r="5" fill="#333"/>
-              <!-- address bar -->
-              <rect x="80" y="16" width="148" height="16" rx="8" fill="#111" stroke="rgba(232,0,26,0.5)" stroke-width="1"/>
-              <!-- typed url -->
-              <text x="92" y="27.5" font-family="'DM Mono',monospace" font-size="8" fill="#E8001A">chrome://extensions</text>
-              <!-- cursor blink -->
-              <rect x="222" y="18" width="1.5" height="12" rx="1" fill="#E8001A" opacity="0.9"/>
-              <!-- page content area -->
+              <!-- address bar with chrome://extensions highlighted red -->
+              <rect x="80" y="16" width="148" height="16" rx="8" fill="#111" stroke="rgba(232,0,26,0.6)" stroke-width="1.5"/>
+              <text x="93" y="27.5" font-family="'DM Mono',monospace" font-size="8" fill="#E8001A">chrome://extensions</text>
+              <rect x="81" y="15" width="146" height="18" rx="9" fill="none" stroke="#E8001A" stroke-width="1" opacity="0.35"/>
+              <!-- page content -->
               <rect x="28" y="46" width="224" height="84" rx="4" fill="#0D0D0D"/>
-              <!-- Extensions heading -->
               <text x="40" y="62" font-family="'DM Sans',sans-serif" font-size="9" font-weight="600" fill="#F2F2F2">Extensions</text>
-              <!-- developer mode row -->
+              <!-- developer mode row off -->
               <text x="40" y="80" font-family="'DM Sans',sans-serif" font-size="7.5" fill="#5A5A5A">Developer mode</text>
-              <!-- toggle (off state, since step 3 turns it on) -->
               <rect x="196" y="73" width="28" height="14" rx="7" fill="#2A2A2A" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
               <circle cx="203" cy="80" r="5" fill="#444"/>
-              <!-- divider -->
               <line x1="36" y1="90" x2="244" y2="90" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>
               <text x="40" y="106" font-family="'DM Sans',sans-serif" font-size="7" fill="#3A3A3A">No extensions installed</text>
-              <!-- highlight ring on address bar -->
-              <rect x="79" y="15" width="150" height="18" rx="9" fill="none" stroke="#E8001A" stroke-width="1.5" opacity="0.4"/>
+              <!-- annotation: type this -->
+              <text x="154" y="12" font-family="'DM Sans',sans-serif" font-size="7" fill="#E8001A" text-anchor="middle">↑ paste &amp; press Enter</text>
             </svg>
           </div>
           <div class="slide-step-num">Step 2 of 4</div>
           <div class="slide-title">Open Chrome Extensions</div>
-          <p class="slide-desc">Copy the URL below and paste it into your Chrome address bar, then press <strong>Enter</strong>.</p>
+          <p class="slide-desc">Paste the URL below into your Chrome address bar and press <strong>Enter</strong> — this opens the Extensions manager page.</p>
           <div class="copy-row">
             <input class="copy-url" type="text" value="chrome://extensions" readonly onclick="this.select()">
             <button class="copy-btn" id="copyBtn" onclick="copyUrl()">Copy</button>
           </div>
         </div>
 
-        <!-- SLIDE 3 — DEVELOPER MODE -->
+        <!-- SLIDE 3 — DEVELOPER MODE ON -->
         <div class="slide">
           <div class="illus-box">
             <svg width="280" height="148" viewBox="0 0 280 148" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -809,32 +803,27 @@
               <circle cx="51" cy="24" r="5" fill="#333"/>
               <circle cx="66" cy="24" r="5" fill="#333"/>
               <rect x="80" y="16" width="148" height="16" rx="8" fill="#111"/>
-              <text x="92" y="27.5" font-family="'DM Mono',monospace" font-size="8" fill="#3A3A3A">chrome://extensions</text>
+              <text x="93" y="27.5" font-family="'DM Mono',monospace" font-size="8" fill="#3A3A3A">chrome://extensions</text>
               <!-- page -->
               <rect x="28" y="46" width="224" height="84" rx="4" fill="#0D0D0D"/>
               <text x="40" y="62" font-family="'DM Sans',sans-serif" font-size="9" font-weight="600" fill="#F2F2F2">Extensions</text>
-              <!-- developer mode row with ON toggle -->
+              <!-- developer mode row ON -->
               <text x="40" y="80" font-family="'DM Sans',sans-serif" font-size="7.5" fill="#F2F2F2">Developer mode</text>
-              <!-- toggle track ON -->
               <rect x="196" y="73" width="28" height="14" rx="7" fill="#E8001A"/>
-              <!-- thumb animated -->
-              <g class="toggle-thumb">
-                <circle cx="203" cy="80" r="5" fill="#fff"/>
-              </g>
-              <!-- glow behind toggle -->
+              <g class="toggle-thumb"><circle cx="218" cy="80" r="5" fill="#fff"/></g>
               <rect x="196" y="73" width="28" height="14" rx="7" fill="none" stroke="rgba(232,0,26,0.6)" stroke-width="1.5"/>
-              <!-- annotation arrow -->
-              <line x1="230" y1="70" x2="218" y2="76" stroke="rgba(232,0,26,0.5)" stroke-width="1.2" stroke-dasharray="3 2"/>
-              <text x="232" y="68" font-family="'DM Sans',sans-serif" font-size="7" fill="#E8001A">toggle ON</text>
+              <!-- annotation -->
+              <line x1="234" y1="68" x2="220" y2="74" stroke="rgba(232,0,26,0.5)" stroke-width="1.2" stroke-dasharray="3 2"/>
+              <text x="236" y="66" font-family="'DM Sans',sans-serif" font-size="7" fill="#E8001A">toggle ON →</text>
               <line x1="36" y1="90" x2="244" y2="90" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>
-              <!-- load unpacked appears (preview) -->
-              <rect x="36" y="100" width="68" height="18" rx="5" fill="#1A1A1A" stroke="rgba(255,255,255,0.1)" stroke-width="1" opacity="0.4"/>
-              <text x="70" y="112.5" font-family="'DM Sans',sans-serif" font-size="7" fill="#5A5A5A" text-anchor="middle">Load unpacked</text>
+              <!-- Load unpacked button appears -->
+              <rect x="36" y="100" width="68" height="18" rx="5" fill="#1A1A1A" stroke="rgba(255,255,255,0.12)" stroke-width="1" opacity="0.6"/>
+              <text x="70" y="112.5" font-family="'DM Sans',sans-serif" font-size="7" fill="#888" text-anchor="middle">Load unpacked</text>
             </svg>
           </div>
           <div class="slide-step-num">Step 3 of 4</div>
           <div class="slide-title">Enable Developer Mode</div>
-          <p class="slide-desc">In the top-right corner of the Extensions page, find the <strong>Developer mode</strong> toggle and switch it <strong>ON</strong>. This unlocks the Load unpacked button.</p>
+          <p class="slide-desc">In the <strong>top-right corner</strong> of the Extensions page, find the <strong>Developer mode</strong> toggle and switch it <strong>ON</strong>. This reveals the <em>Load unpacked</em> button you need in the next step.</p>
         </div>
 
         <!-- SLIDE 4 — LOAD UNPACKED -->
@@ -849,34 +838,35 @@
               <circle cx="51" cy="24" r="5" fill="#333"/>
               <circle cx="66" cy="24" r="5" fill="#333"/>
               <rect x="80" y="16" width="148" height="16" rx="8" fill="#111"/>
-              <text x="92" y="27.5" font-family="'DM Mono',monospace" font-size="8" fill="#3A3A3A">chrome://extensions</text>
+              <text x="93" y="27.5" font-family="'DM Mono',monospace" font-size="8" fill="#3A3A3A">chrome://extensions</text>
               <!-- page -->
               <rect x="28" y="46" width="224" height="84" rx="4" fill="#0D0D0D"/>
               <text x="40" y="62" font-family="'DM Sans',sans-serif" font-size="9" font-weight="600" fill="#F2F2F2">Extensions</text>
               <!-- developer mode ON -->
-              <text x="40" y="76" font-family="'DM Sans',sans-serif" font-size="7" fill="#5A5A5A">Developer mode</text>
-              <rect x="196" y="69" width="24" height="12" rx="6" fill="#E8001A"/>
-              <circle cx="214" cy="75" r="4" fill="#fff"/>
-              <!-- Load unpacked button highlighted -->
-              <rect x="36" y="83" width="74" height="20" rx="5" fill="#E8001A"/>
-              <text x="73" y="96.5" font-family="'DM Sans',sans-serif" font-size="7.5" font-weight="600" fill="#fff" text-anchor="middle">Load unpacked</text>
-              <!-- annotation -->
-              <line x1="116" y1="88" x2="130" y2="82" stroke="rgba(232,0,26,0.5)" stroke-width="1.2" stroke-dasharray="3 2"/>
-              <text x="132" y="80" font-family="'DM Sans',sans-serif" font-size="7" fill="#E8001A">click here</text>
-              <!-- folder picker mockup -->
-              <rect x="36" y="112" width="110" height="12" rx="3" fill="#1A1A1A" stroke="rgba(255,255,255,0.07)" stroke-width="0.5"/>
-              <text x="42" y="121" font-family="'DM Mono',monospace" font-size="6.5" fill="#5A5A5A">Downloads/apex-revenue-extension</text>
-              <!-- select folder button -->
-              <rect x="154" y="112" width="48" height="12" rx="3" fill="#222" stroke="rgba(255,255,255,0.1)" stroke-width="0.5"/>
-              <text x="178" y="121" font-family="'DM Sans',sans-serif" font-size="6.5" fill="#F2F2F2" text-anchor="middle">Select Folder</text>
+              <text x="40" y="74" font-family="'DM Sans',sans-serif" font-size="7" fill="#5A5A5A">Developer mode</text>
+              <rect x="196" y="68" width="24" height="12" rx="6" fill="#E8001A"/>
+              <circle cx="214" cy="74" r="4" fill="#fff"/>
+              <!-- Load unpacked button highlighted red -->
+              <rect x="36" y="82" width="76" height="20" rx="5" fill="#E8001A"/>
+              <text x="74" y="95.5" font-family="'DM Sans',sans-serif" font-size="7.5" font-weight="600" fill="#fff" text-anchor="middle">Load unpacked</text>
+              <!-- click annotation -->
+              <line x1="118" y1="87" x2="132" y2="82" stroke="rgba(232,0,26,0.5)" stroke-width="1.2" stroke-dasharray="3 2"/>
+              <text x="134" y="80" font-family="'DM Sans',sans-serif" font-size="7" fill="#E8001A">← click here</text>
+              <!-- folder picker row -->
+              <rect x="36" y="110" width="108" height="12" rx="3" fill="#1A1A1A" stroke="rgba(255,255,255,0.07)"/>
+              <text x="42" y="119" font-family="'DM Mono',monospace" font-size="6.5" fill="#5A5A5A">Downloads/ApexRevenue-Extension/</text>
+              <rect x="152" y="110" width="52" height="12" rx="3" fill="#222" stroke="rgba(45,212,160,0.3)"/>
+              <text x="178" y="119" font-family="'DM Sans',sans-serif" font-size="6.5" fill="#2DD4A0" text-anchor="middle">Select Folder</text>
+              <!-- ⚡ apex revenue card appears -->
+              <rect x="36" y="96" width="180" height="0.5" fill="rgba(255,255,255,0.05)"/>
             </svg>
           </div>
           <div class="slide-step-num">Step 4 of 4</div>
-          <div class="slide-title">Load the dist Folder</div>
-          <p class="slide-desc">Click <strong>Load unpacked</strong>, then navigate to where you extracted the ZIP and select the <strong>apex-revenue-extension</strong> folder. Apex Revenue will appear in your extensions list instantly.</p>
+          <div class="slide-title">Load the Extension Folder</div>
+          <p class="slide-desc">Click <strong>Load unpacked</strong>, navigate to where you extracted the ZIP, and select the <strong>ApexRevenue-Extension</strong> folder — the one that contains <code style="font-family:'DM Mono',monospace;color:var(--red);font-size:12px;">manifest.json</code>. Apex Revenue appears in your extension list instantly. 🎉</p>
         </div>
 
-      </div><!-- /slides-track -->
+            </div><!-- /slides-track -->
     </div><!-- /slides-wrap -->
 
     <div class="modal-footer">
@@ -947,68 +937,15 @@
         <li><span>Fan leaderboards with 30-day rolling history</span></li>
       </ul>
 
-      <!-- Download card -->
-      <div style="background:#0D0D0D;border:1px solid rgba(232,0,26,0.3);border-radius:14px;padding:22px 24px;margin-bottom:28px;position:relative;overflow:hidden;">
-        <div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--red) 40%,transparent);"></div>
-        <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap;">
-          <div style="flex:1;min-width:180px;">
-            <div style="font-family:'DM Mono',monospace;font-size:13px;color:var(--text);font-weight:500;margin-bottom:4px;">ApexRevenue-Extension-latest.zip</div>
-            <div style="font-size:12px;color:var(--muted);">401 KB &nbsp;·&nbsp; v0.7.2 &nbsp;·&nbsp; Served from AWS S3</div>
-          </div>
-          <a href="https://apex-revenue-app-994438967527.s3.amazonaws.com/extension/ApexRevenue-Extension-latest.zip"
-             class="btn-red"
-             download="ApexRevenue-Extension.zip"
-             style="display:inline-flex;align-items:center;gap:8px;padding:11px 22px;font-size:14px;white-space:nowrap;text-decoration:none;">
-            <svg width="15" height="15" viewBox="0 0 16 16" fill="none"><path d="M8 2v8M5 7l3 4 3-4" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M2 12h12" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/></svg>
-            Download ZIP
-          </a>
-        </div>
+      <!-- Install CTA -->
+      <div class="btn-group" style="margin-bottom:28px;">
+        <button class="btn-red" onclick="startInstall()" style="padding:15px 36px;font-size:16px;">
+          <svg width="17" height="17" viewBox="0 0 16 16" fill="none"><path d="M8 2v8M5 7l3 4 3-4" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M2 12h12" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/></svg>
+          Install Extension Now
+        </button>
+        <span style="font-size:12px;color:var(--muted);">Free &nbsp;·&nbsp; 401 KB &nbsp;·&nbsp; v0.7.2</span>
       </div>
 
-      <!-- Load unpacked steps -->
-      <div style="display:flex;flex-direction:column;gap:0;border:0.5px solid var(--border);border-radius:14px;overflow:hidden;margin-bottom:28px;">
-
-        <div style="display:flex;align-items:flex-start;gap:16px;padding:18px 20px;border-bottom:0.5px solid var(--border);">
-          <div style="width:26px;height:26px;border-radius:50%;background:var(--red);color:#fff;font-family:'DM Mono',monospace;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;">1</div>
-          <div>
-            <div style="font-size:14px;font-weight:600;color:var(--text);margin-bottom:4px;">Extract the ZIP</div>
-            <div style="font-size:13px;color:var(--muted);line-height:1.6;">Right-click the downloaded file &rarr; <strong style="color:var(--text);">Extract All</strong>. You'll get a folder with <code style="font-size:11px;font-family:'DM Mono',monospace;color:var(--red);">manifest.json</code> inside — remember where you put it.</div>
-          </div>
-        </div>
-
-        <div style="display:flex;align-items:flex-start;gap:16px;padding:18px 20px;border-bottom:0.5px solid var(--border);">
-          <div style="width:26px;height:26px;border-radius:50%;background:var(--red);color:#fff;font-family:'DM Mono',monospace;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;">2</div>
-          <div>
-            <div style="font-size:14px;font-weight:600;color:var(--text);margin-bottom:4px;">Open Chrome Extensions</div>
-            <div style="font-size:13px;color:var(--muted);line-height:1.6;">In Chrome, navigate to <code style="font-size:11px;font-family:'DM Mono',monospace;color:var(--red);">chrome://extensions</code> &mdash; or click the &#8942; menu &rarr; <strong style="color:var(--text);">Extensions &rarr; Manage Extensions</strong>.</div>
-          </div>
-        </div>
-
-        <div style="display:flex;align-items:flex-start;gap:16px;padding:18px 20px;border-bottom:0.5px solid var(--border);">
-          <div style="width:26px;height:26px;border-radius:50%;background:var(--red);color:#fff;font-family:'DM Mono',monospace;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;">3</div>
-          <div>
-            <div style="font-size:14px;font-weight:600;color:var(--text);margin-bottom:4px;">Enable Developer Mode</div>
-            <div style="font-size:13px;color:var(--muted);line-height:1.6;">Toggle <strong style="color:var(--text);">Developer mode</strong> on using the switch in the <strong style="color:var(--text);">top-right corner</strong> of the extensions page.</div>
-          </div>
-        </div>
-
-        <div style="display:flex;align-items:flex-start;gap:16px;padding:18px 20px;border-bottom:0.5px solid var(--border);">
-          <div style="width:26px;height:26px;border-radius:50%;background:var(--red);color:#fff;font-family:'DM Mono',monospace;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;">4</div>
-          <div>
-            <div style="font-size:14px;font-weight:600;color:var(--text);margin-bottom:4px;">Load Unpacked</div>
-            <div style="font-size:13px;color:var(--muted);line-height:1.6;">Click <strong style="color:var(--text);">Load unpacked</strong> (top-left button) &rarr; browse to the extracted folder &rarr; select it. Apex Revenue will appear in your extension list instantly.</div>
-          </div>
-        </div>
-
-        <div style="display:flex;align-items:flex-start;gap:16px;padding:18px 20px;">
-          <div style="width:26px;height:26px;border-radius:50%;background:rgba(45,212,160,0.15);border:1px solid rgba(45,212,160,0.4);color:#2DD4A0;font-size:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;">✓</div>
-          <div>
-            <div style="font-size:14px;font-weight:600;color:#2DD4A0;margin-bottom:4px;">Pin it to your toolbar</div>
-            <div style="font-size:13px;color:var(--muted);line-height:1.6;">Click the 🧩 puzzle icon next to Chrome's address bar &rarr; find <strong style="color:var(--text);">Apex Revenue</strong> &rarr; click the 📌 pin icon so it's always one click away.</div>
-          </div>
-        </div>
-
-      </div>
 
       <div class="divider"></div>
       <button class="btn-outline" onclick="markStep1Done(); scrollToStep(2)">Extension loaded? Continue to Create Account →</button>
@@ -1140,7 +1077,7 @@
 </footer>
 
 <script>
-  const ZIP_URL     = 'https://apex-revenue-downloads.s3.amazonaws.com/releases/v0.7.2/ApexRevenue-v0.7.2.zip';
+  const ZIP_URL     = 'https://apex-revenue-app-994438967527.s3.amazonaws.com/extension/ApexRevenue-Extension-latest.zip';
   const API_BASE     = 'https://7g6qsxoos3.execute-api.us-east-1.amazonaws.com/prod';
   const API_ENDPOINT = API_BASE + '/register-referral';
   const TOTAL_SLIDES = 4;

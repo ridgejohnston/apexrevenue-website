@@ -29,6 +29,82 @@
     html { scroll-behavior: smooth; }
     body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 16px; line-height: 1.6; min-height: 100vh; overflow-x: hidden; }
 
+    /* ── PRODUCT PICKER ── */
+    .product-picker { padding: 0 24px 72px; display: flex; flex-direction: column; align-items: center; }
+    .picker-label { font-size: 11px; font-weight: 500; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); margin-bottom: 20px; }
+    .picker-tabs { display: flex; gap: 0; background: var(--bg-card); border: 0.5px solid var(--border); border-radius: 12px; padding: 4px; }
+    .picker-tab { display: flex; align-items: center; gap: 9px; padding: 11px 28px; border-radius: 9px; font-size: 14px; font-weight: 500; color: var(--muted); cursor: pointer; transition: all 0.18s; border: none; background: transparent; white-space: nowrap; }
+    .picker-tab svg { opacity: 0.45; transition: opacity 0.18s; }
+    .picker-tab.active { background: var(--red); color: #fff; }
+    .picker-tab.active svg { opacity: 1; }
+    .picker-tab:not(.active):hover { color: var(--text); }
+    .picker-tab:not(.active):hover svg { opacity: 0.7; }
+
+    /* ── DESKTOP DOWNLOAD SECTION ── */
+    .desktop-section { display: none; width: 100%; max-width: 860px; margin: 0 auto; padding: 0 24px 80px; }
+    .desktop-section.visible { display: block; }
+    .desktop-hero-card {
+      background: var(--bg-card);
+      border: 0.5px solid var(--border);
+      border-radius: 20px;
+      padding: 52px 56px;
+      position: relative;
+      overflow: hidden;
+    }
+    .desktop-hero-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--red) 40%, var(--red-mid) 100%);
+    }
+    .desktop-hero-card::after {
+      content: '';
+      position: absolute;
+      top: -120px; right: -80px;
+      width: 380px; height: 380px;
+      background: radial-gradient(circle, rgba(232,0,26,0.06) 0%, transparent 65%);
+      pointer-events: none;
+    }
+    .dl-eyebrow { font-size: 11px; font-weight: 500; letter-spacing: 2px; text-transform: uppercase; color: var(--red); margin-bottom: 16px; }
+    .dl-title { font-family: 'Bebas Neue', cursive; font-size: clamp(36px, 6vw, 64px); line-height: 1; letter-spacing: 2px; color: var(--text); margin-bottom: 16px; }
+    .dl-title span { color: var(--red); }
+    .dl-desc { font-size: 16px; font-weight: 300; color: var(--muted); max-width: 500px; margin-bottom: 36px; line-height: 1.65; }
+    .dl-desc em { color: var(--text); font-style: normal; }
+    .dl-cta-row { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; margin-bottom: 40px; }
+    .btn-download {
+      display: inline-flex; align-items: center; gap: 12px;
+      padding: 16px 40px;
+      background: var(--red); color: #fff;
+      font-family: 'DM Sans', sans-serif; font-size: 16px; font-weight: 600;
+      border: none; border-radius: var(--radius); cursor: pointer;
+      text-decoration: none;
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+    .btn-download:hover { transform: translateY(-2px); box-shadow: 0 10px 32px rgba(232,0,26,0.45); }
+    .btn-download:active { transform: translateY(0); }
+    .dl-meta { font-size: 12px; color: var(--muted); line-height: 1.7; }
+    .dl-meta strong { color: var(--text); font-weight: 500; }
+    .dl-steps { display: flex; gap: 0; margin-top: 8px; border-top: 0.5px solid var(--border); padding-top: 32px; }
+    .dl-step { flex: 1; display: flex; flex-direction: column; align-items: flex-start; gap: 8px; padding-right: 24px; }
+    .dl-step:not(:last-child) { border-right: 0.5px solid var(--border); margin-right: 24px; }
+    .dl-step-num { font-family: 'Bebas Neue', cursive; font-size: 28px; color: var(--red); line-height: 1; }
+    .dl-step-title { font-size: 13px; font-weight: 600; color: var(--text); }
+    .dl-step-desc { font-size: 12px; color: var(--muted); line-height: 1.55; }
+    .dl-features { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 32px; }
+    .dl-feature { display: flex; align-items: flex-start; gap: 10px; font-size: 13px; color: var(--muted); }
+    .dl-feature::before { content: ''; width: 5px; height: 5px; border-radius: 50%; background: var(--red); margin-top: 6px; flex-shrink: 0; }
+    .dl-feature em { color: var(--text); font-style: normal; font-weight: 500; }
+    .dl-sys-req { margin-top: 28px; padding: 16px 20px; background: rgba(255,255,255,0.03); border: 0.5px solid var(--border); border-radius: 10px; font-size: 12px; color: var(--muted); display: flex; align-items: center; gap: 8px; }
+    .dl-sys-req svg { flex-shrink: 0; opacity: 0.4; }
+    @media (max-width: 640px) {
+      .desktop-hero-card { padding: 32px 24px; }
+      .dl-steps { flex-direction: column; gap: 20px; }
+      .dl-step:not(:last-child) { border-right: none; border-bottom: 0.5px solid var(--border); margin-right: 0; padding-right: 0; padding-bottom: 20px; }
+      .dl-features { grid-template-columns: 1fr; }
+      .picker-tab { padding: 10px 18px; font-size: 13px; }
+    }
+
     /* ── NAV ── */
     nav { position: fixed; top: 0; left: 0; right: 0; z-index: 200; display: flex; align-items: center; justify-content: space-between; padding: 14px 40px; background: rgba(10,10,10,0.92); backdrop-filter: blur(12px); border-bottom: 0.5px solid var(--border); }
     .nav-logo img { height: 36px; width: auto; display: block; }
@@ -904,15 +980,98 @@
   </div>
   <h1 class="hero-title">START EARNING<br><span>SMARTER</span></h1>
   <p class="hero-referrer" id="hero-referrer" style="display:none">Invited by <strong id="referrer-display"></strong></p>
-  <p class="hero-sub">Apex Revenue gives streamers <em>real-time whale alerts, AI tip prompts, smart earnings analytics,</em> plus <em>Give Control</em> and <em>Digital Sync</em> — all inside a lightweight browser extension.</p>
-  <a href="#steps" class="btn-primary">
-    Get Started — It's Free
+  <p class="hero-sub">Apex Revenue gives streamers <em>real-time whale alerts, AI tip prompts, smart earnings analytics,</em> plus <em>Give Control</em> and <em>Digital Sync</em> — available as a Chrome extension or a full Windows desktop app.</p>
+  <a href="#desktop-section" class="btn-primary">
+    Download Desktop App — Free
     <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 3l5 5-5 5M3 8h10" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/></svg>
   </a>
   <div class="hero-scroll"><span>Follow the Steps</span><div class="scroll-line"></div></div>
 </section>
 
-<section class="section" id="steps">
+<!-- ═══════════════════════════════════════
+     PRODUCT PICKER
+════════════════════════════════════════ -->
+<div class="product-picker">
+  <p class="picker-label">Choose your product</p>
+  <div class="picker-tabs">
+    <button class="picker-tab" id="tab-extension" onclick="switchProduct('extension')">
+      <!-- Chrome puzzle piece icon -->
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+        <rect x="2" y="2" width="12" height="12" rx="2" stroke="currentColor" stroke-width="1.3"/>
+        <circle cx="8" cy="8" r="2.5" stroke="currentColor" stroke-width="1.3"/>
+        <path d="M8 2v3M8 11v3M2 8h3M11 8h3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
+      </svg>
+      Chrome Extension
+    </button>
+    <button class="picker-tab active" id="tab-desktop" onclick="switchProduct('desktop')">
+      <!-- Monitor icon -->
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+        <rect x="1.5" y="2.5" width="13" height="9" rx="1.5" stroke="currentColor" stroke-width="1.3"/>
+        <path d="M5.5 13.5h5M8 11.5v2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
+      </svg>
+      Desktop App
+    </button>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     DESKTOP DOWNLOAD SECTION
+════════════════════════════════════════ -->
+<div class="desktop-section visible" id="desktop-section">
+  <div class="desktop-hero-card">
+    <p class="dl-eyebrow">Windows · v3.0.0 · Free Download</p>
+    <h2 class="dl-title">APEX REVENUE<br><span>DESKTOP</span></h2>
+    <p class="dl-desc">The full creator intelligence engine as a standalone Windows app. <em>Embed any cam platform in a built-in browser</em>, get live whale alerts, AI tip prompts, OBS-style streaming, and six AWS-powered services — all in one window.</p>
+
+    <div class="dl-cta-row">
+      <a class="btn-download" href="https://apex-revenue-downloads.s3.us-east-1.amazonaws.com/releases/ApexRevenue-3.0.0-x64.exe" download>
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+          <path d="M9 2v10M5.5 8.5L9 12.5l3.5-4" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M2.5 14.5h13" stroke="#fff" stroke-width="1.6" stroke-linecap="round"/>
+        </svg>
+        Download for Windows
+      </a>
+      <div class="dl-meta">
+        <strong>69 MB</strong> · Windows 10 / 11 · 64-bit<br>
+        Free beta · No credit card
+      </div>
+    </div>
+
+    <div class="dl-steps">
+      <div class="dl-step">
+        <div class="dl-step-num">01</div>
+        <div class="dl-step-title">Download the installer</div>
+        <div class="dl-step-desc">Click the button above. Your browser saves <code style="font-family:'DM Mono',monospace;font-size:11px;color:var(--red)">ApexRevenue-3.0.0-x64.exe</code> to your Downloads folder.</div>
+      </div>
+      <div class="dl-step">
+        <div class="dl-step-num">02</div>
+        <div class="dl-step-title">Run the installer</div>
+        <div class="dl-step-desc">Double-click the file. The setup wizard runs in under 30 seconds — choose your install folder, click Install, done.</div>
+      </div>
+      <div class="dl-step">
+        <div class="dl-step-num">03</div>
+        <div class="dl-step-title">Launch &amp; stream</div>
+        <div class="dl-step-desc">Open Apex Revenue from your desktop shortcut. Pick your platform, sign in once, and your intelligence panel loads automatically.</div>
+      </div>
+    </div>
+
+    <div class="dl-features">
+      <div class="dl-feature"><span><em>40+ cam platforms</em> in the built-in browser</span></div>
+      <div class="dl-feature"><span><em>Live whale alerts</em> with AI tip prompts</span></div>
+      <div class="dl-feature"><span><em>OBS-style streaming</em> with scene management</span></div>
+      <div class="dl-feature"><span><em>Fan leaderboard</em> with 30-day history</span></div>
+      <div class="dl-feature"><span><em>AWS Polly TTS</em> — read tips aloud</span></div>
+      <div class="dl-feature"><span><em>Auto-updates</em> silently in the background</span></div>
+    </div>
+
+    <div class="dl-sys-req">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" stroke="currentColor" stroke-width="1.2"/><path d="M7 6v4M7 4.5v.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+      Requires Windows 10 or 11, 64-bit. FFmpeg downloads automatically on first launch (~60 MB). Admin rights needed for installation.
+    </div>
+  </div>
+</div>
+
+<section class="section" id="steps" style="display:none;">
   <div class="section-inner">
 
     <div class="progress-track">
@@ -1077,6 +1236,19 @@
 </footer>
 
 <script>
+  /* ── PRODUCT SWITCHER ── */
+  function switchProduct(product) {
+    const isDesktop = product === 'desktop';
+    document.getElementById('tab-desktop').classList.toggle('active', isDesktop);
+    document.getElementById('tab-extension').classList.toggle('active', !isDesktop);
+    document.getElementById('desktop-section').classList.toggle('visible', isDesktop);
+    document.getElementById('steps').style.display = isDesktop ? 'none' : '';
+  }
+  // Default to desktop on load
+  window.addEventListener('DOMContentLoaded', () => {
+    switchProduct('desktop');
+  });
+
   const ZIP_URL     = 'https://apex-revenue-app-994438967527.s3.amazonaws.com/extension/ApexRevenue-Extension-latest.zip';
   const API_BASE     = 'https://7g6qsxoos3.execute-api.us-east-1.amazonaws.com/prod';
   const API_ENDPOINT = API_BASE + '/register-referral';
